@@ -1,102 +1,124 @@
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Company</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">FAQs & Help</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Gallery</h4>
-                    <div class="row g-2 pt-2">
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-2.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-3.jpg" alt="">
-                        </div>
-                        <div class="col-4">
-                            <img class="img-fluid bg-light p-1" src="img/package-1.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-3">Newsletter</h4>
-                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- footer area start -->
+<footer class="main-footer footer-two bgp-bottom bgc-black rel z-15 pt-100 pb-115" style="background-image: url(assets/images/backgrounds/footer-two.png);">
+    <div class="widget-area">
         <div class="container">
-            <div class="copyright">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                    </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <div class="footer-menu">
-                            <a href="">Home</a>
-                            <a href="">Cookies</a>
-                            <a href="">Help</a>
-                            <a href="">FQAs</a>
+            <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-md-3 row-cols-2">
+                <div class="col col-small" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="footer-widget footer-text">
+                        <div class="footer-logo mb-40">
+                            <a href="index.html"><img src="assets/images/logos/logo.png" alt="Logo"></a>
                         </div>
+                        <div class="footer-map">
+                            <iframe     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5054.395768263017!2d108.24971041175304!3d15.97458398462732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421088e365cc75%3A0x6648fdda14970b2c!2zNDcwIMSQxrDhu51uZyBUcuG6p24gxJDhuqFpIE5naMSpYSwgSG_DoCBI4bqjaSwgTmfFqSBIw6BuaCBTxqFuLCDEkMOgIE7hurVuZyA1NTAwMDAsIFZpZXRuYW0!5e1!3m2!1sen!2s!4v1728569875916!5m2!1sen!2s" 
+                            style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-small" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="footer-widget footer-links ms-sm-5">
+                        <div class="footer-title">
+                            <h5>Services</h5>
+                        </div>
+                        <ul class="list-style-three">
+                            <li><a href="destination-details.html">Best Tour Guide</a></li>
+                            <li><a href="destination-details.html">Tour Booking</a></li>
+                            <li><a href="destination-details.html">Hotel Booking</a></li>
+                            <li><a href="destination-details.html">Ticket Booking</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col col-small" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="footer-widget footer-links ms-md-4">
+                        <div class="footer-title">
+                            <h5>Company</h5>
+                        </div>
+                        <ul class="list-style-three">
+                            <li><a href="about.html">About Company</a></li>
+                            <li><a href="blog.html">Community Blog</a></li>
+                            <li><a href="contact.html">Jobs and Careers</a></li>
+                            <li><a href="blog.html">latest News Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col col-small" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="footer-widget footer-links ms-lg-4">
+                        <div class="footer-title">
+                            <h5>Destinations</h5>
+                        </div>
+                        <ul class="list-style-three">
+                            <li><a href="destination-details.html">African Safaris</a></li>
+                            <li><a href="destination-details.html">Alaska & Canada</a></li>
+                            <li><a href="destination-details.html">South America</a></li>
+                            <li><a href="destination-details.html">Middle East</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col col-md-6 col-10 col-small" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="footer-widget footer-contact">
+                        <div class="footer-title">
+                            <h5>Get In Touch</h5>
+                        </div>
+                        <ul class="list-style-one">
+                            <li><i class="fal fa-map-marked-alt"></i> 578 Level, D-block 45 Street Melbourne, Australia</li>
+                            <li><i class="fal fa-envelope"></i> <a href="mailto:supportrevelo@gmail.com">supportrevelo @gmail.com</a></li>
+                            <li><i class="fal fa-phone-volume"></i> <a href="callto:+88012334588">+880 (123) 345 88</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer End -->
+    <div class="footer-bottom bg-transparent pt-20 pb-5">
+        <div class="container">
+            <div class="row">
+               <div class="col-lg-5">
+                    <div class="copyright-text text-center text-lg-start">
+                        <p>@Copy 2024 <a href="index.html">Ravelo</a>, All rights reserved</p>
+                    </div>
+               </div>
+               <div class="col-lg-7 text-center text-lg-end">
+                   <ul class="footer-bottom-nav">
+                       <li><a href="about.html">Terms</a></li>
+                       <li><a href="about.html">Privacy Policy</a></li>
+                       <li><a href="about.html">Legal notice</a></li>
+                       <li><a href="about.html">Accessibility</a></li>
+                   </ul>
+               </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- footer area end -->
+
+</div>
+<!--End pagewrapper-->
 
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <!-- Jquery -->
+    <script src="{{asset('clients/assets/js/jquery-3.6.0.min.js')}}"></script>
+    <!-- Bootstrap -->
+    <script src="{{asset('clients/assets/js/bootstrap.min.js')}}"></script>
+    <!-- Appear Js -->
+    <script src="{{asset('clients/assets/js/appear.min.js')}}"></script>
+    <!-- Slick -->
+    <script src="{{asset('clients/assets/js/slick.min.js')}}"></script>
+    <!-- Magnific Popup -->
+    <script src="{{asset('clients/assets/js/jquery.magnific-popup.min.js')}}"></script>
+    <!-- Nice Select -->
+    <script src="{{asset('clients/assets/js/jquery.nice-select.min.js')}}"></script>
+    <!-- Image Loader -->
+    <script src="{{asset('clients/assets/js/imagesloaded.pkgd.min.js')}}"></script>
+    <!-- Skillbar -->
+    <script src="{{asset('clients/assets/js/skill.bars.jquery.min.js')}}"></script>
+    <!-- Jquery UI -->
+    <script src="{{asset('clients/assets/js/jquery-ui.min.js')}}"></script>
+    <!-- Isotope -->
+    <script src="{{asset('clients/assets/js/isotope.pkgd.min.js')}}"></script>
+    <!--  AOS Animation -->
+    <script src="{{asset('clients/assets/js/aos.js')}}"></script>
+    <!-- Custom script -->
+    <script src="{{asset('clients/assets/js/script.js')}}"></script>
 
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('clients/lib/wow/wow.min.js')}}"></script>
-    <script src="{{ asset('clients/lib/easing/easing.min.js')}}"></script>
-    <script src="{{ asset('clients/lib/waypoints/waypoints.min.js')}}"></script>
-    <script src="{{ asset('clients/lib/owlcarousel/owl.carousel.min.js')}}"></script>
-    <script src="{{ asset('clients/lib/tempusdominus/js/moment.min.js')}}"></script>
-    <script src="{{ asset('clients/lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-    <script src="{{ asset('clients/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-
-    <!-- Template Javascript -->
-    <script src="{{ asset('clients/js/main.js')}}"></script>
 </body>
 
 </html>

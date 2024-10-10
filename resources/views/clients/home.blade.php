@@ -1,548 +1,478 @@
-@include('clients.blocks.header')
-@include('clients.blocks.banner')
+@include('clients.blocks.header_home')
+@include('clients.blocks.banner_home')
 
-<!-- About Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
-                <div class="position-relative h-100">
-                    <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt=""
-                        style="object-fit: cover;">
+<!--Form Back Drop-->
+<div class="form-back-drop"></div>
+
+<!-- Destinations Area start -->
+<section class="destinations-area bgc-black pt-100 pb-70 rel z-1">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section-title text-white text-center counter-text-wrap mb-70" data-aos="fade-up"
+                    data-aos-duration="1500" data-aos-offset="50">
+                    <h2>Khám phá kho báu việt nam cùng Travela</h2>
+                    <p>Website<span class="count-text plus" data-speed="3000" data-stop="24080">0</span>
+                        phổ biến nhất mà bạn sẽ nhớ</p>
                 </div>
-            </div>
-            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">Welcome to <span class="text-primary">Tourist</span></h1>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                    eos. Clita erat ipsum et lorem et sit.</p>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                    eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                <div class="row gy-2 gx-4 mb-4">
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>First Class Flights</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Handpicked Hotels</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>5 Star Accommodations</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Latest Model Vehicles</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>150 Premium City Tours
-                        </p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>24/7 Service</p>
-                    </div>
-                </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
             </div>
         </div>
-    </div>
-</div>
-<!-- About End -->
-
-
-<!-- Service Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Services</h6>
-            <h1 class="mb-5">Our Services</h1>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                        <h5>WorldWide Tours</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+        <div class="row justify-content-center">
+            <div class="col-xxl-3 col-xl-4 col-md-6">
+                <div class="destination-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="image">
+                        <div class="ratting"><i class="fas fa-star"></i> 4.8</div>
+                        <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                        <img src="{{ asset('clients/assets/images/destinations/visiting-place1.jpg')}}" alt="Destination">
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
-                        <h5>Hotel Reservation</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                    <div class="content">
+                        <span class="location"><i class="fal fa-map-marker-alt"></i> Tours, France</span>
+                        <h5><a href="destination-details.html">Brown Concrete Building Basilica St Martin</a>
+                        </h5>
+                        <span class="time">3 days 2 nights - Couple</span>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-user text-primary mb-4"></i>
-                        <h5>Travel Guides</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-cog text-primary mb-4"></i>
-                        <h5>Event Management</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                        <h5>WorldWide Tours</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
-                        <h5>Hotel Reservation</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-user text-primary mb-4"></i>
-                        <h5>Travel Guides</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-cog text-primary mb-4"></i>
-                        <h5>Event Management</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                    <div class="destination-footer">
+                        <span class="price"><span>$58.00</span>/per person</span>
+                        <a href="#" class="read-more">Book Now <i class="fal fa-angle-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Service End -->
+</section>
+<!-- Destinations Area end -->
 
 
-<!-- Destination Start -->
-<div class="container-xxl py-5 destination">
+<!-- About Us Area start -->
+<section class="about-us-area py-100 rpb-90 rel z-1">
     <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
-            <h1 class="mb-5">Popular Destination</h1>
-        </div>
-        <div class="row g-3">
-            <div class="col-lg-7 col-md-6">
-                <div class="row g-3">
-                    <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="img/destination-1.jpg" alt="">
-                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">30%
-                                OFF</div>
-                            <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                Thailand</div>
-                        </a>
+        <div class="row align-items-center">
+            <div class="col-xl-5 col-lg-6">
+                <div class="about-us-content rmb-55" data-aos="fade-left" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <div class="section-title mb-25">
+                        <h2>Du lịch với sự tự tin Lý do hàng đầu để chọn công ty chúng tôi</h2>
                     </div>
-                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="img/destination-2.jpg" alt="">
-                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">25%
-                                OFF</div>
-                            <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                Malaysia</div>
-                        </a>
+                    <p>Chúng tôi sẽ nỗ lực hết mình để biến giấc mơ du lịch của bạn thành hiện thực những viên ngọc ẩn và những điểm tham quan không thể bỏ qua</p>
+                    <div class="divider counter-text-wrap mt-45 mb-55"><span>Chúng tôi có <span><span
+                                    class="count-text plus" data-speed="3000" data-stop="5">0</span>
+                                Năm</span> kinh nghiệm</span></div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="counter-item counter-text-wrap">
+                                <span class="count-text k-plus" data-speed="3000" data-stop="3">0</span>
+                                <span class="counter-title">Điểm đến phổ biến</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="counter-item counter-text-wrap">
+                                <span class="count-text m-plus" data-speed="3000" data-stop="9">0</span>
+                                <span class="counter-title">Khách hàng hài lòng</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                        <a class="position-relative d-block overflow-hidden" href="">
-                            <img class="img-fluid" src="img/destination-3.jpg" alt="">
-                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">35%
-                                OFF</div>
-                            <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
-                                Australia</div>
-                        </a>
-                    </div>
+                    <a href="destination1.html" class="theme-btn mt-10 style-two">
+                        <span data-hover="Khám phá Điểm đến">Khám phá Điểm đến</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
-                <a class="position-relative d-block h-100 overflow-hidden" href="">
-                    <img class="img-fluid position-absolute w-100 h-100" src="img/destination-4.jpg" alt=""
-                        style="object-fit: cover;">
-                    <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">20% OFF
-                    </div>
-                    <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Indonesia
-                    </div>
-                </a>
+            <div class="col-xl-7 col-lg-6" data-aos="fade-right" data-aos-duration="1500" data-aos-offset="50">
+                <div class="about-us-image">
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape1.png')}}" alt="Shape"></div>
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape2.png')}}" alt="Shape"></div>
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape3.png')}}" alt="Shape"></div>
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape4.png')}}" alt="Shape"></div>
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape5.png')}}" alt="Shape"></div>
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape6.png')}}" alt="Shape"></div>
+                    <div class="shape"><img src="{{ asset('clients/assets/images/about/shape7.png')}}" alt="Shape"></div>
+                    <img src="{{ asset('clients/assets/images/about/about.png')}}" alt="About">
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Destination Start -->
+</section>
+<!-- About Us Area end -->
 
 
-<!-- Package Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Packages</h6>
-            <h1 class="mb-5">Awesome Packages</h1>
-        </div>
-        <div class="row g-4 justify-content-center">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="package-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/package-1.jpg" alt="">
-                    </div>
-                    <div class="d-flex border-bottom">
-                        <small class="flex-fill text-center border-end py-2"><i
-                                class="fa fa-map-marker-alt text-primary me-2"></i>Thailand</small>
-                        <small class="flex-fill text-center border-end py-2"><i
-                                class="fa fa-calendar-alt text-primary me-2"></i>3 days</small>
-                        <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>2
-                            Person</small>
-                    </div>
-                    <div class="text-center p-4">
-                        <h3 class="mb-0">$149.00</h3>
-                        <div class="mb-3">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                        </div>
-                        <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
-                        <div class="d-flex justify-content-center mb-2">
-                            <a href="#" class="btn btn-sm btn-primary px-3 border-end"
-                                style="border-radius: 30px 0 0 30px;">Read More</a>
-                            <a href="#" class="btn btn-sm btn-primary px-3"
-                                style="border-radius: 0 30px 30px 0;">Book Now</a>
-                        </div>
+<!-- Popular Destinations Area start -->
+<section class="popular-destinations-area rel z-1">
+    <div class="container-fluid">
+        <div class="popular-destinations-wrap br-20 bgc-lighter pt-100 pb-70">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section-title text-center counter-text-wrap mb-70" data-aos="fade-up"
+                        data-aos-duration="1500" data-aos-offset="50">
+                        <h2>Khám phá các điểm đến phổ biến</h2>
+                        <p>Website <span class="count-text plus" data-speed="3000" data-stop="24080">0</span> trải nghiệm phổ biến nhất</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="package-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/package-2.jpg" alt="">
-                    </div>
-                    <div class="d-flex border-bottom">
-                        <small class="flex-fill text-center border-end py-2"><i
-                                class="fa fa-map-marker-alt text-primary me-2"></i>Indonesia</small>
-                        <small class="flex-fill text-center border-end py-2"><i
-                                class="fa fa-calendar-alt text-primary me-2"></i>3 days</small>
-                        <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>2
-                            Person</small>
-                    </div>
-                    <div class="text-center p-4">
-                        <h3 class="mb-0">$139.00</h3>
-                        <div class="mb-3">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                        </div>
-                        <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
-                        <div class="d-flex justify-content-center mb-2">
-                            <a href="#" class="btn btn-sm btn-primary px-3 border-end"
-                                style="border-radius: 30px 0 0 30px;">Read More</a>
-                            <a href="#" class="btn btn-sm btn-primary px-3"
-                                style="border-radius: 0 30px 30px 0;">Book Now</a>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="destination-item style-two" data-aos="flip-up" data-aos-duration="1500"
+                            data-aos-offset="50">
+                            <div class="image">
+                                <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                                <img src="{{ asset('clients/assets/images/destinations/destination1.jpg')}}" alt="Destination">
+                            </div>
+                            <div class="content">
+                                <h6><a href="destination-details.html">Thailand beach</a></h6>
+                                <span class="time">5352+ tours & 856+ Activity</span>
+                                <a href="#" class="more"><i class="fas fa-chevron-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="package-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/package-3.jpg" alt="">
-                    </div>
-                    <div class="d-flex border-bottom">
-                        <small class="flex-fill text-center border-end py-2"><i
-                                class="fa fa-map-marker-alt text-primary me-2"></i>Malaysia</small>
-                        <small class="flex-fill text-center border-end py-2"><i
-                                class="fa fa-calendar-alt text-primary me-2"></i>3 days</small>
-                        <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>2
-                            Person</small>
-                    </div>
-                    <div class="text-center p-4">
-                        <h3 class="mb-0">$189.00</h3>
-                        <div class="mb-3">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="destination-item style-two" data-aos="flip-up" data-aos-delay="100"
+                            data-aos-duration="1500" data-aos-offset="50">
+                            <div class="image">
+                                <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                                <img src="{{ asset('clients/assets/images/destinations/destination2.jpg')}}" alt="Destination">
+                            </div>
+                            <div class="content">
+                                <h6><a href="destination-details.html">Parga, Greece</a></h6>
+                                <span class="time">5352+ tours & 856+ Activity</span>
+                                <a href="#" class="more"><i class="fas fa-chevron-right"></i></a>
+                            </div>
                         </div>
-                        <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam eos</p>
-                        <div class="d-flex justify-content-center mb-2">
-                            <a href="#" class="btn btn-sm btn-primary px-3 border-end"
-                                style="border-radius: 30px 0 0 30px;">Read More</a>
-                            <a href="#" class="btn btn-sm btn-primary px-3"
-                                style="border-radius: 0 30px 30px 0;">Book Now</a>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="destination-item style-two" data-aos="flip-up" data-aos-delay="200"
+                            data-aos-duration="1500" data-aos-offset="50">
+                            <div class="image">
+                                <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                                <img src="{{ asset('clients/assets/images/destinations/destination3.jpg')}}" alt="Destination">
+                            </div>
+                            <div class="content">
+                                <h6><a href="destination-details.html">Castellammare del Golfo, Italy</a></h6>
+                                <span class="time">5352+ tours & 856+ Activity</span>
+                                <a href="#" class="more"><i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="destination-item style-two" data-aos="flip-up" data-aos-duration="1500"
+                            data-aos-offset="50">
+                            <div class="image">
+                                <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                                <img src="{{ asset('clients/assets/images/destinations/destination4.jpg')}}" alt="Destination">
+                            </div>
+                            <div class="content">
+                                <h6><a href="destination-details.html">Reserve of Canada, Canada</a></h6>
+                                <span class="time">5352+ tours & 856+ Activity</span>
+                                <a href="#" class="more"><i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="destination-item style-two" data-aos="flip-up" data-aos-delay="100"
+                            data-aos-duration="1500" data-aos-offset="50">
+                            <div class="image">
+                                <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                                <img src="{{ asset('clients/assets/images/destinations/destination5.jpg')}}" alt="Destination">
+                            </div>
+                            <div class="content">
+                                <h6><a href="destination-details.html">Dubai united states</a></h6>
+                                <span class="time">5352+ tours & 856+ Activity</span>
+                                <a href="#" class="more"><i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="destination-item style-two" data-aos="flip-up" data-aos-delay="200"
+                            data-aos-duration="1500" data-aos-offset="50">
+                            <div class="image">
+                                <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                                <img src="{{ asset('clients/assets/images/destinations/destination6.jpg')}}" alt="Destination">
+                            </div>
+                            <div class="content">
+                                <h6><a href="destination-details.html">Milos, Greece</a></h6>
+                                <span class="time">5352+ tours & 856+ Activity</span>
+                                <a href="#" class="more"><i class="fas fa-chevron-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Package End -->
+</section>
+<!-- Popular Destinations Area end -->
 
 
-<!-- Booking Start -->
-<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+<!-- Features Area start -->
+<section class="features-area pt-100 pb-45 rel z-1">
     <div class="container">
-        <div class="booking p-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-md-6 text-white">
-                    <h6 class="text-white text-uppercase">Booking</h6>
-                    <h1 class="text-white mb-4">Online Booking</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam
-                        et eos. Clita erat ipsum et lorem et sit.</p>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam
-                        et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat
-                        amet</p>
-                    <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Read More</a>
+        <div class="row align-items-center">
+            <div class="col-xl-6">
+                <div class="features-content-part mb-55" data-aos="fade-left" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <div class="section-title mb-60">
+                        <h2>Trải nghiệm du lịch tuyệt đỉnh mang đến sự khác biệt cho công ty chúng tôi</h2>
+                    </div>
+                    <div class="features-customer-box">
+                        <div class="image">
+                            <img src="{{ asset('clients/assets/images/features/features-box.jpg')}}" alt="Features">
+                        </div>
+                        <div class="content">
+                            <div class="feature-authors mb-15">
+                                <img src="{{ asset('clients/assets/images/features/feature-author1.jpg')}}" alt="Author">
+                                <img src="{{ asset('clients/assets/images/features/feature-author2.jpg')}}" alt="Author">
+                                <img src="{{ asset('clients/assets/images/features/feature-author3.jpg')}}" alt="Author">
+                                <span>4k+</span>
+                            </div>
+                            <h6>850K+ Khách hàng hài lòng</h6>
+                            <div class="divider style-two counter-text-wrap my-25"><span><span class="count-text plus"
+                                        data-speed="3000" data-stop="5">0</span>
+                                    Năm</span></div>
+                            <p>Chúng tôi tự hào cung cấp các hành trình được cá nhân hóa</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h1 class="text-white mb-4">Book A Tour</h1>
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control bg-transparent" id="name"
-                                        placeholder="Your Name">
-                                    <label for="name">Your Name</label>
+            </div>
+            <div class="col-xl-6" data-aos="fade-right" data-aos-duration="1500" data-aos-offset="50">
+                <div class="row pb-25">
+                    <div class="col-md-6">
+                        <div class="feature-item">
+                            <div class="icon"><i class="flaticon-tent"></i></div>
+                            <div class="content">
+                                <h5><a href="{{route('tours')}}">Cắm trại bằng lều</a></h5>
+                                <p>Cắm trại bằng lều là cách tuyệt vời để kết nối với thiên nhiên</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="icon"><i class="flaticon-tent"></i></div>
+                            <div class="content">
+                                <h5><a href="{{route('tours')}}">Chèo thuyền kayak</a></h5>
+                                <p>Chèo thuyền kayak là một hoạt động ngoài trời thú vị mang tính phiêu lưu</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-item mt-20">
+                            <div class="icon"><i class="flaticon-tent"></i></div>
+                            <div class="content">
+                                <h5><a href="{{route('tours')}}">Xe đạp leo núi</a></h5>
+                                <p>Đạp xe leo núi là môn thể thao thú vị giúp rèn luyện thể lực</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="icon"><i class="flaticon-tent"></i></div>
+                            <div class="content">
+                                <h5><a href="{{route('tours')}}">Câu cá & Thuyền</a></h5>
+                                <p>Câu cá và chèo thuyền mang lại niềm vui là những hoạt động cốt lõi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Features Area end -->
+
+
+<!-- Testimonials Area start -->
+<section class="testimonials-area rel z-1">
+    <div class="container">
+        <div class="testimonials-wrap bgc-lighter">
+            <div class="row">
+                <div class="col-lg-5 rel" data-aos="fade-right" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="testimonial-left-image rmb-55"
+                        style="background-image: url({{ asset('clients/assets/images/testimonials/testimonial-left.jpg')}});"></div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="testimonial-right-content" data-aos="fade-left" data-aos-duration="1500"
+                        data-aos-offset="50">
+                        <div class="section-title mb-55">
+                            <h2><span>5280</span> Global Clients Say About Us Services</h2>
+                        </div>
+                        <div class="testimonials-active">
+                            <div class="testimonial-item">
+                                <div class="testi-header">
+                                    <div class="quote"><i class="flaticon-double-quotes"></i></div>
+                                    <h4>Quality Services</h4>
+                                    <div class="ratting">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <div class="text">"Our trip was absolutely a perfect, thanks this travel
+                                    agency! They took care of every detail, from to accommodations, and even
+                                    suggested incredible experiences"</div>
+                                <div class="author">
+                                    <div class="image"><img src="{{ asset('clients/assets/images/testimonials/author.jpg')}}"
+                                            alt="Author"></div>
+                                    <div class="content">
+                                        <h5>Randall V. Vasquez</h5>
+                                        <span>Graphics Designer</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control bg-transparent" id="email"
-                                        placeholder="Your Email">
-                                    <label for="email">Your Email</label>
+                            <div class="testimonial-item">
+                                <div class="testi-header">
+                                    <div class="quote"><i class="flaticon-double-quotes"></i></div>
+                                    <h4>Quality Services</h4>
+                                    <div class="ratting">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating date" id="date3" data-target-input="nearest">
-                                    <input type="text" class="form-control bg-transparent datetimepicker-input"
-                                        id="datetime" placeholder="Date & Time" data-target="#date3"
-                                        data-toggle="datetimepicker" />
-                                    <label for="datetime">Date & Time</label>
+                                <div class="text">"Our trip was absolutely a perfect, thanks this travel
+                                    agency! They took care of every detail, from to accommodations, and even
+                                    suggested incredible experiences"</div>
+                                <div class="author">
+                                    <div class="image"><img src="{{ asset('clients/assets/images/testimonials/author.jpg')}}"
+                                            alt="Author"></div>
+                                    <div class="content">
+                                        <h5>Randall V. Vasquez</h5>
+                                        <span>Graphics Designer</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-select bg-transparent" id="select1">
-                                        <option value="1">Destination 1</option>
-                                        <option value="2">Destination 2</option>
-                                        <option value="3">Destination 3</option>
-                                    </select>
-                                    <label for="select1">Destination</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <textarea class="form-control bg-transparent" placeholder="Special Request" id="message" style="height: 100px"></textarea>
-                                    <label for="message">Special Request</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-outline-light w-100 py-3" type="submit">Book Now</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Booking Start -->
+</section>
+<!-- Testimonials Area end -->
 
 
-<!-- Process Start -->
-<div class="container-xxl py-5">
+<!-- CTA Area start -->
+<section class="cta-area pt-100 rel z-1">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-4 col-md-6" data-aos="zoom-in-down" data-aos-duration="1500" data-aos-offset="50">
+                <div class="cta-item" style="background-image: url( {{ asset('clients/assets/images/cta/cta1.jpg')}});">
+                    <span class="category">Cắm trại bằng lều</span>
+                    <h2>Khám phá du lịch tốt nhất Việt Nam</h2>
+                    <a href="{{route('tours')}}" class="theme-btn style-two bgc-secondary">
+                        <span data-hover="Khám phá">Khám phá</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6" data-aos="zoom-in-down" data-aos-delay="50" data-aos-duration="1500"
+                data-aos-offset="50">
+                <div class="cta-item" style="background-image: url( {{ asset('clients/assets/images/cta/cta2.jpg')}});">
+                    <span class="category">Sea Beach</span>
+                    <h2>World largest Sea Beach in Thailand</h2>
+                    <a href="{{route('tours')}}" class="theme-btn style-two">
+                        <span data-hover="Khám phá">Khám phá</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6" data-aos="zoom-in-down" data-aos-delay="100" data-aos-duration="1500"
+                data-aos-offset="50">
+                <div class="cta-item" style="background-image: url( {{ asset('clients/assets/images/cta/cta3.jpg')}});">
+                    <span class="category">Water Falls</span>
+                    <h2>Largest Water falls Bali, Indonesia</h2>
+                    <a href="{{route('tours')}}" class="theme-btn style-two bgc-secondary">
+                        <span data-hover="Khám phá">Khám phá</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- CTA Area end -->
+
+
+<!-- Blog Area start -->
+<section class="blog-area py-70 rel z-1">
     <div class="container">
-        <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Process</h6>
-            <h1 class="mb-5">3 Easy Steps</h1>
-        </div>
-        <div class="row gy-5 gx-4 justify-content-center">
-            <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="position-relative border border-primary pt-5 pb-4 px-4">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow"
-                        style="width: 100px; height: 100px;">
-                        <i class="fa fa-globe fa-3x text-white"></i>
-                    </div>
-                    <h5 class="mt-4">Choose A Destination</h5>
-                    <hr class="w-25 mx-auto bg-primary mb-1">
-                    <hr class="w-50 mx-auto bg-primary mt-0">
-                    <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum
-                        et lorem et sit sed stet lorem sit</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="position-relative border border-primary pt-5 pb-4 px-4">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow"
-                        style="width: 100px; height: 100px;">
-                        <i class="fa fa-dollar-sign fa-3x text-white"></i>
-                    </div>
-                    <h5 class="mt-4">Pay Online</h5>
-                    <hr class="w-25 mx-auto bg-primary mb-1">
-                    <hr class="w-50 mx-auto bg-primary mt-0">
-                    <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum
-                        et lorem et sit sed stet lorem sit</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="position-relative border border-primary pt-5 pb-4 px-4">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow"
-                        style="width: 100px; height: 100px;">
-                        <i class="fa fa-plane fa-3x text-white"></i>
-                    </div>
-                    <h5 class="mt-4">Fly Today</h5>
-                    <hr class="w-25 mx-auto bg-primary mb-1">
-                    <hr class="w-50 mx-auto bg-primary mt-0">
-                    <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum
-                        et lorem et sit sed stet lorem sit</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section-title text-center counter-text-wrap mb-70" data-aos="fade-up"
+                    data-aos-duration="1500" data-aos-offset="50">
+                    <h2>Đọc tin tức mới nhất & Blog</h2>
+                    <p>Website <span class="count-text plus bgc-primary" data-speed="3000"
+                            data-stop="24080">0</span> trải nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- Process Start -->
-
-
-<!-- Team Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Travel Guide</h6>
-            <h1 class="mb-5">Meet Our Guide</h1>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="team-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-1.jpg" alt="">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-md-6">
+                <div class="blog-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                    <div class="content">
+                        <a href="blog.html" class="category">Travel</a>
+                        <h5><a href="blog-details.html">Ultimate Guide to Planning Your Dream Vacation with
+                                Travela Travel Agency</a></h5>
+                        <ul class="blog-meta">
+                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 February 2024</a>
+                            </li>
+                            <li><i class="far fa-comments"></i> <a href="#">Comments (5)</a></li>
+                        </ul>
                     </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    <div class="image">
+                        <img src="{{ asset('clients/assets/images/blog/blog1.jpg')}}" alt="Blog">
                     </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Full Name</h5>
-                        <small>Designation</small>
-                    </div>
+                    <a href="blog-details.html" class="theme-btn">
+                        <span data-hover="Book Now">Read More</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="team-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-2.jpg" alt="">
+            <div class="col-xl-4 col-md-6">
+                <div class="blog-item" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <div class="content">
+                        <a href="blog.html" class="category">Travel</a>
+                        <h5><a href="blog-details.html">Unforgettable Adventures Travel Agency Bucket List
+                                Experiences</a></h5>
+                        <ul class="blog-meta">
+                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 February 2024</a>
+                            </li>
+                            <li><i class="far fa-comments"></i> <a href="#">Comments (5)</a></li>
+                        </ul>
                     </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    <div class="image">
+                        <img src="{{ asset('clients/assets/images/blog/blog2.jpg')}}" alt="Blog">
                     </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Full Name</h5>
-                        <small>Designation</small>
-                    </div>
+                    <a href="blog-details.html" class="theme-btn">
+                        <span data-hover="Book Now">Read More</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="team-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-3.jpg" alt="">
+            <div class="col-xl-4 col-md-6">
+                <div class="blog-item" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <div class="content">
+                        <a href="blog.html" class="category">Travel</a>
+                        <h5><a href="blog-details.html">Exploring Culture and way Cuisine Travel Agency's they
+                                Best Foodie Destinations</a></h5>
+                        <ul class="blog-meta">
+                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 February 2024</a>
+                            </li>
+                            <li><i class="far fa-comments"></i> <a href="#">Comments (5)</a></li>
+                        </ul>
                     </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                    <div class="image">
+                        <img src="{{ asset('clients/assets/images/blog/blog3.jpg')}}" alt="Blog">
                     </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Full Name</h5>
-                        <small>Designation</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="team-item">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="img/team-4.jpg" alt="">
-                    </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
-                    </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Full Name</h5>
-                        <small>Designation</small>
-                    </div>
+                    <a href="blog-details.html" class="theme-btn">
+                        <span data-hover="Book Now">Read More</span>
+                        <i class="fal fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Team End -->
+</section>
+<!-- Blog Area end -->
 
 
-<!-- Testimonial Start -->
-<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container">
-        <div class="text-center">
-            <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
-            <h1 class="mb-5">Our Clients Say!!!</h1>
-        </div>
-        <div class="owl-carousel testimonial-carousel position-relative">
-            <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-1.jpg"
-                    style="width: 80px; height: 80px;">
-                <h5 class="mb-0">John Doe</h5>
-                <p>New York, USA</p>
-                <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos.
-                    Clita erat ipsum et lorem et sit.</p>
-            </div>
-            <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-2.jpg"
-                    style="width: 80px; height: 80px;">
-                <h5 class="mb-0">John Doe</h5>
-                <p>New York, USA</p>
-                <p class="mt-2 mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos.
-                    Clita erat ipsum et lorem et sit.</p>
-            </div>
-            <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-3.jpg"
-                    style="width: 80px; height: 80px;">
-                <h5 class="mb-0">John Doe</h5>
-                <p>New York, USA</p>
-                <p class="mt-2 mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos.
-                    Clita erat ipsum et lorem et sit.</p>
-            </div>
-            <div class="testimonial-item bg-white text-center border p-4">
-                <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="img/testimonial-4.jpg"
-                    style="width: 80px; height: 80px;">
-                <h5 class="mb-0">John Doe</h5>
-                <p>New York, USA</p>
-                <p class="mt-2 mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos.
-                    Clita erat ipsum et lorem et sit.</p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Testimonial End -->
-
-
-@include('clients.blocks.footer')
+@include('clients.blocks.footer_home')

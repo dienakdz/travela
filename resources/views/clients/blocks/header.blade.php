@@ -1,75 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zxx">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <title>Travela</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Favicon -->
-    <link href="{{ asset('clients/img/favicon.ico') }}" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap"
+    <!-- Title -->
+    <title>Travela - Travel & Tour Booking HTML Template</title>
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="{{ asset('clients/assets/images/logos/favicon.png') }}" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap"
         rel="stylesheet">
 
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Flaticon -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/flaticon.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/fontawesome-5.14.0.min.css') }}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/bootstrap.min.css') }}">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/magnific-popup.min.css') }}">
+    <!-- Nice Select -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/nice-select.min.css') }}">
+    <!-- Animate -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/aos.css') }}">
+    <!-- Slick -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/slick.min.css') }}">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/style.css') }}">
 
-    <!-- Libraries Stylesheet -->
-    <link href="{{ asset('clients/lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('clients/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('clients/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    {{-- boxicons --}}
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('clients/css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- Login  --}}
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{{asset('clients/assets/css/css-login/fonts/material-icon/css/material-design-iconic-font.min.css')}}">
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{asset('clients/assets/css/css-login/style.css')}}">
 
-    <!-- Template Stylesheet -->
-    <link href="{{ asset('clients/css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner"
-        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <!-- Spinner End -->
+    <div class="page-wrapper">
 
+        <!-- Preloader -->
+        {{-- <div class="preloader">
+            <div class="custom-loader"></div>
+        </div> --}}
 
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
-        <div class="row gx-0">
-            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York,
-                        USA</small>
-                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+012 345 6789</small>
-                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>info@example.com</small>
+        <!-- main header -->
+        <header class="main-header header-one">
+            <!--Header-Upper-->
+            <div class="header-upper bg-white py-30 rpy-0">
+                <div class="container-fluid clearfix">
+
+                    <div class="header-inner rel d-flex align-items-center">
+                        <div class="logo-outer">
+                            <div class="logo"><a href="{{route('home')}}"><img src="{{ asset('clients/assets/images/logos/logo-two.png')}}"
+                                        alt="Logo" title="Logo"></a></div>
+                        </div>
+
+                        <div class="nav-outer mx-lg-auto ps-xxl-5 clearfix">
+                            <!-- Main Menu -->
+                            <nav class="main-menu navbar-expand-lg">
+                                <div class="navbar-header">
+                                    <div class="mobile-logo">
+                                        <a href="{{route('home')}}">
+                                            <img src="{{ asset('clients/assets/images/logos/logo-two.png')}}" alt="Logo" title="Logo">
+                                        </a>
+                                    </div>
+
+                                    <!-- Toggle Button -->
+                                    <button type="button" class="navbar-toggle" data-bs-toggle="collapse"
+                                        data-bs-target=".navbar-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+
+                                <div class="navbar-collapse collapse clearfix">
+                                    <ul class="navigation clearfix">
+                                        <li class="current"><a href="{{route('home')}}">Trang chủ</a></li>
+                                        <li><a href="{{ route('about') }}">Giới thiệu</a></li>
+                                        <li class="dropdown"><a href="#">Tours</a>
+                                            <ul>
+                                                <li><a href="{{route('tours')}}">Tours</a></li>
+                                                <li><a href="{{route('team')}}">Hướng dẫn viên</a></li>
+                                            </ul>
+                                        </li>
+                                        <li ><a href="{{route('destination')}}">Điểm đến</a></li>
+                                        <li><a href="{{route('contact')}}">Liên Hệ</a></li>
+                                        <li ><a href="{{ route('blogs') }}">Blog</a></li>
+                                    </ul>
+                                </div>
+
+                            </nav>
+                            <!-- Main Menu End-->
+                        </div>
+
+                        <!-- Menu Button -->
+                        <div class="menu-btns py-10">
+                            <a href="contact.html" class="theme-btn style-two bgc-secondary">
+                                <span data-hover="Book Now">Book Now</span>
+                                <i class="fal fa-arrow-right"></i>
+                            </a>
+                            <!-- menu sidbar -->
+                            <div class="menu-sidebar">
+                                <button class="bg-transparent">
+                                    <i class='bx bxs-user bx-tada' style="font-size: 36px; color: black;" ></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
-                            class="fab fa-twitter fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
-                            class="fab fa-facebook-f fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
-                            class="fab fa-linkedin-in fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i
-                            class="fab fa-instagram fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href=""><i
-                            class="fab fa-youtube fw-normal"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
+            <!--End Header Upper-->
+        </header>

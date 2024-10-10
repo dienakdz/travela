@@ -1,92 +1,183 @@
 @include('clients.blocks.header')
 @include('clients.blocks.banner')
 
-<!-- Contact Start -->
-<div class="container-xxl py-5">
+
+<!-- Contact Info Area start -->
+<section class="contact-info-area pt-100 rel z-1">
     <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Contact Us</h6>
-            <h1 class="mb-5">Contact For Any Query</h1>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <h5>Get In Touch</h5>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                    eos</p>
-                <div class="d-flex align-items-center mb-4">
-                    <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary"
-                        style="width: 50px; height: 50px;">
-                        <i class="fa fa-map-marker-alt text-white"></i>
+        <div class="row align-items-center">
+            <div class="col-lg-4">
+                <div class="contact-info-content mb-30 rmb-55" data-aos="fade-up" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <div class="section-title mb-30">
+                        <h2>Hãy nói chuyện với các hướng dẫn viên du lịch chuyên nghiệp của chúng tôi</h2>
                     </div>
-                    <div class="ms-3">
-                        <h5 class="text-primary">Office</h5>
-                        <p class="mb-0">123 Street, New York, USA</p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center mb-4">
-                    <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary"
-                        style="width: 50px; height: 50px;">
-                        <i class="fa fa-phone-alt text-white"></i>
-                    </div>
-                    <div class="ms-3">
-                        <h5 class="text-primary">Mobile</h5>
-                        <p class="mb-0">+012 345 67890</p>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary"
-                        style="width: 50px; height: 50px;">
-                        <i class="fa fa-envelope-open text-white"></i>
-                    </div>
-                    <div class="ms-3">
-                        <h5 class="text-primary">Email</h5>
-                        <p class="mb-0">info@example.com</p>
+                    <p>Đội ngũ hỗ trợ tận tâm của chúng tôi luôn sẵn sàng hỗ trợ bạn giải đáp mọi thắc mắc hoặc vấn đề, cung cấp
+                        các giải pháp nhanh chóng và được cá nhân hóa để đáp ứng nhu cầu của bạn.</p>
+                    <div class="features-team-box mt-40">
+                        <h6>85+ Thành viên nhóm chuyên gia</h6>
+                        <div class="feature-authors">
+                            <img src="{{ asset('clients/assets/images/features/feature-author1.jpg')}}" alt="Author">
+                            <img src="{{ asset('clients/assets/images/features/feature-author2.jpg')}}" alt="Author">
+                            <img src="{{ asset('clients/assets/images/features/feature-author3.jpg')}}" alt="Author">
+                            <img src="{{ asset('clients/assets/images/features/feature-author4.jpg')}}" alt="Author">
+                            <img src="{{ asset('clients/assets/images/features/feature-author5.jpg')}}" alt="Author">
+                            <img src="{{ asset('clients/assets/images/features/feature-author6.jpg')}}" alt="Author">
+                            <img src="{{ asset('clients/assets/images/features/feature-author7.jpg')}}" alt="Author">
+                            <span>+</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <iframe class="position-relative rounded w-100 h-100"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
-                    frameborder="0" style="min-height: 300px; border:0;" allowfullscreen="" aria-hidden="false"
-                    tabindex="0"></iframe>
-            </div>
-            <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                <form>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                <label for="name">Your Name</label>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="contact-info-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50"
+                            data-aos-delay="50">
+                            <div class="icon"><i class="fas fa-envelope"></i></div>
+                            <div class="content">
+                                <h5>Cần trợ giúp và hỗ trợ</h5>
+                                <div class="text"><i class="far fa-envelope"></i> <a
+                                        href="mailto:minhdien.dev@gmail.com">minhdien.dev@gmail.com</a></div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                <label for="email">Your Email</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                <label for="subject">Subject</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
-                                <label for="message">Message</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                         </div>
                     </div>
-                </form>
+                    <div class="col-md-6">
+                        <div class="contact-info-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50"
+                            data-aos-delay="100">
+                            <div class="icon"><i class="fas fa-phone"></i></div>
+                            <div class="content">
+                                <h5>Cần bất kỳ việc khẩn cấp nào</h5>
+                                <div class="text"><i class="far fa-phone"></i> <a href="callto:+0001234588">+000 (123)
+                                        45 88</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="contact-info-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50"
+                            data-aos-delay="50">
+                            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="content">
+                                <h5>Gia Lai</h5>
+                                <div class="text"><i class="fal fa-map-marker-alt"></i> Cửu An, An Khê, Gia Lai</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="contact-info-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50"
+                            data-aos-delay="100">
+                            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="content">
+                                <h5>Kí túc xá Việt Hàn</h5>
+                                <div class="text"><i class="fal fa-map-marker-alt"></i> 470 Trần Đại Nghĩa, Ngũ Hành Sơn,
+                                     Thành phố Đà Nẵng</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</section>
+<!-- Contact Info Area end -->
+
+
+<!-- Contact Form Area start -->
+<section class="contact-form-area py-70 rel z-1">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="comment-form bgc-lighter z-1 rel mb-30 rmb-55">
+                    <form id="contactForm" class="contactForm" name="contactForm"
+                        action="" method="post"
+                        data-aos="fade-left" data-aos-duration="1500" data-aos-offset="50">
+                        <div class="section-title">
+                            <h2>Liên hệ</h2>
+                        </div>
+                        <p>Địa chỉ email của bạn sẽ không được công bố. Các trường bắt buộc được đánh dấu *</p>
+                        <div class="row mt-35">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Họ và tên</label>
+                                    <input type="text" id="name" name="name" class="form-control"
+                                        placeholder="Randy J. Thomas" value="" required
+                                        data-error="Please enter your Name">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone_number">Số điện thoại</label>
+                                    <input type="text" id="phone_number" name="phone_number" class="form-control"
+                                        placeholder="Phone" value="" required
+                                        data-error="Please enter your Phone">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="email">Địa chỉ Email</label>
+                                    <input type="email" id="email" name="email" class="form-control"
+                                        placeholder="enter email" value="" required
+                                        data-error="Please enter your Email">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="message">Nội dung</label>
+                                    <textarea name="message" id="message" class="form-control" rows="5" placeholder="Message" required
+                                        data-error="Please enter your Message"></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group mb-0">
+                                    <button type="submit" class="theme-btn style-two">
+                                        <span data-hover="Send Comments">Gửi bình luận</span>
+                                        <i class="fal fa-arrow-right"></i>
+                                    </button>
+                                    <div id="msgSubmit" class="hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="contact-images-part" data-aos="fade-right" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="{{ asset('clients/assets/images/contact/contact1.jpg')}}" alt="Contact">
+                        </div>
+                        <div class="col-6">
+                            <img src="{{ asset('clients/assets/images/contact/contact2.jpg')}}" alt="Contact">
+                        </div>
+                        <div class="col-6">
+                            <img src="{{ asset('clients/assets/images/contact/contact3.jpg')}}" alt="Contact">
+                        </div>
+                    </div>
+                    <div class="circle-logo">
+                        <img src="{{ asset('clients/assets/images/contact/icon.png')}}" alt="Logo">
+                        <span class="title h2">Travela</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Form Area end -->
+
+
+<!-- Contact Map Start -->
+<div class="contact-map">
+    <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5054.395768263017!2d108.24971041175304!3d15.97458398462732!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421088e365cc75%3A0x6648fdda14970b2c!2zNDcwIMSQxrDhu51uZyBUcuG6p24gxJDhuqFpIE5naMSpYSwgSG_DoCBI4bqjaSwgTmfFqSBIw6BuaCBTxqFuLCDEkMOgIE7hurVuZyA1NTAwMDAsIFZpZXRuYW0!5e1!3m2!1sen!2s!4v1728569875916!5m2!1sen!2s" 
+        style="border:0; width: 100%;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
-<!-- Contact End -->
+<!-- Contact Map End -->
 
 
 @include('clients.blocks.footer')
