@@ -174,6 +174,9 @@
     <script src="{{asset('clients/assets/js/aos.js')}}"></script>
     <!-- Custom script -->
     <script src="{{asset('clients/assets/js/script.js')}}"></script>
+    <!-- Custom script by Dev dien-->
+    <script src="{{asset('clients/assets/js/custom-js.js')}}"></script>
+    <script src="{{asset('clients/assets/js/jquery.datetimepicker.full.min.js')}}"></script>
 
 </body>
 

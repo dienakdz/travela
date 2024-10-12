@@ -20,20 +20,12 @@
             <div class="filter-item clearfix">
                 <div class="icon"><i class="fal fa-calendar-alt"></i></div>
                 <span class="title">Ngày khởi hành</span>
-                <select name="date" id="date">
-                    <option value="value1">Date from</option>
-                    <option value="value2">10</option>
-                    <option value="value2">20</option>
-                </select>
+                <input type="text" id="start_date" name="start_date" class="datetimepicker datetimepicker-custom" placeholder="Chọn ngày đi" readonly>
             </div>
             <div class="filter-item clearfix">
                 <div class="icon"><i class="fal fa-calendar-alt"></i></div>
                 <span class="title">Ngày kết thúc</span>
-                <select name="date" id="date">
-                    <option value="value1">Date from</option>
-                    <option value="value2">10</option>
-                    <option value="value2">20</option>
-                </select>
+                <input type="text" id="end_date" name="end_date" class="datetimepicker datetimepicker-custom" placeholder="Chọn ngày về" readonly>
             </div>
             <div class="search-button">
                 <button class="theme-btn">

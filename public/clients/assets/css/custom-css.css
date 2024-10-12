@@ -1,0 +1,38 @@
+.datetimepicker-custom{
+    padding: 0;
+}
+
+.datetimepicker-custom:focus{
+    border: none;
+}
+
+.main-header.header-one .main-menu .navbar-collapse .navigation .active {
+    background: var(--primary-color);
+}
+
+/* Style for dropdown for login */
+.menu-sidebar .dropdown-menu{
+    padding: 0;
+}
+
+/* Dropdown menu hidden by default */
+.dropdown-menu {
+    list-style-type: none;
+    position: absolute;
+    top: 60px; /* Adjust to the correct position */
+    right: 0;
+}
+.menu-sidebar .dropdown-menu {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm box-shadow */
+}
+.dropdown-menu li {
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+/* Loại bỏ đường viền dưới cho mục cuối cùng */
+.dropdown-menu li:last-child {
+    border-bottom: none; /* Không có đường viền dưới cho mục cuối cùng */
+}
+.dropdown-menu li:hover {
+    background-color: var(--primary-color);
+}

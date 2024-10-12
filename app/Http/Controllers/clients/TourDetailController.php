@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 class TourDetailController extends Controller
 {
-    public function index(){
-        return view('clients.tour-detail');
+    public function index($id='')
+    {
+        $title = 'Chi tiết tours' . $id;
+        return view('clients.tour-detail', compact('title'));
     }
 }
