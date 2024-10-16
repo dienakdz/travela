@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="{{ asset('clients/assets/css/magnific-popup.min.css') }}">
     <!-- Nice Select -->
     <link rel="stylesheet" href="{{ asset('clients/assets/css/nice-select.min.css') }}">
+    <!-- jQuery UI -->
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/jquery-ui.min.css') }}">
     <!-- Animate -->
     <link rel="stylesheet" href="{{ asset('clients/assets/css/aos.css') }}">
     <!-- Slick -->
@@ -88,7 +90,7 @@
                                     <ul class="navigation clearfix">
                                         <li class="{{ Request::url() == route('home') ? 'active' : '' }}"><a href="{{route('home')}}">Trang chủ</a></li>
                                         <li class="{{ Request::url() == route('about') ? 'active' : '' }}"><a href="{{ route('about') }}">Giới thiệu</a></li>
-                                        <li class="dropdown {{ Request::url() == route('tours') || Request::url() == route('team') ? 'active' : '' }}">
+                                        <li class="dropdown {{ Request::is('tours') || Request::is('team') || Request::is('tour-detail/*') ? 'active' : '' }}">
                                             <a href="#">Tours</a>
                                             <ul>
                                                 <li><a href="{{ route('tours') }}">Tours</a></li>
