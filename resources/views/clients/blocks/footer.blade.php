@@ -93,7 +93,11 @@
 </div>
 <!--End pagewrapper-->
 
-
+    @if(session('error'))
+        <script>
+            alert("{{ session('error') }}");
+        </script>
+    @endif
     <!-- Jquery -->
     <script src="{{asset('clients/assets/js/jquery-3.6.0.min.js')}}"></script>
     <!-- Bootstrap -->

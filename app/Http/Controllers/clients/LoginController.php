@@ -2,85 +2,119 @@
 
 namespace App\Http\Controllers\clients;
 
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Models\clients\Login;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private $login;
+
+    public function __construct()
+    {
+        $this->login = new Login();
+    }
     public function index()
     {
         $title = 'Đăng nhập';
         return view('clients.login', compact('title'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function register(Request $request)
     {
-        //
+        $username_regis = $request->username_regis;
+        $email = $request->email;
+        $password_regis = $request->password_regis;
+
+        $checkAccountExist = $this->login->checkUserExist($username_regis, $email);
+        if ($checkAccountExist) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tên người dùng hoặc email đã tồn tại!'
+            ]);
+        }
+
+        $activation_token = Str::random(60); // Tạo token ngẫu nhiên
+        // Nếu không tồn tại, thực hiện đăng ký
+        $dataInsert = [
+            'username' => $username_regis,
+            'email' => $email,
+            'password' => bcrypt($password_regis),
+            'activation_token' => $activation_token
+        ];
+
+        $this->login->registerAcount($dataInsert);
+
+        // Gửi email kích hoạt
+        $this->sendActivationEmail($email, $activation_token);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function sendActivationEmail($email, $token)
     {
-        //
+        $activation_link = route('activate.account', ['token' => $token]);
+
+        Mail::send('clients.mail.emails_activation', ['link' => $activation_link], function ($message) use ($email) {
+            $message->to($email);
+            $message->subject('Kích hoạt tài khoản của bạn');
+        });
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function activateAccount($token)
     {
-        //
+        $user = $this->login->getUserByToken($token);
+        if ($user) {
+            $this->login->activateUserAccount($token);
+
+            return redirect('/login')->with('message', 'Tài khoản của bạn đã được kích hoạt!');
+        } else {
+            return redirect('/login')->with('error', 'Mã kích hoạt không hợp lệ!');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    //Xử lý người dùng đăng nhập
+    public function login(Request $request)
     {
-        //
+        $username = $request->username;
+        $password = $request->password;
+
+        $data_login = [
+            'username' => $username,
+            'password' => bcrypt($password)
+        ];
+
+        $user = $this->login->login($data_login);
+        if ($user != null) {
+            $request->session()->put('username', $username);
+            return response()->json([
+                'success' => true,
+                'message' => 'Đăng nhập thành công!',
+                'redirectUrl' => route('home'),  // Optional: dynamic home route
+            ]);
+
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Thông tin tài khoản không chính xác!',
+            ]);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    //Xử lý đăng xuất
+    public function logout(Request $request)
     {
-        //
+        // Xóa session lưu trữ thông tin người dùng đã đăng nhập
+        $request->session()->forget('username');
+        return redirect()->route('home');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }

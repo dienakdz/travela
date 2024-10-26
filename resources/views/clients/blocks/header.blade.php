@@ -109,7 +109,7 @@
 
                         <!-- Menu Button -->
                         <div class="menu-btns py-10">
-                            <a href="contact.html" class="theme-btn style-two bgc-secondary">
+                            <a href="{{ route('tours') }}" class="theme-btn style-two bgc-secondary">
                                 <span data-hover="Book Now">Book Now</span>
                                 <i class="fal fa-arrow-right"></i>
                             </a>
@@ -120,9 +120,13 @@
                                         <i class='bx bxs-user bx-tada' style="font-size: 36px; color: black;" ></i>
                                     </button>
                                     <ul class="dropdown-menu" id="dropdownMenu">
-                                        <li><a href="{{ route('login') }}">Đăng nhập</a></li>
-                                        {{-- <hr> --}}
-                                        <li><a href="#">Thông tin cá nhân</a></li>
+                                        @if (session()->has('username'))
+                                            <li> {{ session()->get('username') }}</li>
+                                            <li><a href="#">Thông tin cá nhân</a></li>
+                                            <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                                        @else
+                                            <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                        @endif
                                     </ul>
                                 </li>
                             </div>

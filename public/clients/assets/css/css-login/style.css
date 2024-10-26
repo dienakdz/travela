@@ -411,7 +411,7 @@
     }
 
     .form-title {
-        margin-bottom: 33px;
+        margin-bottom: 10px;
     }
 
     .signup-image {
@@ -439,7 +439,7 @@
         cursor: pointer;
     }
     .form-submit:hover {
-        background: #4292dc;
+        background: #188d09;
     }
 
     #signin {

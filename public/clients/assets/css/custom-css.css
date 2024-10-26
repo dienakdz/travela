@@ -1,8 +1,8 @@
-.datetimepicker-custom{
+.datetimepicker-custom {
     padding: 0;
 }
 
-.datetimepicker-custom:focus{
+.datetimepicker-custom:focus {
     border: none;
 }
 
@@ -11,7 +11,7 @@
 }
 
 /* Style for dropdown for login */
-.menu-sidebar .dropdown-menu{
+.menu-sidebar .dropdown-menu {
     padding: 0;
 }
 
@@ -38,7 +38,7 @@
 }
 
 /* css tour in page home  */
-.block_tours{
+.block_tours {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -46,12 +46,60 @@
 }
 
 /* css tourdetail  */
-.tour-gallery .gallery-between{
+.tour-gallery .gallery-between {
     height: 100%;
     padding-bottom: 10px;
 }
-.tour-gallery .gallery-item img{
-    height: 100% ;
+.tour-gallery .gallery-item img {
+    height: 100%;
     border-radius: 8px;
+}
 
+/****************************************
+*              PAGE TOURS              *
+* ***************************************/
+.div_filter_clear {
+    display: flex;
+    justify-content: end;
+}
+.clear_filter {
+    color: #fff;
+    background-color: var(--bs-green);
+    border-radius: 8px;
+    padding: 2px 20px;
+}
+
+.loader {
+    margin: auto;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid green;
+    border-bottom: 16px solid green;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    display: none;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden-content {
+    display: none; /* Ẩn nội dung */
 }

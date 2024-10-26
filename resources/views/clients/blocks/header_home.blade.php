@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zxx">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -36,9 +37,9 @@
     {{-- boxicons --}}
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     {{-- date time picker  --}}
-    <link rel="stylesheet" href="{{ asset('clients/assets/css/jquery.datetimepicker.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/jquery.datetimepicker.min.css') }}" />
     {{-- custom css by Dien --}}
-    <link rel="stylesheet" href="{{ asset('clients/assets/css/custom-css.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('clients/assets/css/custom-css.css') }}" />
 
 </head>
 
@@ -58,8 +59,9 @@
 
                     <div class="header-inner rel d-flex align-items-center">
                         <div class="logo-outer">
-                            <div class="logo"><a href="{{route('home')}}"><img src="{{ asset('clients/assets/images/logos/logo.png')}}"
-                                        alt="Logo" title="Logo"></a></div>
+                            <div class="logo"><a href="{{ route('home') }}"><img
+                                        src="{{ asset('clients/assets/images/logos/logo.png') }}" alt="Logo"
+                                        title="Logo"></a></div>
                         </div>
 
                         <div class="nav-outer mx-lg-auto ps-xxl-5 clearfix">
@@ -67,8 +69,9 @@
                             <nav class="main-menu navbar-expand-lg">
                                 <div class="navbar-header">
                                     <div class="mobile-logo">
-                                        <a href="{{route('home')}}">
-                                            <img src="{{ asset('clients/assets/images/logos/logo.png')}}" alt="Logo" title="Logo">
+                                        <a href="{{ route('home') }}">
+                                            <img src="{{ asset('clients/assets/images/logos/logo.png') }}"
+                                                alt="Logo" title="Logo">
                                         </a>
                                     </div>
 
@@ -83,19 +86,25 @@
 
                                 <div class="navbar-collapse collapse clearfix">
                                     <ul class="navigation clearfix">
-                                        <li class="{{ Request::url() == route('home') ? 'active' : '' }}"><a href="{{route('home')}}">Trang chủ</a></li>
-                                        <li class="{{ Request::url() == route('about') ? 'active' : '' }}"><a href="{{ route('about') }}">Giới thiệu</a></li>
-                                        <li class="dropdown {{ Request::is('tours') || Request::is('team') || Request::is('tour-detail/*') ? 'active' : '' }}">
+                                        <li class="{{ Request::url() == route('home') ? 'active' : '' }}"><a
+                                                href="{{ route('home') }}">Trang chủ</a></li>
+                                        <li class="{{ Request::url() == route('about') ? 'active' : '' }}"><a
+                                                href="{{ route('about') }}">Giới thiệu</a></li>
+                                        <li
+                                            class="dropdown {{ Request::is('tours') || Request::is('team') || Request::is('tour-detail/*') ? 'active' : '' }}">
                                             <a href="#">Tours</a>
                                             <ul>
                                                 <li><a href="{{ route('tours') }}">Tours</a></li>
                                                 <li><a href="{{ route('team') }}">Hướng dẫn viên</a></li>
                                             </ul>
                                         </li>
-                                        
-                                        <li class="{{ Request::url() == route('destination') ? 'active' : '' }}"><a href="{{route('destination')}}">Điểm đến</a></li>
-                                        <li class="{{ Request::url() == route('contact') ? 'active' : '' }}"><a href="{{route('contact')}}">Liên Hệ</a></li>
-                                        <li class="{{ Request::url() == route('blogs') ? 'active' : '' }}"><a href="{{ route('blogs') }}">Blog</a></li>
+
+                                        <li class="{{ Request::url() == route('destination') ? 'active' : '' }}"><a
+                                                href="{{ route('destination') }}">Điểm đến</a></li>
+                                        <li class="{{ Request::url() == route('contact') ? 'active' : '' }}"><a
+                                                href="{{ route('contact') }}">Liên Hệ</a></li>
+                                        <li class="{{ Request::url() == route('blogs') ? 'active' : '' }}"><a
+                                                href="{{ route('blogs') }}">Blog</a></li>
                                     </ul>
                                 </div>
 
@@ -121,12 +130,18 @@
                             <!-- menu sidbar -->
                             <div class="menu-sidebar">
                                 <li class="drop-down">
-                                    <button class="dropdown-toggle bg-transparent" id="userDropdown" style="color: white">
-                                        <i class='bx bxs-user bx-tada' style="font-size: 36px; color: white;" ></i>
+                                    <button class="dropdown-toggle bg-transparent" id="userDropdown"
+                                        style="color: white">
+                                        <i class='bx bxs-user bx-tada' style="font-size: 36px; color: white;"></i>
                                     </button>
                                     <ul class="dropdown-menu" id="dropdownMenu">
-                                        <li><a href="{{ route('login') }}">Đăng nhập</a></li>
-                                        <li><a href="#">Thông tin cá nhân</a></li>
+                                        @if (session()->has('username'))
+                                            <li> {{ session()->get('username') }}</li>
+                                            <li><a href="#">Thông tin cá nhân</a></li>
+                                            <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                                        @else
+                                            <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                        @endif
                                     </ul>
                                 </li>
                             </div>

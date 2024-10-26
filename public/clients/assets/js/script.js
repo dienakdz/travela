@@ -450,16 +450,21 @@
         if ($('.price-slider-range').length) {
             $(".price-slider-range").slider({
                 range: true,
-                min: 5,
-                max: 1000,
-                values: [100, 750],
+                min: 0,
+                max: 25000000,
+                step: 500000,
+                values: [0, 20000000],
                 slide: function (event, ui) {
-                    $("#price").val("$ " + ui.values[0] + " - $ " + ui.values[1]);
+                    $("#price").val(ui.values[0].toLocaleString('vi-VN') + " vnđ" + " - " + ui.values[1].toLocaleString('vi-VN') + " vnđ");
                 }
             });
-            $("#price").val("$ " + $(".price-slider-range").slider("values", 0) +
-                " - $ " + $(".price-slider-range").slider("values", 1));
+            $("#price").val(
+                $(".price-slider-range").slider("values", 0).toLocaleString('vi-VN') + 
+                " - " + 
+                $(".price-slider-range").slider("values", 1).toLocaleString('vi-VN') + " vnđ"
+            );
         }
+        
         
         
         // ## Hover Content
