@@ -35,7 +35,7 @@ class LoginGoogleController extends Controller
                     'google_id' => $user->id,
                     'fullName' => $user->name,
                     'username' => 'user-google',
-                    'password' => bcrypt('12345678'),
+                    'password' => md5('12345678'),
                     'email' => $user->email,
                     'isActive' => 'y'
                 ];

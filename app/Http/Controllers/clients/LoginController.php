@@ -5,6 +5,7 @@ namespace App\Http\Controllers\clients;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\clients\Login;
+use App\Models\clients\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -12,10 +13,12 @@ class LoginController extends Controller
 {
 
     private $login;
+    protected $user;
 
     public function __construct()
     {
         $this->login = new Login();
+        $this->user = new User();
     }
     public function index()
     {
@@ -41,9 +44,9 @@ class LoginController extends Controller
         $activation_token = Str::random(60); // Tạo token ngẫu nhiên
         // Nếu không tồn tại, thực hiện đăng ký
         $dataInsert = [
-            'username' => $username_regis,
-            'email' => $email,
-            'password' => bcrypt($password_regis),
+            'username'         => $username_regis,
+            'email'            => $email,
+            'password'         => md5($password_regis),
             'activation_token' => $activation_token
         ];
 
@@ -88,12 +91,17 @@ class LoginController extends Controller
 
         $data_login = [
             'username' => $username,
-            'password' => bcrypt($password)
+            'password' => md5($password)
         ];
 
-        $user = $this->login->login($data_login);
-        if ($user != null) {
+        $user_login = $this->login->login($data_login);
+        $userId = $this->user->getUserId($username);
+        $user = $this->user->getUser($userId);
+
+        if ($user_login != null) {
             $request->session()->put('username', $username);
+            $request->session()->put('avatar', $user->avatar);
+            toastr()->success("Đăng nhập thành công!",'Thông báo');
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng nhập thành công!',
@@ -113,6 +121,8 @@ class LoginController extends Controller
     {
         // Xóa session lưu trữ thông tin người dùng đã đăng nhập
         $request->session()->forget('username');
+        $request->session()->forget('avatar');
+        toastr()->success("Đăng xuất thành công!",'Thông báo');
         return redirect()->route('home');
     }
 

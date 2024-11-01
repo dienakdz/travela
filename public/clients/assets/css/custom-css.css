@@ -103,3 +103,222 @@
 .hidden-content {
     display: none; /* Ẩn nội dung */
 }
+
+/****************************************
+*              PAGE USER PROFILE        *
+* ***************************************/
+#card_change_password {
+    display: none;
+}
+
+/****************************************
+*              PAGE CHECKOUT            *
+* ***************************************/
+.booking-container {
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 20px;
+    display: flex;
+    gap: 24px;
+}
+
+.booking-container {
+    .booking__infor {
+        background-color: #f6f8fa;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: none;
+        gap: 16px;
+        padding: 30px;
+    }
+
+    .booking-info {
+        flex: 1;
+    }
+
+    .booking-summary {
+        width: 400px;
+    }
+
+    /* Header */
+    .booking-header {
+        margin-bottom: 30px;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    /* Form Styling */
+
+    .booking__infor .form-group label {
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .booking__infor .form-group input {
+        width: 100%;
+        height: 56px;
+        padding: 16px 17px;
+        font-size: 1rem;
+        border: 0px solid #e2e4e5;
+        border-radius: 5px;
+    }
+
+    /* Quantity Selector */
+    .booking__quantity {
+        display: flex;
+        gap: 24px;
+    }
+
+    .quantity-selector {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        border: 1px solid #e2e4e5;
+        padding: 20px;
+        justify-content: space-between;
+        gap: 48px;
+    }
+
+    .input__quanlity {
+        display: flex;
+        gap: 16px;
+    }
+
+    .quantity-btn {
+        width: 30px;
+        height: 30px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 5px;
+        border: 2px solid #63ab45;
+        color: #63ab45;
+    }
+
+    .quantity-input {
+        padding: 0;
+        width: 30px;
+        text-align: center;
+        border: none;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: 0em;
+        font-weight: 500;
+        color: #63ab45;
+    }
+
+    /* Payment Options */
+    .payment-option {
+        margin-bottom: 15px;
+        padding: 15px;
+        border: 1px solid #e2e4e5;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .payment-option img {
+        width: 40px;
+    }
+
+    /* Privacy Agreement */
+    .privacy-section {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #333;
+        text-align: center;
+    }
+
+    .privacy-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    /* Order Summary */
+    .order-summary {
+        border-top: 1px solid #d6d6d6;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .total-price,
+    .quantity__adults,
+    .quantity__children {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    /* Button */
+    .booking-btn {
+        width: 100%;
+        padding: 15px;
+        background-color: var(--secondary-color);
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .summary-section {
+        padding: 16px;
+        box-shadow: 10px 10px 36px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 50px;
+    }
+    .order-coupon {
+        border-top: 1px solid #d6d6d6;
+        margin: 20px 0;
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 2px;
+        border-bottom: 1px solid #d6d6d6;
+    }
+    .order-coupon input {
+        border-radius: 8px;
+        border: 1px solid #e2e4e5;
+    }
+    .btn-submit-booking.inactive {
+        background-color: #f3d5b1;
+        cursor: not-allowed;
+    }
+
+    /* CSS cho thông báo lỗi */
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+        display: none;
+        margin-top: 5px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .booking-container {
+        flex-direction: column;
+    }
+
+    .booking-summary {
+        width: 100%;
+        margin-top: 20px;
+    }
+}
