@@ -10,7 +10,7 @@ use Laravel\Socialite\Facades\Socialite;
 class LoginGoogleController extends Controller
 {
 
-    private $user;
+    protected $user;
     public function __construct()
     {
         $this->user = new Login();

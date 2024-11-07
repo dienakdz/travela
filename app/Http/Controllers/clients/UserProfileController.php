@@ -8,12 +8,10 @@ use Illuminate\Http\Request;
 
 class UserProfileController extends Controller
 {
-    private $user;
 
     public function __construct()
     {
         parent::__construct(); // Gọi constructor của Controller để khởi tạo $user
-        $this->user = new User();
     }
 
     public function index()
@@ -54,11 +52,10 @@ class UserProfileController extends Controller
 
         if (md5($req->oldPass) === $user->password) {
             $update = $this->user->updateUser($userId, ['password' => md5($req->newPass)]);
-            if(!$update)
-            {
-                return response()->json(['error' => true, 'message' => 'Mật khẩu mới trùng với mật khẩu cũ!' ]);
-            }else{
-                return response()->json(['success' => true, 'message' => 'Đổi mật khẩu thành công!' ]);
+            if (!$update) {
+                return response()->json(['error' => true, 'message' => 'Mật khẩu mới trùng với mật khẩu cũ!']);
+            } else {
+                return response()->json(['success' => true, 'message' => 'Đổi mật khẩu thành công!']);
 
             }
         } else {
@@ -94,7 +91,7 @@ class UserProfileController extends Controller
         // Di chuyển ảnh vào thư mục public/clients/assets/images/user-profile/
         $avatar->move(public_path('clients/assets/images/user-profile'), $filename);
         $update = $this->user->updateUser($userId, ['avatar' => $filename]);
-
+        $req->session()->put('avatar', $filename);
         if (!$update) {
             return response()->json(['error' => true, 'message' => 'Có vấn đề khi cập nhật ảnh!']);
         }

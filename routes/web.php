@@ -16,8 +16,10 @@ use App\Http\Controllers\clients\CheckoutController;
 use App\Http\Controllers\clients\UserProfileController;
 use App\Http\Controllers\clients\LoginController;
 use App\Http\Controllers\clients\LoginGoogleController;
+use App\Http\Controllers\clients\MyTourController;
 use App\Http\Controllers\clients\PayPalController;
 use App\Http\Controllers\clients\SearchController;
+use App\Http\Controllers\clients\TourBookedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +35,6 @@ use App\Http\Controllers\clients\SearchController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/tour-detail/{id?}', [TourDetailController::class, 'index'])->name('tour-detail');
 Route::get('/destination', [DestinationController::class, 'index'])->name('destination');
 Route::get('/travel-guides', [TravelGuidesController::class, 'index'])->name('team');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
@@ -58,15 +59,16 @@ Route::get('/tours', [ToursController::class, 'index'])->name('tours');
 Route::get('/filter-tours', [ToursController::class, 'filterTours'])->name('filter-tours');
 
 //Handle user profile
-Route::get('/user-profile', [UserProfileController::class, 'index'])->name('user-profile');
+Route::get('/user-profile', [UserProfileController::class, 'index'])->name('user-profile')->middleware('checkLoginClient');
 Route::post('/user-profile', [UserProfileController::class, 'update'])->name('update-user-profile');
 Route::post('/change-password-profile', [UserProfileController::class, 'changePassword'])->name('change-password');
 Route::post('/change-avatar-profile', [UserProfileController::class, 'changeAvatar'])->name('change-avatar');
 
 
 //Hanlde checkout
-Route::post('/booking/{id?}', [BookingController::class, 'index'])->name('booking');
+Route::post('/booking/{id?}', [BookingController::class, 'index'])->name('booking')->middleware('checkLoginClient');
 Route::post('/create-booking', [BookingController::class, 'createBooking'])->name('create-booking');
+Route::get('/booking', [BookingController::class, 'handlePaymentMomoCallback'])->name('handlePaymentMomoCallback');
 
 //Payment with paypal
 Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
@@ -74,4 +76,19 @@ Route::get('process-transaction', [PayPalController::class, 'processTransaction'
 Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
 
-Route::get('/transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
+//Payment with Momo
+Route::post('/create-momo-payment', [BookingController::class, 'createMomoPayment'])->name('createMomoPayment');
+
+
+//Tour booked
+Route::get('/tour-booked', [TourBookedController::class, 'index'])->name('tour-booked');
+Route::post('/cancel-booking', [TourBookedController::class, 'cancelBooking'])->name('cancel-booking');
+
+//My tour
+Route::get('/my-tours', [MyTourController::class, 'index'])->name('my-tours')->middleware('checkLoginClient');
+
+//get Tour detail and handle submit reviews
+Route::get('/tour-detail/{id?}', [TourDetailController::class, 'index'])->name('tour-detail');
+Route::post('/checkBooking', [BookingController::class, 'checkBooking'])->name('checkBooking')->middleware('checkLoginClient');
+Route::post('/reviews', [TourDetailController::class, 'reviews'])->name('reviews')->middleware('checkLoginClient');
+

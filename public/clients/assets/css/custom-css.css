@@ -259,8 +259,11 @@
     }
 
     .total-price,
+    .total-price-booked,
     .quantity__adults,
-    .quantity__children {
+    .quantity__children,
+    .quantity__adults-booked,
+    .quantity__children-booked {
         font-weight: bold;
         font-size: 1.2rem;
     }
@@ -321,4 +324,15 @@
         width: 100%;
         margin-top: 20px;
     }
+}
+
+.hide{
+    display: none !important;
+}
+
+.comment-review-wrap .comment-ratting-item .ratting i {
+    font-size: 36px;
+}
+.ratting i.active {
+    color: var(--secondary-color); 
 }

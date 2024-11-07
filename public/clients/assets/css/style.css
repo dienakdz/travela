@@ -7268,7 +7268,7 @@ blockquote {
   -ms-flex-pack: justify;
   justify-content: space-between; }
   .comment-review-wrap .comment-ratting-item {
-    width: 30%;
+    /* width: 30%; */
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

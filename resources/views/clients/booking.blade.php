@@ -46,8 +46,8 @@
                     <label>Người lớn</label>
                     <div class="input__quanlity">
                         <button type="button" class="quantity-btn">-</button>
-                        <input type="number" class="quantity-input" value="1" min="1" id="numAdults" name="numAdults"
-                            data-price-adults="{{ $tour->priceAdult }}" readonly>
+                        <input type="number" class="quantity-input" value="1" min="1" id="numAdults"
+                            name="numAdults" data-price-adults="{{ $tour->priceAdult }}" readonly>
                         <button type="button" class="quantity-btn">+</button>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                     <label>Trẻ em</label>
                     <div class="input__quanlity">
                         <button type="button" class="quantity-btn">-</button>
-                        <input type="number" class="quantity-input" value="0" min="0" id="numChildren" name="numChildren"
-                            data-price-children="{{ $tour->priceChild }}" readonly>
+                        <input type="number" class="quantity-input" value="0" min="0" id="numChildren"
+                            name="numChildren" data-price-children="{{ $tour->priceChild }}" readonly>
                         <button type="button" class="quantity-btn">+</button>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
 
             <label class="payment-option">
                 <input type="radio" name="payment" value="office-payment" required>
-                <img src="{{ asset('clients/assets/images/booking/cong-thanh-toan-paypal.jpg') }}" alt="Office Payment">
+                <img src="{{ asset('clients/assets/images/contact/icon.png') }}" alt="Office Payment">
                 Thanh toán tại văn phòng
             </label>
 
@@ -92,10 +92,12 @@
                 <input type="radio" name="payment" value="momo-payment" required>
                 <img src="{{ asset('clients/assets/images/booking/thanh-toan-momo.jpg') }}" alt="MoMo">
                 Thanh toán bằng Momo
+                @if (!is_null($transIdMomo))
+                    <input type="hidden" name="transactionIdMomo" value="{{ $transIdMomo }}">
+                @endif
             </label>
 
             <input type="hidden" name="payment_hidden" id="payment_hidden">
-
         </div>
 
         <!-- Order Summary -->
@@ -145,9 +147,12 @@
                 </div>
 
                 <div id="paypal-button-container"></div>
-                
+
                 <button type="submit" class="booking-btn btn-submit-booking">Xác Nhận</button>
-                
+
+                <button id="btn-momo-payment" class="booking-btn" style="display: none;"
+                    data-urlmomo = "{{ route('createMomoPayment') }}">Thanh toán với Momo <img src="{{ asset('clients/assets/images/booking/icon-thanh-toan-momo.png') }}" alt="" style="width: 10%"></button>
+
             </div>
         </div>
     </form>
