@@ -12,7 +12,8 @@ class Home extends Model
 
     protected $table = 'tbl_tours';
 
-    public function getHomeTours(){
+    public function getHomeTours()
+    {
         // Lấy thông tin tour
         $tours = DB::table($this->table)
             ->get();
@@ -22,6 +23,10 @@ class Home extends Model
             $tour->images = DB::table('tbl_images')
                 ->where('tourId', $tour->tourId)
                 ->pluck('imageUrl');
+
+            // Tạo instance của Tours và gọi reviewStats
+            $toursModel = new Tours();
+            $tour->rating = $toursModel->reviewStats($tour->tourId)->averageRating;
         }
 
         return $tours;

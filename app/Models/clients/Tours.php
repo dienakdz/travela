@@ -13,15 +13,17 @@ class Tours extends Model
     protected $table = 'tbl_tours';
 
     //Lấy tất cả tours
-    public function getAllTours()
+    public function getAllTours($perPage = 9)
     {
 
-        $allTours = DB::table($this->table)->get();
+        $allTours = DB::table($this->table)->paginate($perPage);
         foreach ($allTours as $tour) {
             // Lấy danh sách hình ảnh thuộc về tour
             $tour->images = DB::table('tbl_images')
                 ->where('tourId', $tour->tourId)
                 ->pluck('imageUrl');
+            // Lấy số lượng đánh giá và số sao trung bình của tour
+            $tour->rating = $this->reviewStats($tour->tourId)->averageRating;
         }
 
         return $allTours;
@@ -64,31 +66,68 @@ class Tours extends Model
     public function filterTours($filters = [], $sorting = null, $perPage = null)
     {
         DB::enableQueryLog();
-        $getTours = DB::table($this->table);
 
-        // Áp dụng bộ lọc nếu có
+        // Khởi tạo truy vấn với bảng tours
+        $getTours = DB::table($this->table)
+            ->leftJoin('tbl_reviews', 'tbl_tours.tourId', '=', 'tbl_reviews.tourId') // Join với bảng reviews
+            ->select(
+                'tbl_tours.tourId',
+                'tbl_tours.title',
+                'tbl_tours.description',
+                'tbl_tours.priceAdult',
+                'tbl_tours.priceChild',
+                'tbl_tours.time',
+                'tbl_tours.destination',
+                'tbl_tours.quantity',
+                DB::raw('AVG(tbl_reviews.rating) as averageRating')
+            )
+            ->groupBy(
+                'tbl_tours.tourId',
+                'tbl_tours.title',
+                'tbl_tours.description',
+                'tbl_tours.priceAdult',
+                'tbl_tours.priceChild',
+                'tbl_tours.time',
+                'tbl_tours.destination',
+                'tbl_tours.quantity'
+            ); 
+
         if (!empty($filters)) {
-            $getTours = $getTours->where($filters);
+            foreach ($filters as $filter) {
+                if ($filter[0] !== 'averageRating') {
+                    $getTours = $getTours->where($filter[0], $filter[1], $filter[2]); 
+                }
+            }
         }
 
-        // Xử lý sắp xếp nếu có
-        if (!empty($sorting) && isset($sorting[0][0]) && isset($sorting[0][1])) {
-            $getTours = $getTours->orderBy($sorting[0][0], $sorting[0][1]);
+        // Áp dụng điều kiện về averageRating trong phần HAVING
+        if (!empty($filters)) {
+            foreach ($filters as $filter) {
+                if ($filter[0] === 'averageRating') {
+                    $getTours = $getTours->having('averageRating', $filter[1], $filter[2]); // Sử dụng HAVING để lọc averageRating
+                }
+            }
         }
+
+        if (!empty($sorting) && isset($sorting[0]) && isset($sorting[1])) {
+            $getTours = $getTours->orderBy($sorting[0], $sorting[1]);
+        }
+
         // Thực hiện truy vấn để ghi log
-        $tours = $getTours->get(); // Thực thi truy vấn để ghi log
+        $tours = $getTours->get();
 
-        // In ra câu lệnh SQL đã ghi lại
+        // In ra câu lệnh SQL đã ghi lại (nếu cần thiết)
         $queryLog = DB::getQueryLog();
 
-
+        // Lấy danh sách hình ảnh cho mỗi tour
         foreach ($tours as $tour) {
-            // Lấy danh sách hình ảnh thuộc về tour
             $tour->images = DB::table('tbl_images')
                 ->where('tourId', $tour->tourId)
                 ->pluck('imageUrl');
+            $tour->rating = $this->reviewStats($tour->tourId)->averageRating;
         }
-        // dd($queryLog); // In ra log truy vấn
+
+        // dd($queryLog); // In ra log truy vấn nếu cần thiết
         return $tours;
     }
 
@@ -112,44 +151,47 @@ class Tours extends Model
             ->where('tbl_checkout.checkoutId', '=', $checkoutId)
             ->first();
 
-            return $booked;
+        return $booked;
     }
 
 
     //Tạo đánh giá về tours
-    public function createReviews($data){
+    public function createReviews($data)
+    {
         return DB::table('tbl_reviews')->insert($data);
     }
 
     //Lấy danh sách nội dung reviews 
-    public function getReviews($id){
+    public function getReviews($id)
+    {
         $getReviews = DB::table('tbl_reviews')
-        ->join('tbl_users', 'tbl_users.userId', '=', 'tbl_reviews.userId')
-        ->where('tourId', $id)
-        ->orderBy('tbl_reviews.timestamp','desc')
-        ->take(3)
-        ->get();
+            ->join('tbl_users', 'tbl_users.userId', '=', 'tbl_reviews.userId')
+            ->where('tourId', $id)
+            ->orderBy('tbl_reviews.timestamp', 'desc')
+            ->take(3)
+            ->get();
 
         return $getReviews;
     }
 
     //Lấy số lượng đánh giá và số sao trung bình của tour
-    public function reviewStats($id){
+    public function reviewStats($id)
+    {
         $reviewStats = DB::table('tbl_reviews')
-        ->where('tourId', $id)
-        ->selectRaw('AVG(rating) as averageRating, COUNT(*) as reviewCount')
-        ->first();
+            ->where('tourId', $id)
+            ->selectRaw('AVG(rating) as averageRating, COUNT(*) as reviewCount')
+            ->first();
 
         return $reviewStats;
     }
 
     //Kiểm tra xem người dùng đã đánh giá tour này hay chưa?
-    
+
     public function checkReviewExist($tourId, $userId)
     {
         return DB::table('tbl_reviews')
-        ->where('tourId', $tourId)
-        ->where('userId', $userId)
-        ->exists(); // Trả về true nếu bản ghi tồn tại, false nếu không tồn tại
+            ->where('tourId', $tourId)
+            ->where('userId', $userId)
+            ->exists(); // Trả về true nếu bản ghi tồn tại, false nếu không tồn tại
     }
 }

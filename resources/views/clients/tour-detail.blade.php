@@ -66,15 +66,13 @@
                         <h2>{{ $tourDetail->title }}</h2>
                     </div>
                     <div class="ratting">
-                        @if ($avgStar == 0)
-                            @for ($i = 0; $i < 5; $i++)
-                                <i class="far fa-star"></i>
-                            @endfor
-                        @else
-                            @for ($i = 0; $i < $avgStar; $i++)
+                        @for ($i = 0; $i < 5; $i++)
+                            @if ($avgStar && $i < $avgStar)
                                 <i class="fas fa-star"></i>
-                            @endfor
-                        @endif
+                            @else
+                                <i class="far fa-star"></i>
+                            @endif
+                        @endfor
 
                     </div>
                 </div>
@@ -168,9 +166,9 @@
                 </div>
 
                 <h3 class="{{ $checkDisplay }}">Thêm Đánh giá</h3>
-                <form id="comment-form" class="comment-form bgc-lighter z-1 rel mt-30 {{ $checkDisplay }}" name="review-form"
-                    action="{{ route('reviews') }}" method="post" data-aos="fade-up" data-aos-duration="1500"
-                    data-aos-offset="50">
+                <form id="comment-form" class="comment-form bgc-lighter z-1 rel mt-30 {{ $checkDisplay }}"
+                    name="review-form" action="{{ route('reviews') }}" method="post" data-aos="fade-up"
+                    data-aos-duration="1500" data-aos-offset="50">
                     @csrf
                     <div class="comment-review-wrap">
                         <div class="comment-ratting-item">

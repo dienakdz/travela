@@ -716,7 +716,7 @@ a.theme-btn {
       text-align: center;
       border: 1px solid var(--border-color);
       line-height: 42px; }
-    .pagination li.disabled .page-link, .pagination li:last-child .page-link {
+    .pagination li.disabled .page-link, .pagination li:last-child .page-link, .pagination li:first-child .page-link {
       border-radius: 50%; }
     .pagination li.active .page-link, .pagination li:hover:not(.disabled) .page-link {
       color: white;

@@ -8,8 +8,8 @@
             <div class="col-lg-3 col-md-6 col-sm-10 rmb-75">
                 <div class="shop-sidebar">
                     <div class="div_filter_clear">
-                        <button class="clear_filter" name="btn_clear">
-                            Clear
+                        <button class="clear_filter" name="btn_clear" >
+                            <a href="{{ route('tours') }}">Clear</a>
                         </button>
                     </div>
                     <div class="widget widget-filter" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
@@ -217,26 +217,7 @@
                     <div class="loader"></div>
                     <div class="row" id="tours-container">
                         @include('clients.partials.filter-tours')
-                        <div class="col-lg-12">
-                            <ul class="pagination justify-content-center pt-15 flex-wrap" data-aos="fade-up"
-                                data-aos-duration="1500" data-aos-offset="50">
-                                <li class="page-item disabled">
-                                    <span class="page-link"><i class="far fa-chevron-left"></i></span>
-                                </li>
-                                <li class="page-item active">
-                                    <span class="page-link">
-                                        1
-                                        <span class="sr-only">(current)</span>
-                                    </span>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#"><i class="far fa-chevron-right"></i></a>
-                                </li>
-                            </ul>
-                        </div>
+                        
                     </div>
                 </div>
 

@@ -22,7 +22,7 @@
                 <div class="col-xxl-3 col-xl-4 col-md-6">
                     <div class="destination-item block_tours" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
                         <div class="image">
-                            <div class="ratting"><i class="fas fa-star"></i> 4.8</div>
+                            <div class="ratting"><i class="fas fa-star"></i> {{ number_format($tour->rating, 1) }}</div>
                             <a href="#" class="heart"><i class="fas fa-heart"></i></a>
                             <img src="{{ asset('clients/assets/images/gallery-tours/'.$tour->images[0].'')}}" alt="Destination">
                         </div>

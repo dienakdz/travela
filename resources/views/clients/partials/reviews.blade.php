@@ -4,8 +4,12 @@
         <b>{{ number_format($avgStar, 1) }}</b>
         <span>({{ $countReview }} đánh giá)</span>
         <div class="ratting">
-            @for ($i = 0; $i < $avgStar; $i++)
-                <i class="fas fa-star"></i>
+            @for ($i = 0; $i < 5; $i++)
+                @if ($avgStar && $i < $avgStar)
+                    <i class="fas fa-star"></i>
+                @else
+                    <i class="far fa-star"></i>
+                @endif
             @endfor
         </div>
     </div>
@@ -24,9 +28,14 @@
             <div class="content">
                 <h6>{{ $review->fullName }}</h6>
                 <div class="ratting">
-                    @for ($i = 0; $i < $review->rating; $i++)
-                        <i class="fas fa-star"></i>
+                    @for ($i = 0; $i < 5; $i++)
+                        @if ($review->rating && $i < $review->rating)
+                            <i class="fas fa-star"></i>
+                        @else
+                            <i class="far fa-star"></i>
+                        @endif
                     @endfor
+
                 </div>
                 <span class="time">{{ $tourDetail->time }}</span>
                 <p>{{ $review->comment }}</p>

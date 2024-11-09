@@ -67,9 +67,14 @@
                                 <span class="location"><i
                                         class="fal fa-map-marker-alt"></i>{{ $tour->destination }}</span>
                                 <div class="ratting">
-                                    @for ($i = 0; $i < $tour->rating; $i++)
-                                        <i class="fas fa-star"></i>
+                                    @for ($i = 0; $i < 5; $i++)
+                                        @if ($tour->rating && $i < $tour->rating)
+                                            <i class="fas fa-star"></i>
+                                        @else
+                                            <i class="far fa-star"></i>
+                                        @endif
                                     @endfor
+
                                 </div>
                             </div>
                             <h5><a

@@ -228,10 +228,38 @@ $(document).ready(function () {
         });
     }
 
-    // Hàm để clear các filter đã chọn
-    $(".clear_filter").on("click", function (e) {
+    $(document).on("click", ".pagination-tours a", function (e) {
         e.preventDefault();
+        $(".loader").show();
+        $("#tours-container").addClass("hidden-content");
 
+        var url = $(this).attr("href");
+        console.log(url);
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                // Cập nhật toàn bộ nội dung (tours và phân trang)
+                $("#tours-container")
+                    .html(response.tours)
+                    .removeClass("hidden-content");
+                $("#tours-container .destination-item").addClass("aos-animate");
+                $("#tours-container .pagination-tours").addClass("aos-animate");
+                $(".loader").hide();
+            },
+            error: function (xhr, status, error) {
+                console.log("Có lỗi xảy ra trong quá trình tải dữ liệu!");
+            },
+        });
+    });
+
+    // Hàm để clear các filter đã chọn
+    $(".clear_filter a").on("click", function (e) {
+        e.preventDefault();
+        $(".loader").show();
+        $("#tours-container").addClass("hidden-content");
         // Reset slider giá về giá trị mặc định (ví dụ: 0 đến 20000000)
         $(".price-slider-range").slider("values", [0, 20000000]);
 
@@ -240,8 +268,26 @@ $(document).ready(function () {
         $('input[name="filter_star"]').prop("checked", false);
         $('input[name="duration"]').prop("checked", false);
 
-        // Gọi lại hàm filterTours để áp dụng bộ lọc đã reset
-        filterTours(0, 20000000);
+        
+        var url = $(this).attr("href");
+
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                // Cập nhật toàn bộ nội dung (tours và phân trang)
+                $("#tours-container")
+                    .html(response.tours)
+                    .removeClass("hidden-content");
+                $("#tours-container .destination-item").addClass("aos-animate");
+                $("#tours-container .pagination-tours").addClass("aos-animate");
+                $(".loader").hide();
+            },
+            error: function (xhr, status, error) {
+                console.log("Có lỗi xảy ra trong quá trình tải dữ liệu!");
+            },
+        });
     });
 
     /****************************************
@@ -765,10 +811,10 @@ $(document).ready(function () {
             $(this).removeClass("fas active").addClass("far");
         });
     }
-    let urlCheckBooking = $('#submit-reviews').attr('data-url-checkBooking');
-    let urlSubmitReview = $('#comment-form').attr('action');
-    let tourIdReview = $('#submit-reviews').attr('data-tourId-reviews');
-    
+    let urlCheckBooking = $("#submit-reviews").attr("data-url-checkBooking");
+    let urlSubmitReview = $("#comment-form").attr("action");
+    let tourIdReview = $("#submit-reviews").attr("data-tourId-reviews");
+
     $("#comment-form").on("submit", function (e) {
         e.preventDefault();
 
@@ -783,13 +829,12 @@ $(document).ready(function () {
             return;
         }
 
-        
         $.ajax({
-            url: urlCheckBooking, 
+            url: urlCheckBooking,
             method: "POST",
-            data: { 
+            data: {
                 tourId: tourIdReview,
-                _token: $('input[name="_token"]').val() 
+                _token: $('input[name="_token"]').val(),
             },
             success: function (response) {
                 if (response.success) {
@@ -823,8 +868,10 @@ $(document).ready(function () {
                             console.error("Error:", error);
                         },
                     });
-                }else{
-                    toastr.error("Vui lòng đặt tour và trải nghiệm để có thể đánh giá!");
+                } else {
+                    toastr.error(
+                        "Vui lòng đặt tour và trải nghiệm để có thể đánh giá!"
+                    );
                 }
             },
             error: function (xhr, status, error) {
