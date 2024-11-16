@@ -22,8 +22,7 @@
 
                     </div>
                 </div>
-                <h6><a href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
-                </h6>
+                <h6><a href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a> </h6>
                 <ul class="blog-meta">
                     <li><i class="far fa-clock"></i>{{ $tour->time }}</li>
                     <li><i class="far fa-user"></i>{{ $tour->quantity }}</li>

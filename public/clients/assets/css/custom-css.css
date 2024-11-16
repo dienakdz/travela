@@ -336,3 +336,23 @@
 .ratting i.active {
     color: var(--secondary-color); 
 }
+
+/****************************************
+*             DESTINATION               *
+* ***************************************/
+.tour-title {
+    height: 40px; 
+    line-height: 1.2;
+    overflow: hidden; /* Hide any text that overflows */
+    text-overflow: ellipsis; /* Display "..." if text overflows */
+    white-space: nowrap; 
+}
+
+/****************************************
+*             HANDLE SEARCH            *
+* ***************************************/
+#search_form .list {
+    width: 100%;
+    height: 250px;
+    overflow-y: auto;
+}

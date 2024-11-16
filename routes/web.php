@@ -39,8 +39,6 @@ Route::get('/destination', [DestinationController::class, 'index'])->name('desti
 Route::get('/travel-guides', [TravelGuidesController::class, 'index'])->name('team');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blog-detail', [BlogDetailController::class, 'index'])->name('blog-detail');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact');
-Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 
 //Handle Login
@@ -92,3 +90,11 @@ Route::get('/tour-detail/{id?}', [TourDetailController::class, 'index'])->name('
 Route::post('/checkBooking', [BookingController::class, 'checkBooking'])->name('checkBooking')->middleware('checkLoginClient');
 Route::post('/reviews', [TourDetailController::class, 'reviews'])->name('reviews')->middleware('checkLoginClient');
 
+//Contact
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/create-contact', [ContactController::class, 'createContact'])->name('create-contact');
+
+
+//Search 
+Route::get('/search', [SearchController::class, 'index'])->name(name: 'search');
+Route::get('/search-voice-text', [SearchController::class, 'searchTours'])->name('search-voice-text');

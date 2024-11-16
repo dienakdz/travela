@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+    var sqlInjectionPattern = /[<>'"%;()&+]/;
+
     /****************************************
      *              PAGE LOGIN              *
      * ***************************************/
@@ -33,7 +36,7 @@ $(document).ready(function () {
         }
 
         // Kiểm tra tên đăng nhập và mật khẩu không chứa ký tự đặc biệt (SQL injection)
-        var sqlInjectionPattern = /[<>'"%;()&+]/;
+        
         if (sqlInjectionPattern.test(userName)) {
             isValid = false;
             $("#validate_username")
@@ -96,7 +99,6 @@ $(document).ready(function () {
         var isValid = true;
 
         // Kiểm tra tên đăng nhập không chứa ký tự SQL injection
-        var sqlInjectionPattern = /[<>'"%;()&+]/;
         if (sqlInjectionPattern.test(userName)) {
             isValid = false;
             $("#validate_username_regis")
@@ -338,7 +340,6 @@ $(document).ready(function () {
         var oldPass = $("#inputOldPass").val();
         var newPass = $("#inputNewPass").val();
         var isValid = true;
-        var sqlInjectionPattern = /[<>'"%;()&+]/;
 
         // Kiểm tra độ dài mật khẩu
         if (oldPass.length < 6 || newPass.length < 6) {
@@ -880,4 +881,125 @@ $(document).ready(function () {
             },
         });
     });
+
+    /****************************************
+     *             PAGE CONTACT             *
+     * ***************************************/
+
+
+    $('#contactForm').submit(function (event) {
+        event.preventDefault();
+
+        var name = $('#name').val();
+        var phoneNumber = $('#phone_number').val();
+        var message = $('#message').val();
+
+        $('.error').remove();
+
+        if (sqlInjectionPattern.test(name)) {
+            $('#name').after('<span class="error" style="color: red;">Vui lòng nhập tên hợp lệ và không chứa ký tự đặc biệt.</span>');
+            return false;
+        }
+
+        if (sqlInjectionPattern.test(phoneNumber)) {
+            $('#phone_number').after('<span class="error" style="color: red;">Vui lòng nhập số điện thoại hợp lệ và không chứa ký tự đặc biệt.</span>');
+            return false;
+        }
+
+
+        this.submit();
+    });
+    /****************************************
+     *             HANDLE SEARCH            *
+     * ***************************************/
+
+    $('#search_form').on('submit', function(event) {
+        // Lấy giá trị các trường cần kiểm tra
+        var destination = $('#destination').val();
+        var startDate = $('#start_date').val();
+        var endDate = $('#end_date').val();
+
+        if (destination === "") {
+            event.preventDefault();
+            toastr.error('Vui lòng chọn điểm đến.');
+            return;
+        }
+
+        // Chuyển đổi định dạng ngày từ DD/MM/YYYY sang YYYY-MM-DD
+        function convertDateFormat(date) {
+            var parts = date.split('/');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+
+        if (startDate && endDate) {
+            var startDateFormatted = new Date(convertDateFormat(startDate));
+            var endDateFormatted = new Date(convertDateFormat(endDate));
+
+            // Kiểm tra nếu "start_date" lớn hơn "end_date"
+            if (startDateFormatted > endDateFormatted) {
+                event.preventDefault();
+                toastr.error('Ngày khởi hành không thể lớn hơn ngày kết thúc.');
+                return;
+            }
+        }
+    });
+
+
+    /****************************************
+     *  HANDLE SEARCH Speech Recognition    *
+     * ***************************************/
+
+     // Kiểm tra nếu trình duyệt hỗ trợ Speech Recognition
+     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'vi-VN'; // Cài đặt ngôn ngữ nhận diện
+        recognition.continuous = true; // Tiếp tục nhận diện khi đang nói
+        recognition.interimResults = true; // Hiển thị kết quả tạm thời khi nhận diện
+    
+        // Biến để theo dõi trạng thái nhận diện
+        var isRecognizing = false;
+    
+        $('#voice-search').on('click', function() {
+            if (isRecognizing) {
+                recognition.stop(); // Dừng nhận diện nếu đang nhận diện
+                $(this).removeClass('fa-microphone-slash').addClass('fa-microphone'); // Đổi icon về micro
+            } else {
+                recognition.start(); // Bắt đầu nhận diện giọng nói
+                $(this).removeClass('fa-microphone').addClass('fa-microphone-slash'); // Đổi icon thành micro gạch
+            }
+        });
+    
+        recognition.onstart = function() {
+            console.log('Speech recognition started');
+            isRecognizing = true; // Đánh dấu trạng thái nhận diện
+            $('#voice-search').removeClass('fa-microphone').addClass('fa-microphone-slash'); // Đổi icon thành micro gạch
+        };
+    
+        recognition.onresult = function(event) {
+            var transcript = event.results[0][0].transcript; // Lấy kết quả nhận diện
+            if (event.results[0].isFinal) {
+                // Kết quả cuối cùng, điền vào ô tìm kiếm
+                $('input[name="keyword"]').val(transcript);
+            } else {
+                // Kết quả tạm thời, có thể cập nhật ô tìm kiếm
+                $('input[name="keyword"]').val(transcript);
+            }
+        };
+    
+        recognition.onerror = function(event) {
+            console.log('Speech recognition error', event.error);
+            toastr.error('Có lỗi xảy ra khi nhận diện giọng nói: ' + event.error);
+        };
+    
+        recognition.onend = function() {
+            console.log('Speech recognition ended');
+            $('#voice-search').removeClass('fa-microphone-slash').addClass('fa-microphone'); // Đổi icon về micro
+            isRecognizing = false; // Đánh dấu trạng thái nhận diện kết thúc
+        };
+    } else {
+        console.log('Speech recognition not supported in this browser.');
+        toastr.error('Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.');
+    }
+    
+    
 });

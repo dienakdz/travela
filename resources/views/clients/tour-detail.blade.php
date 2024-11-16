@@ -153,14 +153,6 @@
                     @endforeach
                 </div>
 
-                <h3>Maps</h3>
-                <div class="tour-map mt-30 mb-50">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7864732.184410791!2d100.61579308557491!3d15.740488782353825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31157a4d736a1e5f%3A0xb03bb0c9e2fe62be!2sVietnam!5e0!3m2!1sen!2s!4v1730993538966!5m2!1sen!2s"
-                        style="border:0; width: 100%;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-
                 <div id="partials_reviews">
                     @include('clients.partials.reviews')
                 </div>
@@ -265,6 +257,35 @@
                                     88</a></li>
                         </ul>
                     </div>
+                    @if (!empty($tourRecommendations))
+                        <div class="widget widget-tour" data-aos="fade-up" data-aos-duration="1500"
+                            data-aos-offset="50">
+                            <h6 class="widget-title">Tours tương tự</h6>
+                            @foreach ($tourRecommendations as $tour)
+                                <div class="destination-item tour-grid style-three bgc-lighter">
+                                    <div class="image">
+                                        {{-- <span class="badge">10% Off</span> --}}
+                                        <img src="{{ asset('clients/assets/images/gallery-tours/' . $tour->images[0]) }}"
+                                            alt="Tour" style="max-height: 137px">
+                                    </div>
+                                    <div class="content">
+                                        <div class="destination-header">
+                                            <span class="location"><i class="fal fa-map-marker-alt"></i>
+                                                {{ $tour->destination }}</span>
+                                            <div class="ratting">
+                                                <i class="fas fa-star"></i>
+                                                <span>({{ $tour->rating }})</span>
+                                            </div>
+                                        </div>
+                                        <h6><a
+                                                href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
+                                        </h6>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>
