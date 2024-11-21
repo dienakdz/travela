@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\admin\AdminManagementController;
+use App\Http\Controllers\admin\ContactManagementController;
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\LoginAdminController;
+use App\Http\Controllers\admin\ToursManagementController;
+use App\Http\Controllers\admin\UserManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\clients\HomeController;
 use App\Http\Controllers\clients\AboutController;
@@ -98,3 +104,26 @@ Route::post('/create-contact', [ContactController::class, 'createContact'])->nam
 //Search 
 Route::get('/search', [SearchController::class, 'index'])->name(name: 'search');
 Route::get('/search-voice-text', [SearchController::class, 'searchTours'])->name('search-voice-text');
+
+
+//ADMIN
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [LoginAdminController::class, 'index'])->name('admin.login');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users');
+    Route::get('/admin', [AdminManagementController::class, 'index'])->name('admin.admin');
+    Route::get('/admin-logout', [AdminManagementController::class, 'logout'])->name('admin.logout');
+    Route::get('/tours', [ToursManagementController::class, 'index'])->name('admin.tours');
+    Route::get('/contact', [ContactManagementController::class, 'index'])->name('admin.contact');
+
+    //Handler management user
+    Route::post('/active-user', [UserManagementController::class, 'activeUser'])->name('admin.active-user');
+    Route::post('/status-user', [UserManagementController::class, 'changeStatus'])->name('admin.status-user');
+
+    //Management Tours
+    Route::get('/page-add-tours', [ToursManagementController::class, 'pageAddTours'])->name('admin.page-add-tours');
+    Route::post('/add-tours', [ToursManagementController::class, 'addTours'])->name('admin.add-tours');
+
+
+});

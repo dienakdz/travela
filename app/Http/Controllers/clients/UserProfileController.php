@@ -80,7 +80,7 @@ class UserProfileController extends Controller
         $user = $this->user->getUser($userId);
         if ($user->avatar) {
             // Đường dẫn đến ảnh cũ
-            $oldAvatarPath = public_path('clients/assets/images/user-profile/' . $user->avatar);
+            $oldAvatarPath = public_path('admin/assets/images/user-profile/' . $user->avatar);
 
             // Kiểm tra tệp cũ có tồn tại và xóa nếu có
             if (file_exists($oldAvatarPath)) {
@@ -88,7 +88,7 @@ class UserProfileController extends Controller
             }
         }
 
-        // Di chuyển ảnh vào thư mục public/clients/assets/images/user-profile/
+        // Di chuyển ảnh vào thư mục public/admin/assets/images/user-profile/
         $avatar->move(public_path('clients/assets/images/user-profile'), $filename);
         $update = $this->user->updateUser($userId, ['avatar' => $filename]);
         $req->session()->put('avatar', $filename);

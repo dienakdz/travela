@@ -23,7 +23,7 @@
     @foreach ($getReviews as $review)
         <div class="comment-body" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
             <div class="author-thumb">
-                <img src="{{ asset('clients/assets/images/user-profile/' . $review->avatar) }}" alt="">
+                <img src="{{ asset('admin/assets/images/user-profile/' . $review->avatar) }}" alt="">
             </div>
             <div class="content">
                 <h6>{{ $review->fullName }}</h6>

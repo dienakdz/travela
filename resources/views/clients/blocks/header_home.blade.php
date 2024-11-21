@@ -118,7 +118,8 @@
                             <button class="far fa-search"></button>
                             <form action="{{ route('search-voice-text') }}" class="hide" method="GET">
                                 <input type="text" name="keyword" placeholder="Search" class="searchbox" required>
-                                <i class="fa fa-microphone" aria-hidden="true" style="margin: 0 16px" id="voice-search"></i>
+                                <i class="fa fa-microphone" aria-hidden="true" style="margin: 0 16px"
+                                    id="voice-search"></i>
                                 <button type="submit" class="searchbutton far fa-search"></button>
                             </form>
                         </div>
@@ -132,20 +133,20 @@
                             <!-- menu sidbar -->
                             <div class="menu-sidebar">
                                 <li class="drop-down">
-                                    <button class="dropdown-toggle bg-transparent" id="userDropdown" style="color: white">
+                                    <button class="dropdown-toggle bg-transparent" id="userDropdown"
+                                        style="color: white">
                                         @if (session()->has('avatar'))
                                             @php
                                                 $avatar = session()->get('avatar', 'user_avatar.jpg');
                                             @endphp
-                                            <img id="avatarPreview"
-                                                 class="img-account-profile rounded-circle"
-                                                 src="{{ asset('clients/assets/images/user-profile/' . $avatar) }}"
-                                                 style="width: 36px; height: 36px;">
+                                            <img id="avatarPreview" class="img-account-profile rounded-circle"
+                                                src="{{ asset('admin/assets/images/user-profile/' . $avatar) }}"
+                                                style="width: 36px; height: 36px;">
                                         @else
                                             <i class='bx bxs-user bx-tada' style="font-size: 36px; color: white;"></i>
                                         @endif
                                     </button>
-                                    
+
                                     <ul class="dropdown-menu" id="dropdownMenu">
                                         @if (session()->has('username'))
                                             <li><a href="{{ route('user-profile') }}">Thông tin cá nhân</a></li>
@@ -155,7 +156,7 @@
                                             <li><a href="{{ route('login') }}">Đăng nhập</a></li>
                                         @endif
                                     </ul>
-                                    
+
                                 </li>
                             </div>
                         </div>
