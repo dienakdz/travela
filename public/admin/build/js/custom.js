@@ -2215,20 +2215,28 @@ function init_daterangepicker_reservation() {
 }
 
 /* SMART WIZARD */
-
+/**
+ * DevDien modified for add tours
+ *
+ */
 function init_SmartWizard() {
     if (typeof $.fn.smartWizard === "undefined") {
         return;
     }
     console.log("init_SmartWizard");
+    let tourId;
+    let finishStep1 = false; // Check step 1
+    let finishStep2 = false; //Check step
 
     $("#wizard").smartWizard({
         onLeaveStep: function (obj, context) {
             // context.fromStep là bước hiện tại, context.toStep là bước tiếp theo
 
-            // Kiểm tra hợp lệ trước khi chuyển sang bước tiếp theo
             var isValid = true;
 
+            if (finishStep2) {
+                return true;
+            }
             // Kiểm tra các trường bắt buộc
             $(
                 "#form-step1 input, #form-step1 select, #form-step1 textarea"
@@ -2269,6 +2277,14 @@ function init_SmartWizard() {
                 var startDateFormatted = new Date(convertDateFormat(startDate));
                 var endDateFormatted = new Date(convertDateFormat(endDate));
 
+                // Tính số ngày giữa start_date và end_date
+                var timeDifference = endDateFormatted - startDateFormatted;
+                var daysDifference = timeDifference / (1000 * 3600 * 24); // Chuyển đổi từ milliseconds sang ngày
+
+                // Lấy ngày hôm nay
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); // Đặt giờ về 00:00:00 để chỉ so sánh ngày, không xét thời gian
+
                 // Kiểm tra nếu "start_date" lớn hơn "end_date"
                 if (startDateFormatted > endDateFormatted) {
                     isValid = false;
@@ -2278,36 +2294,44 @@ function init_SmartWizard() {
                     );
                     $("#start_date").addClass("is-invalid");
                     $("#end_date").addClass("is-invalid");
+                } else if (startDateFormatted < today) {
+                    // Kiểm tra nếu ngày bắt đầu nhỏ hơn ngày hôm nay
+                    isValid = false;
+                    event.preventDefault();
+                    toastr.error(
+                        "Ngày bắt đầu không thể nhỏ hơn ngày hôm nay."
+                    );
+                    $("#start_date").addClass("is-invalid");
                 } else {
                     $("#start_date").removeClass("is-invalid");
                     $("#end_date").removeClass("is-invalid");
                 }
             }
-            var description = CKEDITOR.instances['description'].getData();
+            var description = CKEDITOR.instances["description"].getData();
             if (!description) {
                 isValid = false;
                 toastr.error("Vui lòng điền mô tả!");
             }
-         
+
             // Nếu có lỗi, ngừng chuyển bước
-            if (!isValid) {
-                return false; // Trả về false để ngừng chuyển bước
+            if (!isValid || finishStep1) {
+                return false; // Trả về false để ngừng chuyển bước nếu form đã được gửi
             }
 
             // Lấy URL từ thuộc tính action của form
             var formActionUrl = $("#form-step1").attr("action");
             // Tạo formData từ các trường trong form
             var formData = {
-                name       : $("input[name='name']").val(),
+                name: $("input[name='name']").val(),
                 destination: $("input[name='destination']").val(),
-                domain     : $("#domain").val(),
-                number     : $("input[name='number']").val(),
+                domain: $("#domain").val(),
+                number: $("input[name='number']").val(),
                 price_adult: $("input[name='price_adult']").val(),
                 price_child: $("input[name='price_child']").val(),
-                start_date : $("#start_date").val(),
-                end_date   : $("#end_date").val(),
+                start_date: $("#start_date").val(),
+                end_date: $("#end_date").val(),
                 description: description,
-                _token     : $('input[name="_token"]').val(),
+                _token: $('input[name="_token"]').val(),
             };
 
             $.ajax({
@@ -2316,15 +2340,91 @@ function init_SmartWizard() {
                 data: formData,
                 success: function (response) {
                     if (response.success) {
+                        isValid = true;
+                        tourId = response.tourId;
+                        finishStep1 = true; // Đánh dấu form đã được gửi
+                        $(".hiddenTourId").val(tourId);
+                        // Thông báo cho file custom-js.js rằng giá trị đã được cập nhật
+                        $(document).trigger("dataUpdated", [daysDifference]);
+                        toastr.success("Hãy thêm hình ảnh cho tour vừa tạo!");
                     } else {
+                        toastr.error("Không thể thêm tour. Vui lòng thử lại.");
                     }
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
                 },
             });
+
+            if (isValid) {
+                return true; // Cho phép chuyển bước
+            }
+        },
+        onNextStep: function (obj, context) {
+            // Kiểm tra xem có sự kiện NextStep không
+            console.log("Đang chuyển sang bước tiếp theo...");
         },
     });
+    // Handle image upload for Step 2
+    Dropzone.autoDiscover = false; // Disable auto discover for dropzone
+
+    if ($("#myDropzone").length) {
+        // Khởi tạo Dropzone cho bước 2
+        var myDropzone = new Dropzone("#myDropzone", {
+            url: "http://travela:8000/admin/add-images-tours",
+            paramName: "image",
+            maxFilesize: 2,
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            autoProcessQueue: false, // Không tự động upload
+            maxFiles: 5, // Giới hạn số file tối đa
+            parallelUploads: 5, // Số file được upload song song
+        });
+
+        // Xử lý khi bấm nút "Next"
+        $("#wizard .buttonNext").on("click", function (event) {
+            let currentStep = $("#wizard").smartWizard("currentStep");
+            if (currentStep === 2) {
+                event.preventDefault(); // Ngăn hành vi mặc định
+
+                // Kiểm tra xem có tệp nào trong Dropzone không
+                if (myDropzone.getQueuedFiles().length >= 5) {
+                    console.log("Uploading images...");
+
+                    // Xử lý upload toàn bộ hàng đợi
+                    myDropzone.processQueue();
+                } else {
+                    toastr.warning(
+                        "Vui lòng thêm ít nhất 5 hình ảnh trước khi tiếp tục."
+                    );
+                }
+            }
+        });
+
+        // Thêm tourid vào formData khi gửi tệp
+        myDropzone.on("sending", function (file, xhr, formData) {
+            formData.append("tourId", tourId); // Thêm tourid vào formData
+        });
+
+        // Xử lý khi từng tệp được tải lên thành công
+        myDropzone.on("success", function (file, response) {
+            console.log("File uploaded successfully:", response);
+        });
+        // Xử lý khi hàng đợi hoàn tất
+        myDropzone.on("queuecomplete", function () {
+            console.log("All files uploaded successfully.");
+
+            // Chuyển qua bước 3
+            finishStep2 = true;
+            toastr.success("Tất cả hình ảnh đã được tải lên thành công.");
+            toastr.success("Ấn tiếp theo để nhập lộ trình cho tours");
+        });
+        // Xử lý lỗi khi tải lên
+        myDropzone.on("error", function (file, errorMessage) {
+            console.error("Upload failed:", errorMessage);
+            toastr.error("Tải lên thất bại. Vui lòng thử lại.");
+        });
+    }
 
     $("#wizard_verticle").smartWizard({
         transitionEffect: "slide",
@@ -3128,8 +3228,9 @@ function init_DataTables() {
     console.log("init_DataTables");
 
     var handleDataTableButtons = function () {
-        if ($("#datatable-buttons").length) {
-            $("#datatable-buttons").DataTable({
+        if ($("#datatable-listTours").length) {
+            $("#datatable-listTours").DataTable({
+                order: [],
                 dom: "Blfrtip",
                 buttons: [
                     {

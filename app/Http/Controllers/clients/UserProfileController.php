@@ -89,7 +89,7 @@ class UserProfileController extends Controller
         }
 
         // Di chuyển ảnh vào thư mục public/admin/assets/images/user-profile/
-        $avatar->move(public_path('clients/assets/images/user-profile'), $filename);
+        $avatar->move(public_path('admin/assets/images/user-profile'), $filename);
         $update = $this->user->updateUser($userId, ['avatar' => $filename]);
         $req->session()->put('avatar', $filename);
         if (!$update) {

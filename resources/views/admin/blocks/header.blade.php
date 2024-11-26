@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>Gentelella Alela!</title>
+    <title>{{ $title }} - Admin</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('admin/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -48,6 +48,10 @@
     <link href="{{ asset('admin/assets/css/jquery.datetimepicker.min.css') }}" rel="stylesheet">
     <!-- Import CSS for Toastr -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <!-- Dropzone.js -->
+    <link href="{{ asset('admin/vendors/dropzone/dist/min/dropzone.min.css') }}" rel="stylesheet" />
+    {{-- Custom css by DevDien  --}}
+    <link href="{{ asset('admin/assets/css/custom-css.css') }}" rel="stylesheet" />
 </head>
 
 <body class="nav-md">

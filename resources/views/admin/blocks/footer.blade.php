@@ -52,7 +52,8 @@
 <script src="{{ asset('admin/vendors/jszip/dist/jszip.min.js') }}"></script>
 <script src="{{ asset('admin/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('admin/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
-
+<!-- Dropzone.js -->
+<script src="{{ asset('admin/vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('admin/build/js/custom.js') }}"></script>
 <!-- jQuery Smart Wizard -->

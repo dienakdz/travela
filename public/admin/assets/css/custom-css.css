@@ -1,0 +1,31 @@
+.hide {
+    display: none;
+}
+/********************************************
+* TOURS MANAGEMENT                          *
+********************************************/
+/* hide button previous  */
+
+#wizard .actionBar .buttonPrevious {
+    display: none;
+}
+
+#wizard .stepContainer{
+    height: 80% !important;
+}
+
+/********************************************
+* ADD TOURS                                 *
+********************************************/
+.timeline-entry {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-action-listTours{
+    border: none;
+    background: none;
+}
+

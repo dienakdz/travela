@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // $("#wizard").smartWizard("goToStep",3);
     /********************************************
      * USER MANAGEMENT                          *
      ********************************************/
@@ -67,7 +68,10 @@ $(document).ready(function () {
                     } else if (status === "d") {
                         button.parent().find("#btn-restore").show();
                     } else {
-                        button.parent().find("#btn-ban, #btn-delete, #btn-active").show();
+                        button
+                            .parent()
+                            .find("#btn-ban, #btn-delete, #btn-active")
+                            .show();
                     }
                     toastr.success(response.message);
                 } else {
@@ -82,53 +86,119 @@ $(document).ready(function () {
     /********************************************
      * TOURS MANAGEMENT                          *
      ********************************************/
-    CKEDITOR.replace('description');
+    if ($("#description").length) {
+        CKEDITOR.replace("description");
+    }
     $("#start_date, #end_date").datetimepicker({
         format: "d/m/Y",
         timepicker: false,
     });
-    // $('#wizard .buttonNext').click(function(e) {
-    //     e.preventDefault(); 
-    //     var isValid = true;
 
-    //     // Kiểm tra các trường bắt buộc
-    //     $('#form-step1 input, #form-step1 select, #form-step1 textarea').each(function() {
-    //         if ($(this).prop('required') && $(this).val() === '') {
-    //             isValid = false;
-    //             $(this).addClass('is-invalid');  // Thêm lớp lỗi
-    //             toastr.error('Vui lòng điền đầy đủ các trường bắt buộc!', 'Lỗi!');
-    //         } else {
-    //             $(this).removeClass('is-invalid');
-    //         }
-    //     });
+    $(document).on('click', '.delete-tour', function(e) {
+        e.preventDefault();
+        var tourId = $(this).data('tourid');
+        var urlDelete = $(this).attr('href');
 
-    //     // Kiểm tra ngày bắt đầu và ngày kết thúc
-    //     var startDate = $('#start_date').val();
-    //     var endDate = $('#end_date').val();
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-    //     if (startDate && endDate) {
-    //         // Chuyển đổi các ngày thành kiểu Date để so sánh
-    //         var startDateObj = new Date(startDate);
-    //         var endDateObj = new Date(endDate);
-
-    //         if (startDateObj >= endDateObj) {
-    //             isValid = false;
-    //             toastr.error('Ngày bắt đầu phải nhỏ hơn ngày kết thúc!', 'Lỗi!');
-    //             $('#start_date').addClass('is-invalid');
-    //             $('#end_date').addClass('is-invalid');
-    //         } else {
-    //             $('#start_date').removeClass('is-invalid');
-    //             $('#end_date').removeClass('is-invalid');
-    //         }
-    //     }
-
-    //     // Nếu có lỗi, ngừng chuyển bước
-    // if (!isValid) {
-    //     console.log(333333333333333333);
+        $.ajax({
+            type: "POST",
+            url: urlDelete,
+            data: {
+                '_token': csrfToken,
+                'tourId' : tourId
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#tbody-listTours").html(response.data);
+                    toastr.success(response.message);
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+            },
+        });
         
-    //     return; // Không cho phép chuyển bước
-    // }
+    });
 
-        
-    // });
+
+    /********************************************
+     * ADD TOURS                              *
+     ********************************************/
+
+    let timelineCounter = 1;
+    let maxTimelineDays;
+
+    $(document).on("dataUpdated", function (event, daysDifference) {
+        maxTimelineDays = daysDifference;
+    });
+    // Hàm thêm một timeline entry mới
+    function addTimelineEntry() {
+        // Kiểm tra nếu số lượng timeline entries đã đạt giới hạn
+        console.log(maxTimelineDays);
+
+        if (timelineCounter > maxTimelineDays) {
+            toastr.error(`Không thể thêm quá ${maxTimelineDays} ngày.`);
+            return;
+        }
+        const timelineEntry = `
+                <div class="timeline-entry" id="timeline-entry-${timelineCounter}">
+                    <label for="day-${timelineCounter}">Ngày ${timelineCounter}</label>
+                    <input type="text" class="form-control" id="day-${timelineCounter}" name="day-${timelineCounter}" placeholder="Ngày thứ..." required>
+                    
+                    <label for="itinerary-${timelineCounter}" style="margin-top: 10px; display: block;">Lộ trình:</label>
+                    <textarea id="itinerary-${timelineCounter}" name="itinerary-${timelineCounter}" required></textarea>
+                    
+                    <button type="button" class="btn btn-round btn-danger remove-btn" data-id="${timelineCounter}">Xóa Timeline này</button>
+                </div>
+            `;
+
+        // Thêm vào div#step-3
+        $("#step-3").append(timelineEntry);
+
+        // Khởi tạo CKEditor cho textarea vừa thêm
+        if ($(`#itinerary-${timelineCounter}`).length) {
+            CKEDITOR.replace(`itinerary-${timelineCounter}`);
+        }
+
+        timelineCounter++;
+    }
+
+    // Xử lý khi nhấn nút thêm timeline
+    $("#step-3").on("click", "#add-timeline", function () {
+        addTimelineEntry();
+    });
+
+    // Xử lý khi nhấn nút xóa timeline
+    $("#step-3").on("click", ".remove-btn", function () {
+        const id = $(this).data("id");
+
+        $(`#timeline-entry-${id}`).remove(); // Xóa div chứa timeline entry
+    });
+
+    // Thêm nút thêm timeline vào div#step-3
+    const addButton = `<button type="button" id="add-timeline" class="btn btn-round btn-info" style="margin-top: 20px;">Thêm Timeline</button>`;
+    $("#step-3").append(addButton);
+
+    // Thêm timeline đầu tiên khi trang tải xong
+    addTimelineEntry();
+
+    $("#wizard .buttonFinish").on("click", function () {
+        // Lấy form cần kiểm tra
+        const form = $("#timeline-form")[0]; // Chuyển đổi về DOM element để sử dụng checkValidity()
+
+        // Kiểm tra tính hợp lệ của form
+        if (form.checkValidity()) {
+            // Form hợp lệ -> Gửi form
+            $("#timeline-form").submit();
+        } else {
+            // Form không hợp lệ -> Hiện toastr
+            toastr.error("Vui lòng điền đầy đủ thông tin trong form!");
+
+            // Kích hoạt kiểm tra lỗi trên form để hiển thị lỗi HTML5
+            form.reportValidity();
+        }
+    });
 });
