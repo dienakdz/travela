@@ -16,6 +16,8 @@ class Home extends Model
     {
         // Lấy thông tin tour
         $tours = DB::table($this->table)
+            ->where('availability', 1)
+            ->take(8)
             ->get();
 
         foreach ($tours as $tour) {

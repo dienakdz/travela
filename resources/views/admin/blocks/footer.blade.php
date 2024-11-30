@@ -62,7 +62,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 {{-- ckeditor  --}}
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script src="{{ asset('admin/assets/js/ckeditor/ckeditor.js') }}"></script>
 
 {{-- datetimepicker  --}}
 <script src="{{ asset('admin/assets/js/jquery.datetimepicker.full.min.js') }}"></script>

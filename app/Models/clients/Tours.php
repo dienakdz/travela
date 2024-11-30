@@ -16,7 +16,7 @@ class Tours extends Model
     public function getAllTours($perPage = 9)
     {
 
-        $allTours = DB::table($this->table)->paginate($perPage);
+        $allTours = DB::table($this->table)->where('availability', 1)->paginate($perPage);
         foreach ($allTours as $tour) {
             // Lấy danh sách hình ảnh thuộc về tour
             $tour->images = DB::table('tbl_images')
@@ -57,6 +57,7 @@ class Tours extends Model
     {
         return DB::table($this->table)
             ->select('domain', DB::raw('COUNT(*) as count'))
+            ->where('availability', 1)
             ->whereIn('domain', ['b', 't', 'n'])
             ->groupBy('domain')
             ->get();
@@ -91,6 +92,7 @@ class Tours extends Model
                 'tbl_tours.destination',
                 'tbl_tours.quantity'
             );
+        $getTours = $getTours->where('availability', 1);
 
         if (!empty($filters)) {
             foreach ($filters as $filter) {
@@ -222,6 +224,8 @@ class Tours extends Model
                     ->orWhere('destination', 'LIKE', '%' . $data['keyword'] . '%');
             });
         }
+
+        $tours = $tours->where('availability', 1);
         $tours = $tours->limit(12)->get();
 
         foreach ($tours as $tour) {
@@ -265,33 +269,33 @@ class Tours extends Model
     public function toursPopular()
     {
         $toursPopular = DB::table('tbl_booking')
-        ->select(
-            'tbl_tours.tourId',
-            'tbl_tours.title',
-            'tbl_tours.description',
-            'tbl_tours.priceAdult',
-            'tbl_tours.priceChild',
-            'tbl_tours.time',
-            'tbl_tours.destination',
-            'tbl_tours.quantity',
-            DB::raw('COUNT(tbl_booking.tourId) as totalBookings')
-        )
-        ->join('tbl_tours', 'tbl_booking.tourId', '=', 'tbl_tours.tourId')
-        ->where('tbl_booking.bookingStatus', 'f') // Chỉ lấy các booking đã hoàn thành
-        ->groupBy(
-            'tbl_tours.tourId',
-            'tbl_tours.title',
-            'tbl_tours.description',
-            'tbl_tours.priceAdult',
-            'tbl_tours.priceChild',
-            'tbl_tours.time',
-            'tbl_tours.destination',
-            'tbl_tours.quantity'
-        )
-        ->orderBy('totalBookings', 'DESC')
-        ->take(6) // Lấy 6 tour phổ biến nhất
-        ->get();
-    
+            ->select(
+                'tbl_tours.tourId',
+                'tbl_tours.title',
+                'tbl_tours.description',
+                'tbl_tours.priceAdult',
+                'tbl_tours.priceChild',
+                'tbl_tours.time',
+                'tbl_tours.destination',
+                'tbl_tours.quantity',
+                DB::raw('COUNT(tbl_booking.tourId) as totalBookings')
+            )
+            ->join('tbl_tours', 'tbl_booking.tourId', '=', 'tbl_tours.tourId')
+            ->where('tbl_booking.bookingStatus', 'f') // Chỉ lấy các booking đã hoàn thành
+            ->groupBy(
+                'tbl_tours.tourId',
+                'tbl_tours.title',
+                'tbl_tours.description',
+                'tbl_tours.priceAdult',
+                'tbl_tours.priceChild',
+                'tbl_tours.time',
+                'tbl_tours.destination',
+                'tbl_tours.quantity'
+            )
+            ->orderBy('totalBookings', 'DESC')
+            ->take(6) // Lấy 6 tour phổ biến nhất
+            ->get();
+
 
         foreach ($toursPopular as $tour) {
             // Lấy danh sách hình ảnh thuộc về tour

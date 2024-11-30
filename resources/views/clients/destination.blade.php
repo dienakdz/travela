@@ -29,15 +29,15 @@
                         @else
                             <div class="col-xl-3 col-md-6 item domain-{{ $tour->domain }}">
                     @endif
-                    <div class="destination-item style-two"  data-aos-duration="1500"
-                        data-aos-offset="50">
+                    <div class="destination-item style-two" data-aos-duration="1500" data-aos-offset="50">
                         <div class="image" style="max-height: 250px">
                             <a href="#" class="heart"><i class="fas fa-heart"></i></a>
-                            <img src="{{ asset('clients/assets/images/gallery-tours/' . $tour->images[0]) }}"
+                            <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0]) }}"
                                 alt="Destination">
                         </div>
                         <div class="content">
-                            <h6 class="tour-title"><a href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
+                            <h6 class="tour-title"><a
+                                    href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
                             </h6>
                             <span class="time">{{ $tour->time }}</span>
                             <a href="{{ route('tour-detail', ['id' => $tour->tourId]) }}" class="more"><i

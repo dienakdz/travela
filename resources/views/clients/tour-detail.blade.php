@@ -23,27 +23,27 @@
         <div class="row gap-10 justify-content-center rel">
             <div class="col-lg-4 col-md-6">
                 <div class="gallery-item">
-                    <img src="{{ asset('clients/assets/images/gallery-tours/' . $tourDetail->images[0] . '') }}"
+                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[0] . '') }}"
                         alt="Destination">
                 </div>
                 <div class="gallery-item">
-                    <img src="{{ asset('clients/assets/images/gallery-tours/' . $tourDetail->images[1] . '') }}"
+                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[1] . '') }}"
                         alt="Destination">
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="gallery-item gallery-between">
-                    <img src="{{ asset('clients/assets/images/gallery-tours/' . $tourDetail->images[2] . '') }}"
+                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[2] . '') }}"
                         alt="Destination">
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="gallery-item">
-                    <img src="{{ asset('clients/assets/images/gallery-tours/' . $tourDetail->images[3] . '') }}"
+                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[3] . '') }}"
                         alt="Destination">
                 </div>
                 <div class="gallery-item">
-                    <img src="{{ asset('clients/assets/images/gallery-tours/' . $tourDetail->images[4] . '') }}"
+                    <img src="{{ asset('admin/assets/images/gallery-tours/' . $tourDetail->images[4] . '') }}"
                         alt="Destination">
                 </div>
             </div>
@@ -146,7 +146,7 @@
                             <div id="collapseTwo{{ $timeline->timeLineId }}" class="accordion-collapse collapse"
                                 data-bs-parent="#faq-accordion-two">
                                 <div class="accordion-body">
-                                    <p>{{ $timeline->description }}</p>
+                                    <p>{!! $timeline->description !!}</p>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                                 <div class="destination-item tour-grid style-three bgc-lighter">
                                     <div class="image">
                                         {{-- <span class="badge">10% Off</span> --}}
-                                        <img src="{{ asset('clients/assets/images/gallery-tours/' . $tour->images[0]) }}"
+                                        <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0]) }}"
                                             alt="Tour" style="max-height: 137px">
                                     </div>
                                     <div class="content">

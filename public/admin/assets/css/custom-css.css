@@ -10,7 +10,7 @@
     display: none;
 }
 
-#wizard .stepContainer{
+#wizard .stepContainer {
     height: 80% !important;
 }
 
@@ -24,8 +24,14 @@
     border-radius: 5px;
 }
 
-.btn-action-listTours{
+/********************************************
+*  TOURS MANAGEMENT                                 *
+********************************************/
+.btn-action-listTours {
     border: none;
     background: none;
 }
 
+#edit-tour-modal .modal-dialog {
+    min-width: 60%;
+}

@@ -199,7 +199,7 @@
             <div class="col-lg-9">
                 <div class="shop-shorter rel z-3 mb-20">
                     <div class="sort-text mb-15 me-4 me-xl-auto">
-                        34 Tours tìm thấy
+                        Tours tìm thấy
                     </div>
                     <div class="sort-text mb-15 me-4">
                         Sắp xếp theo

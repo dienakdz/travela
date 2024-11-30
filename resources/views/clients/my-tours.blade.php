@@ -59,7 +59,7 @@
                             @endif
 
 
-                            <img src="{{ asset('clients/assets/images/gallery-tours/' . $tour->images[0] . '') }}"
+                            <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0] . '') }}"
                                 alt="Tour List">
                         </div>
                         <div class="content">

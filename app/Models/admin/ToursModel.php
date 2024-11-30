@@ -29,6 +29,11 @@ class ToursModel extends Model
         return DB::table('tbl_images')->insert($data);
     }
 
+    public function uploadTempImages($data)
+    {
+        return DB::table('tbl_temp_images')->insert($data);
+    }
+
     public function addTimeLine($data)
     {
         return DB::table('tbl_timeline')->insert($data);
@@ -59,6 +64,22 @@ class ToursModel extends Model
         } else {
             return ['success' => false, 'message' => 'Không thể xóa các dữ liệu liên quan (timeline, images).'];
         }
+    }
+
+    public function getTour($tourId){
+        return DB::table($this->table)->where('tourId', $tourId)->first();
+    }
+
+    public function getImages($tourId){
+        return DB::table('tbl_images')->where('tourId', $tourId)->get();
+    }
+
+    public function getTimeLine($tourId){
+        return DB::table('tbl_timeline')->where('tourId', $tourId)->get();
+    }
+
+    public function deleteData($tourId, $tbl){
+        return DB::table($tbl)->where('tourId', $tourId)->delete();
     }
 
 }

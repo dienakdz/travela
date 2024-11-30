@@ -2228,7 +2228,7 @@ function init_SmartWizard() {
     let finishStep1 = false; // Check step 1
     let finishStep2 = false; //Check step
 
-    $("#wizard").smartWizard({
+    $(".add-tours #wizard").smartWizard({
         onLeaveStep: function (obj, context) {
             // context.fromStep là bước hiện tại, context.toStep là bước tiếp theo
 
@@ -2373,7 +2373,7 @@ function init_SmartWizard() {
         var myDropzone = new Dropzone("#myDropzone", {
             url: "http://travela:8000/admin/add-images-tours",
             paramName: "image",
-            maxFilesize: 2,
+            maxFilesize: 5,
             acceptedFiles: "image/*",
             addRemoveLinks: true,
             autoProcessQueue: false, // Không tự động upload
@@ -2382,8 +2382,8 @@ function init_SmartWizard() {
         });
 
         // Xử lý khi bấm nút "Next"
-        $("#wizard .buttonNext").on("click", function (event) {
-            let currentStep = $("#wizard").smartWizard("currentStep");
+        $(".add-tours #wizard .buttonNext").on("click", function (event) {
+            let currentStep = $(".add-tours #wizard").smartWizard("currentStep");
             if (currentStep === 2) {
                 event.preventDefault(); // Ngăn hành vi mặc định
 
@@ -2426,7 +2426,7 @@ function init_SmartWizard() {
         });
     }
 
-    $("#wizard_verticle").smartWizard({
+    $(".add-tours #wizard_verticle").smartWizard({
         transitionEffect: "slide",
     });
 

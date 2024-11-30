@@ -10,7 +10,8 @@
                         data-aos-duration="1500" data-aos-offset="50">
                         <div class="image">
                             <a href="#" class="heart"><i class="fas fa-heart"></i></a>
-                            <img src="{{ asset('clients/assets/images/gallery-tours/' . $tour->images[0] . '') }}" alt="Tour List">
+                            <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0] . '') }}"
+                                alt="Tour List">
                         </div>
                         <div class="content">
                             <div class="destination-header">
@@ -18,15 +19,16 @@
                                     {{ $tour->destination }}</span>
                                 <div class="ratting">
                                     @for ($i = 0; $i < 5; $i++)
-                            @if ($tour->rating && $i < $tour->rating)
-                                <i class="fas fa-star"></i>
-                            @else
-                                <i class="far fa-star"></i>
-                            @endif
-                        @endfor
+                                        @if ($tour->rating && $i < $tour->rating)
+                                            <i class="fas fa-star"></i>
+                                        @else
+                                            <i class="far fa-star"></i>
+                                        @endif
+                                    @endfor
                                 </div>
                             </div>
-                            <h5><a href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a> </h5>
+                            <h5><a href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
+                            </h5>
                             <ul class="blog-meta">
                                 <li><i class="far fa-clock"></i>{{ $tour->time }}</li>
                                 <li><i class="far fa-user"></i>{{ $tour->quantity }}</li>

@@ -38,7 +38,7 @@
                                 </ul>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="x_content">
+                            <div class="x_content add-tours">
 
                                 <!-- Smart Wizard -->
                                 <p>Thêm thông tin chi tiết để tạo một tour mới và bắt đầu thu hút khách hàng!</p>
