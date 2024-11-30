@@ -3228,8 +3228,8 @@ function init_DataTables() {
     console.log("init_DataTables");
 
     var handleDataTableButtons = function () {
-        if ($("#datatable-listTours").length) {
-            $("#datatable-listTours").DataTable({
+        if ($("#datatable-listTours, #datatable-booking").length) {
+            $("#datatable-listTours, #datatable-booking").DataTable({
                 order: [],
                 dom: "Blfrtip",
                 buttons: [

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminManagementController;
+use App\Http\Controllers\admin\BookingManagementController;
 use App\Http\Controllers\admin\ContactManagementController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\LoginAdminController;
@@ -85,7 +86,7 @@ Route::post('/create-momo-payment', [BookingController::class, 'createMomoPaymen
 
 
 //Tour booked
-Route::get('/tour-booked', [TourBookedController::class, 'index'])->name('tour-booked');
+Route::get('/tour-booked', [TourBookedController::class, 'index'])->name('tour-booked')->middleware('checkLoginClient');
 Route::post('/cancel-booking', [TourBookedController::class, 'cancelBooking'])->name('cancel-booking');
 
 //My tour
@@ -133,6 +134,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/tour-edit', [ToursManagementController::class, 'getTourEdit'])->name('admin.tour-edit');
     Route::post('/edit-tour', [ToursManagementController::class, 'updateTour'])->name('admin.edit-tour');
     Route::post('/add-temp-images', [ToursManagementController::class, 'uploadTempImagesTours'])->name('admin.add-temp-images');
+
+    //Management Booking
+    Route::get('/booking', [BookingManagementController::class, 'index'])->name('admin.booking');
+    Route::post('/confirm-booking', [BookingManagementController::class, 'confirmBooking'])->name('admin.confirm-booking');
+    Route::get('/booking-detail/{id?}', [BookingManagementController::class, 'showDetail'])->name('admin.booking-detail');
 
 
 

@@ -80,7 +80,10 @@
                             <h5><a
                                     href="{{ route('tour-booked', ['bookingId' => $tour->bookingId, 'checkoutId' => $tour->checkoutId]) }}">{{ $tour->title }}</a>
                             </h5>
-                            <p>{{ $tour->description }}</p>
+                            <div class="truncate-3-lines">
+                                {!! $tour->description !!}
+                            </div>
+
                             <ul class="blog-meta">
                                 <li><i class="far fa-clock"></i>{{ $tour->time }}</li>
                                 <li><i class="far fa-user"></i> {{ $tour->numAdults + $tour->numChildren }} người</li>

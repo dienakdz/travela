@@ -275,19 +275,19 @@ $(document).ready(function () {
 
                     // Tạo formData từ các trường trong form bước 1
                     formDataEdit = {
-                        tourId     : tourIdSendingImage,
-                        name       : $("input[name='name']").val(),
+                        tourId: tourIdSendingImage,
+                        name: $("input[name='name']").val(),
                         destination: $("input[name='destination']").val(),
-                        domain     : $("#domain").val(),
-                        number     : $("input[name='number']").val(),
+                        domain: $("#domain").val(),
+                        number: $("input[name='number']").val(),
                         price_adult: $("input[name='price_adult']").val(),
                         price_child: $("input[name='price_child']").val(),
-                        start_date : $("#start_date").val(),
-                        end_date   : $("#end_date").val(),
+                        start_date: $("#start_date").val(),
+                        end_date: $("#end_date").val(),
                         description: description,
-                        _token     : $('input[name="_token"]').val(),
-                        images     : [],
-                        timeline   : [],
+                        _token: $('input[name="_token"]').val(),
+                        images: [],
+                        timeline: [],
                     };
                     console.log("formDataEdit step 1:");
                     console.log(formDataEdit);
@@ -367,7 +367,6 @@ $(document).ready(function () {
             dropzoneOldImages.emit("thumbnail", mockFile, imageUrl); // Hiển thị thumbnail
             dropzoneOldImages.emit("complete", mockFile);
             dropzoneOldImages.files.push(mockFile);
-
         });
     }
 
@@ -562,5 +561,39 @@ $(document).ready(function () {
             // Kích hoạt kiểm tra lỗi trên form để hiển thị lỗi HTML5
             form.reportValidity();
         }
+    });
+
+    /********************************************
+     * BOOKING MANAGEMENT                          *
+     ********************************************/
+    $(document).on("click", ".confirm-booking", function (e) {
+        e.preventDefault();
+        console.log(11111111);
+
+        const bookingId = $(this).data("bookingid");
+        const urlConfirm = $(this).data("urlconfirm");
+        console.log("Booking ID:", bookingId);
+        console.log("urlConfirm:", urlConfirm);
+
+        // Thực hiện các hành động khác, ví dụ gọi AJAX
+        $.ajax({
+            url: urlConfirm,
+            method: "POST",
+            data: {
+                bookingId: bookingId,
+                _token: $('meta[name="csrf-token"]').attr("content"), // Nếu dùng Laravel
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#tbody-booking").html(response.data);
+                    toastr.success(response.message);
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function (error) {
+                toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+            },
+        });
     });
 });

@@ -356,3 +356,14 @@
     height: 250px;
     overflow-y: auto;
 }
+/****************************************
+*             TOUR BOOKED            *
+* ***************************************/
+.truncate-3-lines {
+    display: -webkit-box; /* Sử dụng Flexbox để xử lý text */
+    -webkit-line-clamp: 3; /* Giới hạn số dòng hiển thị */
+    -webkit-box-orient: vertical; /* Thiết lập hướng xử lý theo chiều dọc */
+    overflow: hidden; /* Ẩn phần nội dung vượt quá */
+    text-overflow: ellipsis; /* Thêm dấu ba chấm vào cuối */
+    word-break: break-word; /* Đảm bảo từ không bị tràn ra ngoài */
+}
