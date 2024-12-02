@@ -581,7 +581,7 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 bookingId: bookingId,
-                _token: $('meta[name="csrf-token"]').attr("content"), // Nếu dùng Laravel
+                _token: $('meta[name="csrf-token"]').attr("content"),
             },
             success: function (response) {
                 if (response.success) {
@@ -594,6 +594,40 @@ $(document).ready(function () {
             error: function (error) {
                 toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
             },
+        });
+    });
+    /********************************************
+     * BOOKING INVOICE                          *
+     ********************************************/
+    $('#send-pdf-btn').click(function () {
+        // Lấy bookingId và email từ button
+        const bookingId = $(this).data('bookingid');
+        const email = $(this).data('email');
+        const urlSendPdf = $(this).data('urlsendmail');
+
+        // Gửi AJAX request
+        $.ajax({
+            url: urlSendPdf,
+            type: 'POST',
+            data: {
+                bookingId: bookingId,
+                email: email,
+                _token: $('meta[name="csrf-token"]').attr("content"),
+            },
+            beforeSend: function () {
+                toastr.warning('Đang gửi mail!!!');
+            },
+            success: function (response) {
+                if (response.success) {
+                    toastr.success(response.message)
+                } else {
+                    toastr.error(response.message)
+                }
+            },
+            error: function (xhr, status, error) {
+                toastr.error('Đã xảy ra lỗi khi gửi email. Vui lòng thử lại!');
+                console.error(xhr.responseText); // Log lỗi chi tiết trong console
+            }
         });
     });
 });

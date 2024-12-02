@@ -33,7 +33,9 @@
                                         <div class="row">
                                             <div class="  invoice-header">
                                                 <h3>
-                                                    <i class="fa fa-globe"></i>{{ $invoice_booking->title }}
+                                                    <img src="{{ asset('admin/assets/images/icon/icon_office.png') }}"
+                                                        alt=""
+                                                        style="margin-right: 10px">{{ $invoice_booking->title }}
                                                     <small class="pull-right">Ngày:
                                                         {{ date('d-m-Y', strtotime($invoice_booking->bookingDate)) }}</small>
                                                 </h3>
@@ -138,8 +140,8 @@
                                             </div>
                                             <!-- /.col -->
                                             <div class="col-md-6">
-                                                <p class="lead">Số tiền phải trả
-                                                    {{ date('d-m-Y', strtotime($invoice_booking->paymentDate)) }}</p>
+                                                <p class="lead">Số tiền phải trả trước
+                                                    {{ date('d-m-Y', strtotime($invoice_booking->startDate)) }}</p>
                                                 <div class="table-responsive">
                                                     <table class="table">
                                                         <tbody>
@@ -178,8 +180,12 @@
                                 <div class=" ">
                                     <button class="btn btn-default" onclick="window.print();"><i
                                             class="fa fa-print"></i> Print</button>
-                                    <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i
-                                            class="fa fa-send"></i> Gửi PDF cho khách hàng</button>
+                                    <button id="send-pdf-btn" 
+                                        data-bookingid= "{{ $invoice_booking->bookingId }}"
+                                        data-email={{ $invoice_booking->email }}
+                                        data-urlSendMail={{ route('admin.send.pdf') }}
+                                        class="btn btn-primary pull-right" style="margin-right: 5px;"><i
+                                            class="fa fa-send"></i> Gửi hóa đơn cho khách hàng</button>
                                 </div>
                             </div>
                         </div>
