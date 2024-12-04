@@ -599,35 +599,144 @@ $(document).ready(function () {
     /********************************************
      * BOOKING INVOICE                          *
      ********************************************/
-    $('#send-pdf-btn').click(function () {
+    $("#send-pdf-btn").click(function () {
         // Lấy bookingId và email từ button
-        const bookingId = $(this).data('bookingid');
-        const email = $(this).data('email');
-        const urlSendPdf = $(this).data('urlsendmail');
+        const bookingId = $(this).data("bookingid");
+        const email = $(this).data("email");
+        const urlSendPdf = $(this).data("urlsendmail");
 
         // Gửi AJAX request
         $.ajax({
             url: urlSendPdf,
-            type: 'POST',
+            type: "POST",
             data: {
                 bookingId: bookingId,
                 email: email,
                 _token: $('meta[name="csrf-token"]').attr("content"),
             },
             beforeSend: function () {
-                toastr.warning('Đang gửi mail!!!');
+                toastr.warning("Đang gửi mail!!!");
             },
             success: function (response) {
                 if (response.success) {
-                    toastr.success(response.message)
+                    toastr.success(response.message);
                 } else {
-                    toastr.error(response.message)
+                    toastr.error(response.message);
                 }
             },
             error: function (xhr, status, error) {
-                toastr.error('Đã xảy ra lỗi khi gửi email. Vui lòng thử lại!');
+                toastr.error("Đã xảy ra lỗi khi gửi email. Vui lòng thử lại!");
                 console.error(xhr.responseText); // Log lỗi chi tiết trong console
-            }
+            },
         });
+    });
+
+    /********************************************
+     * CONTACT MANAGEMENT                       *
+     ********************************************/
+    $(".contact-item").click(function (e) {
+        e.preventDefault();
+        $(".mail_view").show();
+
+        // Lấy dữ liệu từ các thuộc tính data-*
+        var fullName = $(this).data("name");
+        var email = $(this).data("email");
+        var message = $(this).data("message");
+        var contactId = $(this).data("contactid");
+
+        $(".mail_view .inbox-body .sender-info strong").text(fullName);
+        $(".mail_view .inbox-body .sender-info span").text("(" + email + ")");
+        $(".mail_view .view-mail p").text(message);
+
+        // Thêm thuộc tính data-email vào button
+        $(".send-reply-contact").attr("data-email", email);
+        $(".send-reply-contact").attr("data-contactid", contactId);
+    });
+
+    if ($("#editor-contact").length) {
+        CKEDITOR.replace("editor-contact");
+    }
+
+    $(document).on("click", ".send-reply-contact", function (e) {
+        e.preventDefault();
+
+        // Lấy thông tin từ nút gửi
+        var email = $(this).attr("data-email");
+        var contactId = $(this).attr("data-contactid");
+        var editorContent = CKEDITOR.instances["editor-contact"].getData();
+
+        var urlReply = $(this).data("url");
+
+        if (!email) {
+            toastr.error("Không có địa chỉ email để gửi.");
+            return;
+        }
+
+        // Gửi AJAX request
+        $.ajax({
+            url: urlReply,
+            type: "POST",
+            dataType: "json",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // CSRF Token
+            },
+            data: {
+                contactId: contactId,
+                email: email,
+                message: editorContent,
+            },
+            success: function (response) {
+                if (response.success) {
+                    toastr.success(response.message);
+                    // Xóa element contact-item sau khi phản hồi thành công
+                    $(
+                        ".contact-item[data-contactid='" + contactId + "']"
+                    ).remove();
+                    $(".mail_view").hide();
+                    CKEDITOR.instances["editor-contact"].setData(""); // Xóa nội dung CKEditor
+                    $("#editor-contact").empty(); // Dọn sạch nội dung div nếu cần
+                    $(".compose").slideToggle();
+
+                    $(this)
+                        .removeAttr("data-email")
+                        .removeAttr("data-contactid");
+                }
+            },
+            error: function (xhr) {
+                alert("Đã xảy ra lỗi khi gửi email. Vui lòng thử lại.");
+            },
+        });
+    });
+
+    /********************************************
+     * LOGIN ADMIN                             *
+     ********************************************/
+    $("#formLoginAdmin").on("submit", function (e) {
+        const username = $("#username").val();
+        const password = $("#password").val();
+
+        // Biểu thức chính quy an toàn
+        const sqlInjectionPattern = /['";=\\-]/;
+
+        // Validate username
+        if (sqlInjectionPattern.test(username)) {
+            toastr.error("Tên tài khoản chứa ký tự không hợp lệ!");
+            e.preventDefault(); // Ngăn form submit
+            return false;
+        }
+
+        // Validate password
+        if (sqlInjectionPattern.test(password)) {
+            toastr.error("Mật khẩu chứa ký tự không hợp lệ!");
+            e.preventDefault(); // Ngăn form submit
+            return false;
+        }
+
+        // Đảm bảo mật khẩu có ít nhất 6 ký tự
+        if (password.length < 6) {
+            toastr.error("Mật khẩu phải có ít nhất 6 ký tự!");
+            e.preventDefault(); // Ngăn form submit
+            return false;
+        }
     });
 });

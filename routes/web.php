@@ -108,14 +108,18 @@ Route::get('/search-voice-text', [SearchController::class, 'searchTours'])->name
 
 
 //ADMIN
-
+// Routes without middleware
 Route::prefix('admin')->group(function () {
     Route::get('/login', [LoginAdminController::class, 'index'])->name('admin.login');
+    Route::post('/login-account', [LoginAdminController::class, 'loginAdmin'])->name('admin.login-account');
+    Route::get('/logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
+
+});
+
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users');
     Route::get('/admin', [AdminManagementController::class, 'index'])->name('admin.admin');
-    Route::get('/admin-logout', [AdminManagementController::class, 'logout'])->name('admin.logout');
-    Route::get('/contact', [ContactManagementController::class, 'index'])->name('admin.contact');
 
     //Handler management user
     Route::post('/active-user', [UserManagementController::class, 'activeUser'])->name('admin.active-user');
@@ -143,5 +147,8 @@ Route::prefix('admin')->group(function () {
     //Send mail pdf
     Route::post('/admin/send-pdf', [BookingManagementController::class, 'sendPdf'])->name('admin.send.pdf');
 
+    //Contact management
+    Route::get('/contact', [ContactManagementController::class, 'index'])->name('admin.contact');
+    Route::post('/reply-contact', [ContactManagementController::class, 'replyContact'])->name('admin.reply-contact');
 
 });

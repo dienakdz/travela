@@ -46,3 +46,19 @@
 .invoice_payment-method{
     width: 100px;
 }
+
+
+/********************************************
+* CONTACT MANAGEMENT                       *
+********************************************/
+.text-contact-truncate{
+    display: -webkit-box; /* Sử dụng flexbox để giới hạn hiển thị */
+    -webkit-line-clamp: 3; /* Giới hạn số dòng hiển thị là 3 */
+    -webkit-box-orient: vertical;
+    overflow: hidden; /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis; /* Thêm dấu '...' cho nội dung bị cắt */
+    word-break: break-word; /* Đảm bảo từ không bị tràn dòng */
+}
+.mail_view{
+    display: none;
+}
