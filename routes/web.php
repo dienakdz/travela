@@ -118,10 +118,14 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users');
+
+    //Management admin
     Route::get('/admin', [AdminManagementController::class, 'index'])->name('admin.admin');
+    Route::post('/update-admin', [AdminManagementController::class, 'updateAdmin'])->name('admin.update-admin');
+    Route::post('/update-avatar', [AdminManagementController::class, 'updateAvatar'])->name('admin.update-avatar');
 
     //Handler management user
+    Route::get('/users', [UserManagementController::class, 'index'])->name('admin.users');
     Route::post('/active-user', [UserManagementController::class, 'activeUser'])->name('admin.active-user');
     Route::post('/status-user', [UserManagementController::class, 'changeStatus'])->name('admin.status-user');
 

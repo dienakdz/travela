@@ -739,4 +739,107 @@ $(document).ready(function () {
             return false;
         }
     });
+
+    /********************************************
+     * ADMIN MANAGEMENT                        *
+     ********************************************/
+
+    $("#formProfileAdmin").on("submit", function (e) {
+        e.preventDefault(); 
+
+        var name = $("#fullName").val().trim();
+        var password = $("#password").val().trim();
+        var email = $("#email").val().trim();
+        var address = $("#address").val().trim();
+
+        var isValid = true;
+
+        if (password === "" || password.length < 6) {
+            isValid = false;
+            toastr.error("Mật khẩu phải có ít nhất 6 ký tự.");
+        }
+
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+            isValid = false;
+            toastr.error("Email không hợp lệ.");
+        }
+
+        if (address === "") {
+            isValid = false;
+            toastr.error("Vui lòng nhập địa chỉ.");
+        }
+
+        if (isValid) {
+            $.ajax({
+                url: $(this).attr('action'), 
+                method: "POST",
+                data: {
+                    fullName: name,
+                    password: password,
+                    email: email,
+                    address: address,
+                    '_token': $('meta[name="csrf-token"]').attr('content') 
+                },
+                success: function (response) {
+                    if(response.success){
+                        toastr.success("Cập nhật thành công!");
+                        $('#nameAdmin').text(response.data.fullName);
+                        $('#emailAdmin').text(response.data.email);
+                        $('#addressAdmin').text(response.data.address);
+                    }else{
+                        toastr.error(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi nếu có
+                    toastr.error("Đã có lỗi xảy ra. Vui lòng thử lại!");
+                },
+            });
+        }
+    });
+    //Update avatar
+    $("#avatarAdmin").on("change", function () {
+        const file = event.target.files[0];
+
+        if (file) {
+            // Hiển thị ảnh vừa chọn trước khi gửi lên server
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $("#avatarAdminPreview").attr("src", e.target.result);
+                $('#navbarDropdown img').attr("src", e.target.result);
+                $('.profile_img').attr("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+            var url = $('#btn_avatar').attr('action');
+            // Tạo FormData để gửi file qua AJAX
+            const formData = new FormData();
+            formData.append("avatarAdmin", file);
+
+            console.log(formData);
+
+            // // Gửi AJAX đến server
+            $.ajax({
+                url: url,
+                type: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content'),
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+                },
+            });
+        }
+    });
 });
