@@ -186,6 +186,10 @@
                                         data-urlSendMail={{ route('admin.send.pdf') }}
                                         class="btn btn-primary pull-right" style="margin-right: 5px;"><i
                                             class="fa fa-send"></i> Gửi hóa đơn cho khách hàng</button>
+                                    @if ($invoice_booking->bookingStatus == 'b')
+                                        <button class="btn btn-success pull-right confirm-booking" data-bookingId="{{ $invoice_booking->bookingId }}"
+                                            data-urlConfirm="{{ route('admin.confirm-booking') }}" ><i class="fa fa-credit-card"></i> Xác nhận</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -568,7 +568,6 @@ $(document).ready(function () {
      ********************************************/
     $(document).on("click", ".confirm-booking", function (e) {
         e.preventDefault();
-        console.log(11111111);
 
         const bookingId = $(this).data("bookingid");
         const urlConfirm = $(this).data("urlconfirm");
@@ -586,6 +585,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     $("#tbody-booking").html(response.data);
+                    $(".confirm-booking").remove();
                     toastr.success(response.message);
                 } else {
                     toastr.error(response.message);
@@ -842,4 +842,7 @@ $(document).ready(function () {
             });
         }
     });
+    /********************************************
+     * DASHBOARD                                  *
+     ********************************************/
 });

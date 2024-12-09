@@ -8,6 +8,7 @@
 <script src="{{ asset('admin/vendors/nprogress/nprogress.js') }}"></script>
 <!-- Chart.js -->
 <script src="{{ asset('admin/vendors/Chart.js/dist/Chart.min.js') }}"></script>
+<script src="{{ asset('admin/vendors/echarts/dist/echarts.min.js') }}"></script>
 <!-- gauge.js -->
 <script src="{{ asset('admin/vendors/gauge.js/dist/gauge.min.js') }}"></script>
 <!-- bootstrap-progressbar -->

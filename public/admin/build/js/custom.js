@@ -728,39 +728,36 @@ function init_chart_doughnut() {
     console.log("init_chart_doughnut");
 
     if ($(".canvasDoughnut").length) {
-        var chart_doughnut_settings = {
-            type: "doughnut",
-            tooltipFillColor: "rgba(51, 51, 51, 0.55)",
-            data: {
-                labels: ["Symbian", "Blackberry", "Other", "Android", "IOS"],
-                datasets: [
-                    {
-                        data: [15, 20, 30, 10, 30],
-                        backgroundColor: [
-                            "#BDC3C7",
-                            "#9B59B6",
-                            "#E74C3C",
-                            "#26B99A",
-                            "#3498DB",
-                        ],
-                        hoverBackgroundColor: [
-                            "#CFD4D8",
-                            "#B370CF",
-                            "#E95E4F",
-                            "#36CAAB",
-                            "#49A9EA",
-                        ],
-                    },
-                ],
-            },
-            options: {
-                legend: false,
-                responsive: false,
-            },
-        };
-
         $(".canvasDoughnut").each(function () {
             var chart_element = $(this);
+
+            var chartValues = JSON.parse(
+                chart_element.attr("data-chart-values")
+            );
+
+            var chart_doughnut_settings = {
+                type: "doughnut",
+                tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+                data: {
+                    labels: ["Miền Bắc", "Miền Trung", "Miên Nam"],
+                    datasets: [
+                        {
+                            data: chartValues,
+                            backgroundColor: ["#E74C3C", "#1ABB9C", "#9B59B6"],
+                            hoverBackgroundColor: [
+                                "#CF6C6C",
+                                "#66D1B2",
+                                "#B370CF",
+                            ],
+                        },
+                    ],
+                },
+                options: {
+                    legend: false,
+                    responsive: false,
+                },
+            };
+
             var chart_doughnut = new Chart(
                 chart_element,
                 chart_doughnut_settings
@@ -2383,7 +2380,8 @@ function init_SmartWizard() {
 
         // Xử lý khi bấm nút "Next"
         $(".add-tours #wizard .buttonNext").on("click", function (event) {
-            let currentStep = $(".add-tours #wizard").smartWizard("currentStep");
+            let currentStep =
+                $(".add-tours #wizard").smartWizard("currentStep");
             if (currentStep === 2) {
                 event.preventDefault(); // Ngăn hành vi mặc định
 
@@ -2860,21 +2858,19 @@ function init_charts() {
 
     if ($("#lineChart").length) {
         var ctx = document.getElementById("lineChart");
+        var revenue = $("#lineChart").data("revenue-per-month");
+        console.log(revenue);
+        
         var lineChart = new Chart(ctx, {
             type: "line",
             data: {
                 labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
                 ],
                 datasets: [
                     {
-                        label: "My First dataset",
+                        label: "Doanh thu theo tháng",
                         backgroundColor: "rgba(38, 185, 154, 0.31)",
                         borderColor: "rgba(38, 185, 154, 0.7)",
                         pointBorderColor: "rgba(38, 185, 154, 0.7)",
@@ -2882,19 +2878,8 @@ function init_charts() {
                         pointHoverBackgroundColor: "#fff",
                         pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointBorderWidth: 1,
-                        data: [31, 74, 6, 39, 20, 85, 7],
-                    },
-                    {
-                        label: "My Second dataset",
-                        backgroundColor: "rgba(3, 88, 106, 0.3)",
-                        borderColor: "rgba(3, 88, 106, 0.70)",
-                        pointBorderColor: "rgba(3, 88, 106, 0.70)",
-                        pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-                        pointHoverBackgroundColor: "#fff",
-                        pointHoverBorderColor: "rgba(151,187,205,1)",
-                        pointBorderWidth: 1,
-                        data: [82, 23, 66, 9, 99, 4, 2],
-                    },
+                        data: revenue
+                    }
                 ],
             },
         });
@@ -4976,11 +4961,36 @@ function init_echarts() {
     //echart Donut
 
     if ($("#echart_donut").length) {
-        var echartDonut = echarts.init(
-            document.getElementById("echart_donut"),
-            theme
-        );
-
+        var echartDonut = echarts.init(document.getElementById("echart_donut"), theme);
+    
+        var paymentData = $("#echart_donut").data("payment-method");
+    
+        var paymentMethodNames = {
+            "momo-payment": "Thanh toán bằng Momo",
+            "paypal-payment": "Thanh toán bằng Paypal",
+            "office-payment": "Thanh toán tại văn phòng",
+        };
+    
+        var paymentMethodColors = {
+            "momo-payment": "#FF0000",  
+            "paypal-payment": "#0000FF", 
+            "office-payment": "#FFA500",
+        };
+    
+        // Chuẩn bị dữ liệu cho biểu đồ ECharts
+        var chartData = paymentData.map(function(item) {
+            return {
+                value: item.count, 
+                name: paymentMethodNames[item.paymentMethod] || item.paymentMethod, 
+                itemStyle: {
+                    color: paymentMethodColors[item.paymentMethod] || "#CCCCCC"
+                }
+            };
+        });
+    
+        console.log(chartData);  // Kiểm tra dữ liệu chuẩn bị cho biểu đồ
+    
+        // Thiết lập biểu đồ ECharts
         echartDonut.setOption({
             tooltip: {
                 trigger: "item",
@@ -4990,13 +5000,9 @@ function init_echarts() {
             legend: {
                 x: "center",
                 y: "bottom",
-                data: [
-                    "Direct Access",
-                    "E-mail Marketing",
-                    "Union Ad",
-                    "Video Ads",
-                    "Search Engine",
-                ],
+                data: paymentData.map(function(item) {
+                    return paymentMethodNames[item.paymentMethod] || item.paymentMethod;  // Tên phương thức thanh toán trong legend
+                }),
             },
             toolbox: {
                 show: true,
@@ -5025,21 +5031,25 @@ function init_echarts() {
             },
             series: [
                 {
-                    name: "Access to the resource",
-                    type: "pie",
-                    radius: ["35%", "55%"],
+                    name: "Payment Methods",
+                    type: "pie",  
+                    radius: ["35%", "55%"], 
+                    data: chartData,  
+                    color: paymentData.map(function(item) {
+                        return paymentMethodColors[item.paymentMethod] || "#CCCCCC";
+                    }),
                     itemStyle: {
                         normal: {
                             label: {
-                                show: true,
+                                show: true, // Hiển thị nhãn
                             },
                             labelLine: {
-                                show: true,
+                                show: true,  // Hiển thị đường nối từ nhãn
                             },
                         },
                         emphasis: {
                             label: {
-                                show: true,
+                                show: true,  // Hiển thị nhãn khi di chuột
                                 position: "center",
                                 textStyle: {
                                     fontSize: "14",
@@ -5048,32 +5058,11 @@ function init_echarts() {
                             },
                         },
                     },
-                    data: [
-                        {
-                            value: 335,
-                            name: "Direct Access",
-                        },
-                        {
-                            value: 310,
-                            name: "E-mail Marketing",
-                        },
-                        {
-                            value: 234,
-                            name: "Union Ad",
-                        },
-                        {
-                            value: 135,
-                            name: "Video Ads",
-                        },
-                        {
-                            value: 1548,
-                            name: "Search Engine",
-                        },
-                    ],
                 },
             ],
         });
     }
+    
 
     //echart Pie
 
