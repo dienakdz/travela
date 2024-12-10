@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-lg-8 pe-lg-5 me-lg-5">
                             <div class="section-title mb-25">
-                                <h2>Kinh nghiệm và công ty lữ hành chuyên nghiệp ở Việt Nam</h2>
+                                <h2>Kinh nghiệm và công ty du lịch chuyên nghiệp ở Việt Nam</h2>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -26,15 +26,17 @@
                         </div>
                         <div class="col-md-8">
                             <p>Chúng tôi chuyên tạo ra những trải nghiệm thành phố khó quên cho du khách muốn khám phá
-                                trái tim và tâm hồn của cảnh quan đô thị. Các tour du lịch có hướng dẫn viên chuyên nghiệp của chúng tôi sẽ đưa du khách qua
-                                những con phố sôi động, các địa danh lịch sử và những viên ngọc ẩn giấu của mỗi thành phố.</p>
+                                trái tim và tâm hồn của cảnh quan đô thị. Các tour du lịch có hướng dẫn viên chuyên
+                                nghiệp của chúng tôi sẽ đưa du khách qua
+                                những con phố sôi động, các địa danh lịch sử và những viên ngọc ẩn giấu của mỗi thành
+                                phố.</p>
                             <ul class="list-style-two mt-35">
                                 <li>Cơ quan Trải nghiệm</li>
                                 <li>Đội ngũ Chuyên nghiệp</li>
                                 <li>Du lịch Chi phí Thấp</li>
                                 <li>Hỗ trợ Trực tuyến 24/7</li>
                             </ul>
-                            <a href="about.html" class="theme-btn style-three mt-30">
+                            <a href="{{ route('tours') }}" class="theme-btn style-three mt-30">
                                 <span data-hover="Khám phá Tours">Khám phá Tours</span>
                                 <i class="fal fa-arrow-right"></i>
                             </a>
@@ -54,13 +56,13 @@
         <div class="row align-items-center">
             <div class="col-xl-4 col-md-6">
                 <div class="about-feature-image" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                    <img src="{{asset('clients/assets/images/about/about-feature1.jpg')}}" alt="About">
+                    <img src="{{ asset('clients/assets/images/about/about-feature1.jpg') }}" alt="About">
                 </div>
             </div>
             <div class="col-xl-4 col-md-6">
                 <div class="about-feature-image" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
                     data-aos-offset="50">
-                    <img src="{{asset('clients/assets/images/about/about-feature2.jpg')}}" alt="About">
+                    <img src="{{ asset('clients/assets/images/about/about-feature2.jpg') }}" alt="About">
                 </div>
             </div>
             <div class="col-xl-4 col-md-8">
@@ -81,7 +83,8 @@
                             <h5><a href="#">5000+ Điểm đến du lịch phổ biến</a></h5>
                         </div>
                         <div class="content">
-                            <p>Đội ngũ chuyên gia của chúng tôi tận tâm phát triển các chiến lược tiên tiến thúc đẩy thành công</p>
+                            <p>Đội ngũ chuyên gia của chúng tôi tận tâm phát triển các chiến lược tiên tiến thúc đẩy
+                                thành công</p>
                         </div>
                     </div>
                 </div>
@@ -102,17 +105,18 @@
                         <h2>Du lịch với sự tự tin Lý do hàng đầu để chọn công ty của chúng tôi</h2>
                     </div>
                     <p>Chúng tôi hợp tác chặt chẽ với khách hàng để hiểu rõ những thách thức và mục tiêu, cung
-                         cấp các giải pháp tùy chỉnh để nâng cao hiệu quả, tăng lợi nhuận và thúc đẩy tăng trưởng bền vững.</p>
+                        cấp các giải pháp tùy chỉnh để nâng cao hiệu quả, tăng lợi nhuận và thúc đẩy tăng trưởng bền
+                        vững.</p>
                     <div class="row pt-25">
                         <div class="col-6">
                             <div class="counter-item counter-text-wrap">
-                                <span class="count-text k-plus" data-speed="3000" data-stop="3">0</span>
+                                <span class="count-text k-plus" data-speed="2000" data-stop="1">0</span>
                                 <span class="counter-title">Điểm đến phổ biến</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="counter-item counter-text-wrap">
-                                <span class="count-text m-plus" data-speed="3000" data-stop="9">0</span>
+                                <span class="count-text m-plus" data-speed="3000" data-stop="8">0</span>
                                 <span class="counter-title">Khách hàng hài lòng</span>
                             </div>
                         </div>
@@ -125,7 +129,7 @@
             </div>
             <div class="col-xl-7 col-lg-6" data-aos="fade-right" data-aos-duration="1500" data-aos-offset="50">
                 <div class="about-us-page">
-                    <img src="{{asset('clients/assets/images/about/about-page.jpg')}}" alt="About">
+                    <img src="{{ asset('clients/assets/images/about/about-page.jpg') }}" alt="About">
                 </div>
             </div>
         </div>
@@ -142,24 +146,41 @@
                 <div class="section-title text-center counter-text-wrap mb-50" data-aos="fade-up"
                     data-aos-duration="1500" data-aos-offset="50">
                     <h2>Gặp gỡ những hướng dẫn viên du lịch giàu kinh nghiệm của chúng tôi</h2>
-                    <p>Website <span class="count-text plus bgc-primary" data-speed="3000"
-                            data-stop="34500">0</span> trải nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
+                    <p>Website <span class="count-text plus bgc-primary" data-speed="3000" data-stop="34500">0</span>
+                        trải nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
                 </div>
             </div>
         </div>
         <div class="row justify-content-center">
+
             <div class="col-xl-3 col-lg-4 col-sm-6">
                 <div class="team-item hover-content" data-aos="fade-up" data-aos-duration="1500"
                     data-aos-offset="50">
-                    <img src="{{asset('clients/assets/images/team/guide1.jpg')}}" alt="Guide">
+                    <img src="{{ asset('clients/assets/images/team/guide-dien.jpg') }}" alt="Guide">
                     <div class="content">
                         <h6>NGUYEN MINH DIEN</h6>
+                        <span class="designation">Founder</span>
+                        <div class="social-style-one inner-content">
+                            <a href="contact.html"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/dienne.dev"><i class="fab fa-facebook-f"></i></a>
+                            <a href="contact.html"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@dienne248"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="team-item hover-content" data-aos="fade-up" data-aos-duration="1500"
+                    data-aos-offset="50">
+                    <img src="{{ asset('clients/assets/images/team/guide-ngan.jpg') }}" alt="Guide">
+                    <div class="content">
+                        <h6>BAO NGAN</h6>
                         <span class="designation">Co-founder</span>
                         <div class="social-style-one inner-content">
                             <a href="contact.html"><i class="fab fa-twitter"></i></a>
-                            <a href="contact.html"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.facebook.com/dienne.dev"><i class="fab fa-facebook-f"></i></a>
                             <a href="contact.html"><i class="fab fa-instagram"></i></a>
-                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                            <a href="https://www.youtube.com/@dienne248"><i class="fab fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -223,29 +244,10 @@
         </div>
     </div>
     <div class="shape">
-        <img src="{{asset('clients/assets/images/video/shape1.png')}}" alt="shape">
+        <img src="{{ asset('clients/assets/images/video/shape1.png') }}" alt="shape">
     </div>
 </section>
 <!-- Features Area end -->
-
-
-<!-- Video Area start -->
-<div class="video-area pt-25 rel z-1">
-    <div class="container">
-        <div class="video-wrap" data-aos="zoom-in" data-aos-duration="1500" data-aos-offset="50">
-            <img src="assets/images/video/video-bg.jpg" alt="Video">
-            <a href="https://www.youtube.com/watch?v=9Y7ma241N8k" class="mfp-iframe video-play" tabindex="-1"><i
-                    class="fas fa-play"></i></a>
-        </div>
-    </div>
-    <div class="for-bg bgc-black">
-        <div class="shape">
-            <img src="{{asset('clients/assets/images/video/shape2.png')}}" alt="shape">
-        </div>
-    </div>
-</div>
-<!-- Video Area end -->
-
 
 <!-- Client Logo Area start -->
 <div class="client-logo-area mb-100">
@@ -256,23 +258,28 @@
             </div>
             <div class="client-logo-active">
                 <div class="client-logo-item" data-aos="flip-up" data-aos-duration="1500" data-aos-offset="50">
-                    <a href="#"><img src="{{asset('clients/assets/images/client-logos/client-logo1.png')}}" alt="Client Logo"></a>
+                    <a href="#"><img src="{{ asset('clients/assets/images/client-logos/client-logo1.png') }}"
+                            alt="Client Logo"></a>
                 </div>
                 <div class="client-logo-item" data-aos="flip-up" data-aos-delay="50" data-aos-duration="1500"
                     data-aos-offset="50">
-                    <a href="#"><img src="{{asset('clients/assets/images/client-logos/client-logo2.png')}}" alt="Client Logo"></a>
+                    <a href="#"><img src="{{ asset('clients/assets/images/client-logos/client-logo2.png') }}"
+                            alt="Client Logo"></a>
                 </div>
                 <div class="client-logo-item" data-aos="flip-up" data-aos-delay="100" data-aos-duration="1500"
                     data-aos-offset="50">
-                    <a href="#"><img src="{{asset('clients/assets/images/client-logos/client-logo3.png')}}" alt="Client Logo"></a>
+                    <a href="#"><img src="{{ asset('clients/assets/images/client-logos/client-logo3.png') }}"
+                            alt="Client Logo"></a>
                 </div>
                 <div class="client-logo-item" data-aos="flip-up" data-aos-delay="150" data-aos-duration="1500"
                     data-aos-offset="50">
-                    <a href="#"><img src="{{asset('clients/assets/images/client-logos/client-logo4.png')}}" alt="Client Logo"></a>
+                    <a href="#"><img src="{{ asset('clients/assets/images/client-logos/client-logo4.png') }}"
+                            alt="Client Logo"></a>
                 </div>
                 <div class="client-logo-item" data-aos="flip-up" data-aos-delay="200" data-aos-duration="1500"
                     data-aos-offset="50">
-                    <a href="#"><img src="{{asset('clients/assets/images/client-logos/client-logo5.png')}}" alt="Client Logo"></a>
+                    <a href="#"><img src="{{ asset('clients/assets/images/client-logos/client-logo5.png') }}"
+                            alt="Client Logo"></a>
                 </div>
             </div>
         </div>

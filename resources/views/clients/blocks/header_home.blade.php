@@ -48,9 +48,9 @@
     <div class="page-wrapper">
 
         <!-- Preloader -->
-        {{-- <div class="preloader">
+        <div class="preloader">
             <div class="custom-loader"></div>
-        </div> --}}
+        </div>
 
         <!-- main header -->
         <header class="main-header header-one white-menu menu-absolute">
@@ -104,8 +104,6 @@
                                                 href="{{ route('destination') }}">Điểm đến</a></li>
                                         <li class="{{ Request::url() == route('contact') ? 'active' : '' }}"><a
                                                 href="{{ route('contact') }}">Liên Hệ</a></li>
-                                        <li class="{{ Request::url() == route('blogs') ? 'active' : '' }}"><a
-                                                href="{{ route('blogs') }}">Blog</a></li>
                                     </ul>
                                 </div>
 
@@ -127,7 +125,7 @@
                         <!-- Menu Button -->
                         <div class="menu-btns py-10">
                             <a href="{{ route('tours') }}" class="theme-btn style-two bgc-secondary">
-                                <span data-hover="Book Now">Book Now</span>
+                                <span data-hover="Đặt Ngay">Book Now</span>
                                 <i class="fal fa-arrow-right"></i>
                             </a>
                             <!-- menu sidbar -->

@@ -10,10 +10,11 @@
                             <a href="index.html"><img src="{{ asset('clients/assets/images/logos/logo.png') }}"
                                     alt="Logo"></a>
                         </div>
-                        <p>Chúng tôi biên soạn các hành trình riêng biệt phù hợp với sở thích của bạn, đảm bảo mọi chuyến đi đều
+                        <p>Chúng tôi biên soạn các hành trình riêng biệt phù hợp với sở thích của bạn, đảm bảo mọi
+                            chuyến đi đều
                             liền mạch và làm phong phú thêm những viên ngọc ẩn giấu</p>
                         <div class="social-style-one mt-15">
-                            <a href="contact.html"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.facebook.com/dienne.dev"><i class="fab fa-facebook-f"></i></a>
                             <a href="contact.html"><i class="fab fa-youtube"></i></a>
                             <a href="contact.html"><i class="fab fa-pinterest"></i></a>
                             <a href="contact.html"><i class="fab fa-twitter"></i></a>
@@ -24,7 +25,8 @@
                     data-aos-offset="50">
                     <div class="section-title counter-text-wrap mb-35">
                         <h2>Đăng ký nhận bản tin</h2>
-                        <p>Website <span class="count-text plus" data-speed="3000" data-stop="34500">0</span> trải nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
+                        <p>Website <span class="count-text plus" data-speed="3000" data-stop="34500">0</span> trải
+                            nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
                     </div>
                     <form class="newsletter-form mb-50" action="#">
                         <input id="news-email" type="email" placeholder="Email Address" required>

@@ -125,10 +125,9 @@
                 <input type="hidden" name="bookingId" value="{{ $bookingId }}">
 
                 @if ($tour_booked->bookingStatus == 'f')
-                    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}">
-                        <button type="submit" class="booking-btn btn-cancel-booking">Đánh giá</button>
+                    <a href="{{ route('tour-detail', ['id' => $tour_booked->tourId]) }}" class="booking-btn"style="display: inline-block; text-align: center;">
+                       Đánh giá
                     </a>
-                    
                 @else
                     <button type="submit" class="booking-btn btn-cancel-booking {{ $hide }}">Hủy
                         Tour</button>

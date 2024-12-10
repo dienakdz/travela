@@ -1,13 +1,13 @@
 @foreach ($tours as $tour)
     <div class="col-xl-4 col-md-6" style="margin-bottom: 30px">
-        <div class="destination-item tour-grid style-three bgc-lighter block_tours" data-aos="fade-up"
+        <div class="destination-item tour-grid style-three bgc-lighter block_tours equal-block-fix" data-aos="fade-up"
             data-aos-duration="1500" data-aos-offset="50">
             <div class="image">
                 <span class="badge bgc-pink">Featured</span>
                 <a href="#" class="heart"><i class="fas fa-heart"></i></a>
                 <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0] . '') }}" alt="Tour List">
             </div>
-            <div class="content">
+            <div class="content equal-content-fix">
                 <div class="destination-header">
                     <span class="location"><i class="fal fa-map-marker-alt"></i>
                         {{ $tour->destination }}</span>

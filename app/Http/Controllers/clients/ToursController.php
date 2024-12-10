@@ -20,7 +20,7 @@ class ToursController extends Controller
     public function index(Request $request)
     {
         $title = 'Tours';
-        $tours = $this->tours->getAllTours(6);
+        $tours = $this->tours->getAllTours(9);
         $domain = $this->tours->getDomain();
         // dd($tours);
         $domainsCount = [
@@ -35,8 +35,9 @@ class ToursController extends Controller
                 'tours' => view('clients.partials.filter-tours', compact('tours'))->render(),
             ]);
         }
+        $toursPopular = $this->tours->toursPopular(2);
 
-        return view('clients.tours', compact('title', 'tours', 'domainsCount'));
+        return view('clients.tours', compact('title', 'tours', 'domainsCount','toursPopular'));
     }
 
     //Xử lý filter tours

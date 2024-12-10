@@ -48,8 +48,9 @@
                     @if ($booking->bookingStatus == 'b')
                     <a class="dropdown-item confirm-booking" href="javascript:void(0)" data-bookingId="{{ $booking->bookingId }}"
                         data-urlConfirm="{{ route('admin.confirm-booking') }}">Xác nhận</a>
-                    @else
                     @endif
+                    <a class="dropdown-item finish-booking {{ $booking->hide }}" href="javascript:void(0)" data-bookingId="{{ $booking->bookingId }}"
+                        data-urlfinish="{{ route('admin.finish-booking') }}">Đã hoàn thành</a>
                     <a class="dropdown-item" href="{{ route('admin.booking-detail',['id' => $booking->bookingId]) }}">Xem chi tiết</a>
                 </div>
             </div>

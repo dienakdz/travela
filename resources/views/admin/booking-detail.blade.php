@@ -180,16 +180,21 @@
                                 <div class=" ">
                                     <button class="btn btn-default" onclick="window.print();"><i
                                             class="fa fa-print"></i> Print</button>
-                                    <button id="send-pdf-btn" 
-                                        data-bookingid= "{{ $invoice_booking->bookingId }}"
+                                    <button id="send-pdf-btn" data-bookingid= "{{ $invoice_booking->bookingId }}"
                                         data-email={{ $invoice_booking->email }}
                                         data-urlSendMail={{ route('admin.send.pdf') }}
                                         class="btn btn-primary pull-right" style="margin-right: 5px;"><i
                                             class="fa fa-send"></i> Gửi hóa đơn cho khách hàng</button>
                                     @if ($invoice_booking->bookingStatus == 'b')
-                                        <button class="btn btn-success pull-right confirm-booking" data-bookingId="{{ $invoice_booking->bookingId }}"
-                                            data-urlConfirm="{{ route('admin.confirm-booking') }}" ><i class="fa fa-credit-card"></i> Xác nhận</button>
+                                        <button class="btn btn-success pull-right confirm-booking"
+                                            data-bookingId="{{ $invoice_booking->bookingId }}"
+                                            data-urlConfirm="{{ route('admin.confirm-booking') }}"><i
+                                                class="fa fa-credit-card"></i> Xác nhận</button>
                                     @endif
+                                    <button id="received-money" data-bookingid= "{{ $invoice_booking->bookingId }}"
+                                         data-urlPaid="{{ route('admin.received') }}"
+                                        class="btn btn-info pull-right {{ $hide }}" style="margin-right: 5px;"><i
+                                            class="glyphicon glyphicon-usd"></i> Đã thanh toán</button>
                                 </div>
                             </div>
                         </div>

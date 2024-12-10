@@ -103,7 +103,17 @@
 .hidden-content {
     display: none; /* Ẩn nội dung */
 }
-
+.equal-block-fix {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+}
+.equal-content-fix {
+    justify-content: space-around;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
 /****************************************
 *              PAGE USER PROFILE        *
 * ***************************************/
@@ -326,7 +336,7 @@
     }
 }
 
-.hide{
+.hide {
     display: none !important;
 }
 
@@ -334,18 +344,18 @@
     font-size: 36px;
 }
 .ratting i.active {
-    color: var(--secondary-color); 
+    color: var(--secondary-color);
 }
 
 /****************************************
 *             DESTINATION               *
 * ***************************************/
 .tour-title {
-    height: 40px; 
+    height: 40px;
     line-height: 1.2;
     overflow: hidden; /* Hide any text that overflows */
     text-overflow: ellipsis; /* Display "..." if text overflows */
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 /****************************************

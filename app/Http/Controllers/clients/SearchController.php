@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\clients\Tours;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class SearchController extends Controller
 {
@@ -53,7 +54,7 @@ class SearchController extends Controller
             'startDate' => $formattedStartDate,
             'endDate' => $formattedEndDate,
         ];
-        
+
         $tours = $this->tours->searchTours($dataSearch);
 
         // dd($tours);
@@ -66,10 +67,35 @@ class SearchController extends Controller
         $title = 'Tìm kiếm';
 
         $keyword = $request->input('keyword');
-        $dataSearch = [
-            'keyword'=> $keyword
-        ];
-        $tours = $this->tours->searchTours($dataSearch);
+
+        // Gọi API Python đã xử lý để lấy danh sách tour tìm kiếm
+        try {
+            $apiUrl = 'http://127.0.0.1:5555/api/search-tours';
+            $response = Http::get($apiUrl, [
+                'keyword' => $keyword
+            ]);
+
+            if ($response->successful()) {
+                $resultTours = $response->json('related_tours');
+            } else {
+                $resultTours = [];
+            }
+        } catch (\Exception $e) {
+            // Xử lý lỗi khi gọi API
+            $resultTours = [];
+            \Log::error('Lỗi khi gọi API liên quan: ' . $e->getMessage());
+        }
+
+        // dd($resultTours);
+        if ($resultTours) {
+            $tours = $this->tours->toursSearch($resultTours);
+
+        } else {
+            $dataSearch = [
+                'keyword' => $keyword
+            ];
+            $tours = $this->tours->searchTours($dataSearch);
+        }
 
         // dd($tours);
 

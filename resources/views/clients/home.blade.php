@@ -66,13 +66,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="counter-item counter-text-wrap">
-                                <span class="count-text k-plus" data-speed="3000" data-stop="3">0</span>
+                                <span class="count-text k-plus" data-speed="2000" data-stop="1">0</span>
                                 <span class="counter-title">Điểm đến phổ biến</span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="counter-item counter-text-wrap">
-                                <span class="count-text m-plus" data-speed="3000" data-stop="9">0</span>
+                                <span class="count-text m-plus" data-speed="3000" data-stop="8">0</span>
                                 <span class="counter-title">Khách hàng hài lòng</span>
                             </div>
                         </div>
@@ -201,15 +201,15 @@
                         <div class="feature-item">
                             <div class="icon"><i class="flaticon-tent"></i></div>
                             <div class="content">
-                                <h5><a href="{{ route('tours') }}">Cắm trại bằng lều</a></h5>
-                                <p>Cắm trại bằng lều là cách tuyệt vời để kết nối với thiên nhiên</p>
+                                <h5><a href="{{ route('tours') }}">Chinh Phục Cảnh Quan Việt Nam</a></h5>
+                                <p>Khám phá những cảnh đẹp hùng vĩ và tuyệt vời của đất nước Việt Nam.</p>
                             </div>
                         </div>
                         <div class="feature-item">
                             <div class="icon"><i class="flaticon-tent"></i></div>
                             <div class="content">
-                                <h5><a href="{{ route('tours') }}">Chèo thuyền kayak</a></h5>
-                                <p>Chèo thuyền kayak là một hoạt động ngoài trời thú vị mang tính phiêu lưu</p>
+                                <h5><a href="{{ route('tours') }}">Trải Nghiệm Đặc Sắc Việt Nam</a></h5>
+                                <p>Trải nghiệm những hoạt động và lễ hội đặc trưng của văn hóa Việt.</p>
                             </div>
                         </div>
                     </div>
@@ -217,15 +217,15 @@
                         <div class="feature-item mt-20">
                             <div class="icon"><i class="flaticon-tent"></i></div>
                             <div class="content">
-                                <h5><a href="{{ route('tours') }}">Xe đạp leo núi</a></h5>
-                                <p>Đạp xe leo núi là môn thể thao thú vị giúp rèn luyện thể lực</p>
+                                <h5><a href="{{ route('tours') }}">Khám Phá Di Sản Việt Nam</a></h5>
+                                <p>Khám phá các di sản thế giới và những kỳ quan thiên nhiên nổi tiếng.</p>
                             </div>
                         </div>
                         <div class="feature-item">
                             <div class="icon"><i class="flaticon-tent"></i></div>
                             <div class="content">
-                                <h5><a href="{{ route('tours') }}">Câu cá & Thuyền</a></h5>
-                                <p>Câu cá và chèo thuyền mang lại niềm vui là những hoạt động cốt lõi</p>
+                                <h5><a href="{{ route('tours') }}">Vẻ Đẹp Thiên Nhiên Việt </a></h5>
+                                <p>Chinh phục vẻ đẹp tự nhiên hoang sơ và kỳ vĩ của Việt Nam.</p>
                             </div>
                         </div>
                     </div>
@@ -243,8 +243,8 @@
             <div class="col-xl-4 col-md-6" data-aos="zoom-in-down" data-aos-duration="1500" data-aos-offset="50">
                 <div class="cta-item"
                     style="background-image: url( {{ asset('clients/assets/images/cta/cta1.jpg') }});">
-                    <span class="category">Cắm trại bằng lều</span>
-                    <h2>Khám phá du lịch tốt nhất Việt Nam</h2>
+                    <span class="category">Khám Phá Vẻ Đẹp Văn Hóa Việt</span>
+                    <h2>Tìm hiểu những giá trị văn hóa độc đáo của các vùng miền Việt Nam.</h2>
                     <a href="{{ route('tours') }}" class="theme-btn style-two bgc-secondary">
                         <span data-hover="Khám phá">Khám phá</span>
                         <i class="fal fa-arrow-right"></i>
@@ -255,8 +255,8 @@
                 data-aos-offset="50">
                 <div class="cta-item"
                     style="background-image: url( {{ asset('clients/assets/images/cta/cta2.jpg') }});">
-                    <span class="category">Sea Beach</span>
-                    <h2>World largest Sea Beach in Thailand</h2>
+                    <span class="category">Bãi biển Sea</span>
+                    <h2>Bãi trong xanh dạt dào ở Việt Nam</h2>
                     <a href="{{ route('tours') }}" class="theme-btn style-two">
                         <span data-hover="Khám phá">Khám phá</span>
                         <i class="fal fa-arrow-right"></i>
@@ -267,8 +267,8 @@
                 data-aos-offset="50">
                 <div class="cta-item"
                     style="background-image: url( {{ asset('clients/assets/images/cta/cta3.jpg') }});">
-                    <span class="category">Water Falls</span>
-                    <h2>Largest Water falls Bali, Indonesia</h2>
+                    <span class="category">Thác nước</span>
+                    <h2>Thác nước lớn nhất Việt Nam</h2>
                     <a href="{{ route('tours') }}" class="theme-btn style-two bgc-secondary">
                         <span data-hover="Khám phá">Khám phá</span>
                         <i class="fal fa-arrow-right"></i>
@@ -279,91 +279,6 @@
     </div>
 </section>
 <!-- CTA Area end -->
-
-
-<!-- Blog Area start -->
-<section class="blog-area py-70 rel z-1">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-12">
-                <div class="section-title text-center counter-text-wrap mb-70" data-aos="fade-up"
-                    data-aos-duration="1500" data-aos-offset="50">
-                    <h2>Đọc tin tức mới nhất & Blog</h2>
-                    <p>Website <span class="count-text plus bgc-primary" data-speed="3000" data-stop="24080">0</span>
-                        trải nghiệm phổ biến nhất mà bạn sẽ nhớ</p>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-xl-4 col-md-6">
-                <div class="blog-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                    <div class="content">
-                        <a href="blog.html" class="category">Travel</a>
-                        <h5><a href="blog-details.html">Ultimate Guide to Planning Your Dream Vacation with
-                                Travela Travel Agency</a></h5>
-                        <ul class="blog-meta">
-                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 February 2024</a>
-                            </li>
-                            <li><i class="far fa-comments"></i> <a href="#">Comments (5)</a></li>
-                        </ul>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('clients/assets/images/blog/blog1.jpg') }}" alt="Blog">
-                    </div>
-                    <a href="blog-details.html" class="theme-btn">
-                        <span data-hover="Book Now">Read More</span>
-                        <i class="fal fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="blog-item" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500"
-                    data-aos-offset="50">
-                    <div class="content">
-                        <a href="blog.html" class="category">Travel</a>
-                        <h5><a href="blog-details.html">Unforgettable Adventures Travel Agency Bucket List
-                                Experiences</a></h5>
-                        <ul class="blog-meta">
-                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 February 2024</a>
-                            </li>
-                            <li><i class="far fa-comments"></i> <a href="#">Comments (5)</a></li>
-                        </ul>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('clients/assets/images/blog/blog2.jpg') }}" alt="Blog">
-                    </div>
-                    <a href="blog-details.html" class="theme-btn">
-                        <span data-hover="Book Now">Read More</span>
-                        <i class="fal fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="blog-item" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1500"
-                    data-aos-offset="50">
-                    <div class="content">
-                        <a href="blog.html" class="category">Travel</a>
-                        <h5><a href="blog-details.html">Exploring Culture and way Cuisine Travel Agency's they
-                                Best Foodie Destinations</a></h5>
-                        <ul class="blog-meta">
-                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 February 2024</a>
-                            </li>
-                            <li><i class="far fa-comments"></i> <a href="#">Comments (5)</a></li>
-                        </ul>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('clients/assets/images/blog/blog3.jpg') }}" alt="Blog">
-                    </div>
-                    <a href="blog-details.html" class="theme-btn">
-                        <span data-hover="Book Now">Read More</span>
-                        <i class="fal fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Blog Area end -->
 
 
 @include('clients.blocks.footer_home')

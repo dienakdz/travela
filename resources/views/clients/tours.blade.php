@@ -8,7 +8,7 @@
             <div class="col-lg-3 col-md-6 col-sm-10 rmb-75">
                 <div class="shop-sidebar">
                     <div class="div_filter_clear">
-                        <button class="clear_filter" name="btn_clear" >
+                        <button class="clear_filter" name="btn_clear">
                             <a href="{{ route('tours') }}">Clear</a>
                         </button>
                     </div>
@@ -140,52 +140,43 @@
                         </ul>
                     </div>
 
-                    <div class="widget widget-tour" data-aos="fade-up" data-aos-duration="1500"
-                        data-aos-offset="50">
-                        <h6 class="widget-title">Phổ biến Tours</h6>
-                        <div class="destination-item tour-grid style-three bgc-lighter">
-                            <div class="image">
-                                <span class="badge">10% Off</span>
-                                <img src="{{ asset('clients/assets/images/widgets/tour1.jpg') }}" alt="Tour">
-                            </div>
-                            <div class="content">
-                                <div class="destination-header">
-                                    <span class="location"><i class="fal fa-map-marker-alt"></i> Bali,
-                                        Indonesia</span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <span>(4.8)</span>
+                    @if (!$toursPopular->isEmpty())
+                        <div class="widget widget-tour" data-aos="fade-up" data-aos-duration="1500"
+                            data-aos-offset="50">
+                            <h6 class="widget-title">Phổ biến Tours</h6>
+                            @foreach ($toursPopular as $tour)
+                                <div class="destination-item tour-grid style-three bgc-lighter">
+                                    <div class="image">
+                                        <span class="badge">10% Off</span>
+                                        <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0]) }}"
+                                            alt="Tour">
+                                    </div>
+                                    <div class="content">
+                                        <div class="destination-header">
+                                            <span class="location"><i class="fal fa-map-marker-alt"></i>
+                                                {{ $tour->destination }}</span>
+                                            <div class="ratting">
+                                                <i class="fas fa-star"></i>
+                                                <span>{{ $tour->rating }}</span>
+                                            </div>
+                                        </div>
+                                        <h6><a
+                                                href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
+                                        </h6>
                                     </div>
                                 </div>
-                                <h6><a href="tour-details.html">Relinking Beach, Bali, Indonesia</a></h6>
-                            </div>
+                            @endforeach
                         </div>
-                        <div class="destination-item tour-grid style-three bgc-lighter">
-                            <div class="image">
-                                <img src="{{ asset('clients/assets/images/widgets/tour1.jpg') }}" alt="Tour">
-                            </div>
-                            <div class="content">
-                                <div class="destination-header">
-                                    <span class="location"><i class="fal fa-map-marker-alt"></i> Bali,
-                                        Indonesia</span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <span>(4.8)</span>
-                                    </div>
-                                </div>
-                                <h6><a href="tour-details.html">Relinking Beach, Bali, Indonesia</a></h6>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
 
                 <div class="widget widget-cta mt-30" data-aos="fade-up" data-aos-duration="1500"
                     data-aos-offset="50">
                     <div class="content text-white">
-                        <span class="h6">Explore The World</span>
-                        <h3>Best Tourist Place</h3>
-                        <a href="tour-list.html" class="theme-btn style-two bgc-secondary">
-                            <span data-hover="Explore Now">Explore Now</span>
+                        <span class="h6">Khám Phá Việt Nam</span>
+                        <h3>Địa điểm du lịch tốt nhất</h3>
+                        <a href="{{ route('tours') }}" class="theme-btn style-two bgc-secondary">
+                            <span data-hover="Khám phá ngay">Khám phá ngay</span>
                             <i class="fal fa-arrow-right"></i>
                         </a>
                     </div>
@@ -217,7 +208,7 @@
                     <div class="loader"></div>
                     <div class="row" id="tours-container">
                         @include('clients.partials.filter-tours')
-                        
+
                     </div>
                 </div>
 

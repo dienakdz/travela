@@ -22,6 +22,7 @@ class BookingManagementController extends Controller
         $title = 'Quản lý đặt Tour';
 
         $list_booking = $this->booking->getBooking();
+        $list_booking = $this->updateHideBooking($list_booking);
 
         // dd($list_booking);
 
@@ -40,6 +41,7 @@ class BookingManagementController extends Controller
 
         if ($result) {
             $list_booking = $this->booking->getBooking();
+            $list_booking = $this->updateHideBooking($list_booking);
             return response()->json([
                 'success' => true,
                 'message' => 'Cập nhật trạng thái thành công.',
@@ -58,11 +60,15 @@ class BookingManagementController extends Controller
         $title = 'Chi tiết đơn đặt';
 
         $invoice_booking = $this->booking->getInvoiceBooking($bookingId);
-        // dd($bookingId);
+        // dd($invoice_booking);
+        $hide='hide';
         if ($invoice_booking->transactionId == null) {
             $invoice_booking->transactionId = 'Thanh toán tại công ty Travela';
         }
-        return view('admin.booking-detail', compact('title', 'invoice_booking'));
+        if ($invoice_booking->paymentStatus === 'n') {
+            $hide = '';
+        }
+        return view('admin.booking-detail', compact('title', 'invoice_booking','hide'));
     }
 
 
@@ -80,7 +86,7 @@ class BookingManagementController extends Controller
         try {
             Mail::send('admin.emails.invoice', compact('invoice_booking'), function ($message) use ($invoice_booking) {
                 $message->to($invoice_booking->email)
-                    ->subject('Hóa đơn đặt tour của khách hàng'. $invoice_booking->fullName);
+                    ->subject('Hóa đơn đặt tour của khách hàng' . $invoice_booking->fullName);
             });
 
             return response()->json([
@@ -95,4 +101,74 @@ class BookingManagementController extends Controller
         }
 
     }
+
+    public function finishBooking(Request $request)
+    {
+        $bookingId = $request->bookingId;
+
+        $dataConfirm = [
+            'bookingStatus' => 'f'
+        ];
+
+        $result = $this->booking->updateBooking($bookingId, $dataConfirm);
+
+        if ($result) {
+            $list_booking = $this->booking->getBooking();
+            $list_booking = $this->updateHideBooking($list_booking);
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái thành công.',
+                'data' => view('admin.partials.list-booking', compact('list_booking'))->render()
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cập nhật thất bại.'
+            ], 500);
+        }
+    }
+
+    public function receiviedMoney(Request $request){
+        $bookingId = $request->bookingId;
+
+        $dataUpdate = [
+            'paymentStatus' => 'y'
+        ];
+
+        $result = $this->booking->updateCheckout($bookingId, $dataUpdate);
+
+        if ($result) {
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái thành công.',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cập nhật thất bại.'
+            ], 500);
+        }
+    }
+
+    private function updateHideBooking($list_booking)
+    {
+        // Lấy ngày hiện tại
+        $currentDate = date('Y-m-d');
+
+        foreach ($list_booking as $booking) {
+            // So sánh endDate của booking với ngày hiện tại
+            if ($booking->endDate < $currentDate) {
+                $hide = '';
+            } else {
+                $hide = 'hide';
+            }
+
+            // Gán giá trị $hide vào mỗi booking
+            $booking->hide = $hide;
+        }
+
+        return $list_booking;
+    }
+
 }

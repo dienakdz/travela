@@ -21,7 +21,7 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $tours = $this->homeTours->getHomeTours();
 
-        $toursPopular = $this->tours->toursPopular();
+        $toursPopular = $this->tours->toursPopular(6);
 
         // dd($toursPopular);
         return view('clients.home', compact('title', 'tours', 'toursPopular'));

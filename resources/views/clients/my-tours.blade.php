@@ -6,40 +6,34 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-10 rmb-75">
                 <div class="shop-sidebar mb-30">
-                    <div class="widget widget-tour" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                        <h6 class="widget-title">Popular Tours</h6>
-                        <div class="destination-item tour-grid style-three bgc-lighter">
-                            <div class="image">
-                                <span class="badge">10% Off</span>
-                                <img src="assets/images/widgets/tour1.jpg" alt="Tour">
-                            </div>
-                            <div class="content">
-                                <div class="destination-header">
-                                    <span class="location"><i class="fal fa-map-marker-alt"></i> Bali, Indonesia</span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <span>(4.8)</span>
+                    @if (!$toursPopular->isEmpty())
+                        <div class="widget widget-tour" data-aos="fade-up" data-aos-duration="1500"
+                            data-aos-offset="50">
+                            <h6 class="widget-title">Phổ biến Tours</h6>
+                            @foreach ($toursPopular as $tour)
+                                <div class="destination-item tour-grid style-three bgc-lighter">
+                                    <div class="image">
+                                        <span class="badge">10% Off</span>
+                                        <img src="{{ asset('admin/assets/images/gallery-tours/' . $tour->images[0]) }}"
+                                            alt="Tour">
+                                    </div>
+                                    <div class="content">
+                                        <div class="destination-header">
+                                            <span class="location"><i class="fal fa-map-marker-alt"></i>
+                                                {{ $tour->destination }}</span>
+                                            <div class="ratting">
+                                                <i class="fas fa-star"></i>
+                                                <span>{{ $tour->rating }}</span>
+                                            </div>
+                                        </div>
+                                        <h6><a
+                                                href="{{ route('tour-detail', ['id' => $tour->tourId]) }}">{{ $tour->title }}</a>
+                                        </h6>
                                     </div>
                                 </div>
-                                <h6><a href="tour-details.html">Relinking Beach, Bali, Indonesia</a></h6>
-                            </div>
+                            @endforeach
                         </div>
-                        <div class="destination-item tour-grid style-three bgc-lighter">
-                            <div class="image">
-                                <img src="assets/images/widgets/tour1.jpg" alt="Tour">
-                            </div>
-                            <div class="content">
-                                <div class="destination-header">
-                                    <span class="location"><i class="fal fa-map-marker-alt"></i> Bali, Indonesia</span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <span>(4.8)</span>
-                                    </div>
-                                </div>
-                                <h6><a href="tour-details.html">Relinking Beach, Bali, Indonesia</a></h6>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
 
             </div>
@@ -105,24 +99,6 @@
                         </div>
                     </div>
                 @endforeach
-
-                <ul class="pagination pt-15 flex-wrap" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                    <li class="page-item disabled">
-                        <span class="page-link"><i class="far fa-chevron-left"></i></span>
-                    </li>
-                    <li class="page-item active">
-                        <span class="page-link">
-                            1
-                            <span class="sr-only">(current)</span>
-                        </span>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">...</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#"><i class="far fa-chevron-right"></i></a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

@@ -148,13 +148,13 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.success) {
                         toastr.success(response.message, { timeOut: 5000 });
-                        $("#register-form")
-                            .removeClass("hidden-content")
-                            .trigger("reset");
-                        $(".loader").hide();
                     } else {
                         toastr.error(response.message);
                     }
+                    $("#register-form")
+                        .removeClass("hidden-content")
+                        .trigger("reset");
+                    $(".loader").hide();
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
@@ -860,6 +860,7 @@ $(document).ready(function () {
                                 );
                                 // Xử lý reset form hoặc thông báo
                                 $("#message").val("");
+                                $('#comment-form').hide();
                                 resetStars();
                                 currentRating = 0;
                             }

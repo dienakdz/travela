@@ -17,6 +17,7 @@ class BookingModel extends Model
         $list_booking = DB::table($this->table)
         ->join('tbl_tours', 'tbl_tours.tourId', '=', 'tbl_booking.tourId')
         ->join('tbl_checkout', 'tbl_booking.bookingId', '=', 'tbl_checkout.bookingId')
+        ->orderByDesc('bookingDate')
         ->get();
 
         return $list_booking;
@@ -37,5 +38,11 @@ class BookingModel extends Model
         ->first();
 
         return $invoice;
+    }
+
+    public function updateCheckout($bookingId, $data){
+        return DB::table('tbl_checkout')
+        ->where('bookingId',$bookingId)
+        ->update($data);
     }
 }
