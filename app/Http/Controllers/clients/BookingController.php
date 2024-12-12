@@ -104,7 +104,9 @@ class BookingController extends Controller
     public function createMomoPayment(Request $request)
     {
         session()->put('tourId', $request->tourId);
+        
         try {
+            // $amount = $request->amount;
             $amount = 10000;
     
             // Các thông tin cần thiết của MoMo
@@ -179,7 +181,7 @@ class BookingController extends Controller
     {
         $resultCode = $request->input('resultCode');
         $transIdMomo = $request->query('transId');
-
+        // dd(session()->get('tourId'));
         $tourId = session()->get('tourId'); 
         $tour = $this->tour->getTourDetail($tourId);
         session()->forget('tourId');

@@ -42,6 +42,8 @@ class User extends Model
         ->join('tbl_tours', 'tbl_booking.tourId', '=', 'tbl_tours.tourId')
         ->join('tbl_checkout', 'tbl_booking.bookingId', '=', 'tbl_checkout.bookingId')
         ->where('tbl_booking.userId', $id)
+        ->orderByDesc('tbl_booking.bookingDate')
+        ->take(3)
         ->get();
 
         foreach ($myTours as $tour) {

@@ -2085,7 +2085,7 @@ ul.msg_list li a .time {
   right: 35px; }
 
 ul.msg_list li a .message {
-  display: block !important;
+  /* display: block !important; */
   font-size: 11px; }
 
 .dropdown-menu.msg_list span {

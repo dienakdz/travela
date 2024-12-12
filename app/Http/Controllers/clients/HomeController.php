@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\clients\Home;
 use App\Models\clients\Tours;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     private $homeTours;
     private $tours;
 
-    public function __construct(){
+    public function __construct()
+    {
+        parent::__construct();
         $this->homeTours = new Home();
         $this->tours = new Tours();
     }
@@ -21,11 +24,37 @@ class HomeController extends Controller
         $title = 'Trang chủ';
         $tours = $this->homeTours->getHomeTours();
 
-        $toursPopular = $this->tours->toursPopular(6);
+        $userId = $this->getUserId();
+        if ($userId) {
+            
+            // Gọi API Python để lấy danh sách tour được gợi ý cho từng người dùng 
+            try {
+                $apiUrl = 'http://127.0.0.1:5555/api/user-recommendations';
+                $response = Http::get($apiUrl, [
+                    'user_id' => $userId
+                ]);
 
-        // dd($toursPopular);
+                if ($response->successful()) {
+                    $tourIds = $response->json('recommended_tours');
+                } else {
+                    $tourIds = [];
+                }
+            } catch (\Exception $e) {
+                // Xử lý lỗi khi gọi API
+                $tourIds = [];
+                \Log::error('Lỗi khi gọi API liên quan: ' . $e->getMessage());
+            }
+
+
+            $toursPopular = $this->tours->toursRecommendation($tourIds);
+            // dd($toursPopular);
+        }else {
+            $toursPopular = $this->tours->toursPopular(6);
+        }
+
+        // dd($userId);
         return view('clients.home', compact('title', 'tours', 'toursPopular'));
     }
 
-    
+
 }
