@@ -207,7 +207,7 @@
                     <div class="icon"><i class="flaticon-save-money"></i></div>
                     <div class="content">
                         <h5><a href="{{ route('tours') }}">Đảm bảo giá tốt nhất</a></h5>
-                        <p>Cắm trại bằng lều là cách tuyệt vời để kết nối với thiên nhiên</p>
+                        <p>Cam kết giá ưu đãi nhất, giúp bạn tiết kiệm tối đa chi phí du lịch.</p>
                     </div>
                 </div>
             </div>
@@ -217,7 +217,7 @@
                     <div class="icon"><i class="flaticon-travel-1"></i></div>
                     <div class="content">
                         <h5><a href="{{ route('tours') }}">Điểm đến đa dạng</a></h5>
-                        <p>Đạp xe leo núi là môn thể thao thú vị giúp rèn luyện thể lực</p>
+                        <p>Hàng nghìn điểm đến hấp dẫn, phù hợp mọi sở thích và phong cách du lịch.</p>
                     </div>
                 </div>
             </div>
@@ -227,7 +227,8 @@
                     <div class="icon"><i class="flaticon-booking"></i></div>
                     <div class="content">
                         <h5><a href="{{ route('tours') }}">Đặt chỗ nhanh</a></h5>
-                        <p>Chèo thuyền kayak là một hoạt động ngoài trời thú vị mang tính phiêu lưu</p>
+                        <p>Quy trình đặt chỗ đơn giản, nhanh chóng, đảm bảo chuyến đi suôn sẻ.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -236,8 +237,8 @@
                 <div class="feature-item style-two">
                     <div class="icon"><i class="flaticon-guidepost"></i></div>
                     <div class="content">
-                        <h5><a href="{{ route('tours') }}">Hướng dẫn du lịch tốt nhất</a></h5>
-                        <p>Câu cá và các hoạt động chèo thuyền tinh túy mang lại</p>
+                        <h5><a href="{{ route('tours') }}">Hướng dẫn du lịch tốt</a></h5>
+                        <p>Đội ngũ hướng dẫn tận tâm, giàu kinh nghiệm, đồng hành cùng bạn mọi hành trình.</p>
                     </div>
                 </div>
             </div>

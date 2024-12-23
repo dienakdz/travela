@@ -8,6 +8,8 @@ use App\Models\clients\Home;
 use App\Models\clients\Tours;
 use Illuminate\Support\Facades\Http;
 
+use function PHPUnit\Framework\isEmpty;
+
 class HomeController extends Controller
 {
     private $homeTours;
@@ -46,7 +48,10 @@ class HomeController extends Controller
             }
 
 
-            $toursPopular = $this->tours->toursRecommendation($tourIds);
+            if (empty($tourIds)) {
+                $toursPopular = $this->tours->toursPopular(6);
+                
+            }
             // dd($toursPopular);
         }else {
             $toursPopular = $this->tours->toursPopular(6);

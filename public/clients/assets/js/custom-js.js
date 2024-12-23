@@ -636,7 +636,7 @@ $(document).ready(function () {
 
         $(".btn-submit-booking").toggle(!isPaymentSelected); // Ẩn hoặc hiện nút xác nhận
         if (paymentMethod === "paypal-payment") {
-            var totalPricePayment = totalPrice / 25000; //switch to US
+            var totalPricePayment = totalPrice / 25000; //switch to USD
             paypal
                 .Buttons({
                     createOrder: function (data, actions) {

@@ -56,7 +56,8 @@ class Handler extends ExceptionHandler
                 if ($request->is('admin/*')) {
                     return response()->view('admin.errors.404', [], 404);
                 } else {
-                    return response()->view('clients.errors.404', [], 404);
+                    $title = '404';
+                    return response()->view('clients.errors.404', ['title' => $title], 404);
                 }
             }
         }
