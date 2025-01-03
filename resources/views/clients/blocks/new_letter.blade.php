@@ -2,7 +2,7 @@
 
 <!-- Newsletter Area start -->
 <section class="newsletter-three bgc-primary py-100 rel z-1"
-    style="background-image: url(assets/images/newsletter/newsletter-bg-lines.png);">
+    style="background-image: url({{ asset('clients/assets/images/newsletter/newsletter-bg-lines.png') }});">
     <div class="container container-1500">
         <div class="row">
             <div class="col-lg-6">

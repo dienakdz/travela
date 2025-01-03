@@ -1,5 +1,5 @@
 <!-- footer area start -->
-<footer class="main-footer footer-two bgp-bottom bgc-black rel z-15 pt-100 pb-115" style="background-image: url(assets/images/backgrounds/footer-two.png);">
+<footer class="main-footer footer-two bgp-bottom bgc-black rel z-15 pt-100 pb-115" style="background-image: url({{ asset('clients/assets/images/backgrounds/footer-two.png')}});">
     <div class="widget-area">
         <div class="container">
             <div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-md-3 row-cols-2">
@@ -72,7 +72,7 @@
             <div class="row">
                <div class="col-lg-5">
                     <div class="copyright-text text-center text-lg-start">
-                        <p>@Copy 2024 <a href="index.html">Ravelo</a>, All rights reserved</p>
+                        <p>@Copy 2024 <a href="\">Travela</a>, All rights reserved</p>
                     </div>
                </div>
                <div class="col-lg-7 text-center text-lg-end">

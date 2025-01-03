@@ -103,7 +103,7 @@ class ToursController extends Controller
             $tours = new \Illuminate\Pagination\LengthAwarePaginator(
                 $tours, // Collection
                 count($tours), // Total items
-                12, // Per page
+                9, // Per page
                 1, // Current page
                 ['path' => url()->current()] // Path for pagination
             );

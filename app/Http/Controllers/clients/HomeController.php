@@ -47,17 +47,19 @@ class HomeController extends Controller
                 \Log::error('Lỗi khi gọi API liên quan: ' . $e->getMessage());
             }
 
+            $toursPopular = $this->tours->toursRecommendation($tourIds);
 
             if (empty($tourIds)) {
                 $toursPopular = $this->tours->toursPopular(6);
                 
             }
+
             // dd($toursPopular);
         }else {
             $toursPopular = $this->tours->toursPopular(6);
         }
 
-        // dd($userId);
+        // dd($toursPopular);
         return view('clients.home', compact('title', 'tours', 'toursPopular'));
     }
 
