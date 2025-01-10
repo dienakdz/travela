@@ -143,8 +143,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ## 📞 Contact
 If you have any questions or want to contribute, feel free to reach out:
 
-- **Email**: support@travela.com
-- **GitHub Issues**: [Report Issues](https://github.com/your-username/travela/issues)
+- **Email**: minhdien.dev@gmail.com
+- **GitHub Issues**: [Report Issues](https://github.com/dienakdz/travela/issues)
 
 Thank you for using Travela! We hope you enjoy your travel journey with us. ✈️ 🌟
 
