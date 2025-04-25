@@ -34,7 +34,7 @@ class LoginGoogleController extends Controller
                 $data_google = [
                     'google_id' => $user->id,
                     'fullName' => $user->name,
-                    'username' => 'user-google',
+                    'username' => 'user-google-' . time(), // Nối thêm timestamp
                     'password' => md5('12345678'),
                     'email' => $user->email,
                     'isActive' => 'y'

@@ -61,7 +61,7 @@
                                             <p class="">Tên</p>
                                         </div>
                                         <div class="col-lg-5 col-md-5 col-sm-5 " style="text-align: center">
-                                            <p class="">Phần Trăm</p>
+                                            <p class="">Số lượng</p>
                                         </div>
                                     </th>
                                 </tr>
