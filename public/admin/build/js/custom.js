@@ -2368,7 +2368,7 @@ function init_SmartWizard() {
     if ($("#myDropzone").length) {
         // Khởi tạo Dropzone cho bước 2
         var myDropzone = new Dropzone("#myDropzone", {
-            url: "http://travela:8000/admin/add-images-tours",
+            url: "http://127.0.0.1:8000/admin/add-images-tours",
             paramName: "image",
             maxFilesize: 5,
             acceptedFiles: "image/*",

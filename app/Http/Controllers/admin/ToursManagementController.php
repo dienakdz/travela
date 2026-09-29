@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\admin\ToursModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use RuntimeException;
+use Throwable;
 
 class ToursManagementController extends Controller
 {
@@ -29,6 +35,73 @@ class ToursManagementController extends Controller
         $title = 'Thêm Tours';
 
         return view('admin.add-tours', compact('title'));
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'destination' => ['required', 'string', 'max:255'],
+            'domain' => ['required', 'in:b,t,n'],
+            'number' => ['required', 'integer', 'min:1'],
+            'price_adult' => ['required', 'numeric', 'min:0'],
+            'price_child' => ['required', 'numeric', 'min:0'],
+            'start_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+            'end_date' => ['required', 'date_format:Y-m-d', 'after:start_date'],
+            'description' => ['required', 'string'],
+            'images' => ['required', 'array', 'size:5'],
+            'images.*' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'timelines' => ['required', 'array', 'min:1'],
+            'timelines.*.title' => ['required', 'string', 'max:255'],
+            'timelines.*.description' => ['required', 'string'],
+        ], [
+            'images.size' => 'Tour phải có đúng :size hình ảnh.',
+            'images.*.image' => 'Mỗi tệp tải lên phải là một hình ảnh hợp lệ.',
+            'images.*.mimes' => 'Ảnh chỉ được dùng định dạng JPEG, JPG, PNG hoặc WEBP.',
+            'images.*.max' => 'Mỗi ảnh không được lớn hơn 5 MB.',
+            'end_date.after' => 'Ngày kết thúc phải sau ngày khởi hành.',
+        ]);
+
+        $validator->after(function ($validator) use ($request) {
+            if ($validator->errors()->hasAny(['start_date', 'end_date', 'timelines'])) {
+                return;
+            }
+
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->start_date);
+            $endDate = Carbon::createFromFormat('Y-m-d', $request->end_date);
+            $maximumTimelineDays = $startDate->diffInDays($endDate);
+
+            if (count($request->input('timelines', [])) > $maximumTimelineDays) {
+                $validator->errors()->add(
+                    'timelines',
+                    "Không thể thêm quá {$maximumTimelineDays} ngày cho tour này."
+                );
+            }
+        });
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Dữ liệu không hợp lệ.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $tourId = $this->createTourAtomically($validator->validated());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Thêm tour thành công!',
+                'tourId' => $tourId,
+            ], 201);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể thêm tour. Vui lòng thử lại.',
+            ], 500);
+        }
     }
 
     public function addTours(Request $request)
@@ -345,6 +418,113 @@ class ToursManagementController extends Controller
                 'message' => $result['message']
             ]);
         }
+    }
+
+    private function createTourAtomically(array $data)
+    {
+        $temporaryRoot = config('tours.images.temporary_path', storage_path('app/tmp/tours'));
+        $finalDirectory = config(
+            'tours.images.path',
+            public_path('admin/assets/images/gallery-tours')
+        );
+        $requestDirectory = rtrim($temporaryRoot, DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . Str::uuid();
+        $stagedImages = [];
+        $movedPaths = [];
+
+        try {
+            File::ensureDirectoryExists($requestDirectory);
+            $stagedImages = $this->stageTourImages($data['images'], $requestDirectory);
+
+            return DB::transaction(function () use ($data, $stagedImages, $finalDirectory, &$movedPaths) {
+                $startDate = Carbon::createFromFormat('Y-m-d', $data['start_date']);
+                $endDate = Carbon::createFromFormat('Y-m-d', $data['end_date']);
+                $days = $startDate->diffInDays($endDate);
+                $nights = $days - 1;
+
+                $tourId = $this->tours->createTours([
+                    'title' => $data['name'],
+                    'time' => "{$days} ngày {$nights} đêm",
+                    'description' => $data['description'],
+                    'quantity' => $data['number'],
+                    'priceAdult' => $data['price_adult'],
+                    'priceChild' => $data['price_child'],
+                    'destination' => $data['destination'],
+                    'domain' => $data['domain'],
+                    'availability' => 1,
+                    'startDate' => $data['start_date'],
+                    'endDate' => $data['end_date'],
+                ]);
+
+                File::ensureDirectoryExists($finalDirectory);
+
+                foreach ($stagedImages as $image) {
+                    $finalPath = $finalDirectory . DIRECTORY_SEPARATOR . $image['filename'];
+
+                    if (!File::move($image['temporary_path'], $finalPath)) {
+                        throw new RuntimeException('Không thể lưu hình ảnh của tour.');
+                    }
+
+                    $movedPaths[] = $finalPath;
+
+                    $imageCreated = $this->tours->uploadImages([
+                        'tourId' => $tourId,
+                        'imageURL' => $image['filename'],
+                        'description' => $image['description'],
+                    ]);
+
+                    if (!$imageCreated) {
+                        throw new RuntimeException('Không thể lưu thông tin hình ảnh của tour.');
+                    }
+                }
+
+                foreach ($data['timelines'] as $timeline) {
+                    $timelineCreated = $this->tours->addTimeLine([
+                        'tourId' => $tourId,
+                        'title' => $timeline['title'],
+                        'description' => $timeline['description'],
+                    ]);
+
+                    if (!$timelineCreated) {
+                        throw new RuntimeException('Không thể lưu lộ trình của tour.');
+                    }
+                }
+
+                return $tourId;
+            });
+        } catch (Throwable $exception) {
+            foreach ($movedPaths as $path) {
+                File::delete($path);
+            }
+
+            throw $exception;
+        } finally {
+            File::deleteDirectory($requestDirectory);
+        }
+    }
+
+    private function stageTourImages(array $images, $requestDirectory)
+    {
+        $stagedImages = [];
+
+        foreach ($images as $image) {
+            $filename = Str::uuid() . '.' . $image->extension();
+            $temporaryPath = $requestDirectory . DIRECTORY_SEPARATOR . $filename;
+            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+            Image::make($image)
+                ->resize(400, 350)
+                ->save($temporaryPath);
+
+            $stagedImages[] = [
+                'filename' => $filename,
+                'temporary_path' => $temporaryPath,
+                'description' => $originalName,
+            ];
+        }
+
+        return $stagedImages;
     }
 
 }
