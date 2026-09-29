@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
@@ -105,6 +106,14 @@ class StoreTourTest extends TestCase
             ! File::exists($this->imageDirectory)
             || count(File::files($this->imageDirectory)) === 0
         );
+    }
+
+    public function test_legacy_step_routes_are_removed(): void
+    {
+        $this->assertTrue(Route::has('admin.tours.store'));
+        $this->assertFalse(Route::has('admin.add-tours'));
+        $this->assertFalse(Route::has('admin.add-images-tours'));
+        $this->assertFalse(Route::has('admin.add-timeline'));
     }
 
     private function validPayload(): array
