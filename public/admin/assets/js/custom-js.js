@@ -1,3 +1,5 @@
+Dropzone.autoDiscover = false;
+
 $(document).ready(function () {
     /********************************************
      * USER MANAGEMENT                          *
@@ -96,6 +98,8 @@ $(document).ready(function () {
     var timelineCounter_edit;
     var formDataEdit = {};
     var tourIdSendingImage;
+    var dropzoneOldImages = null;
+    var editSubmitting = false;
     $(document).on("click", ".edit-tour", function (e) {
         e.preventDefault();
         console.log("edittour-click");
@@ -143,18 +147,13 @@ $(document).ready(function () {
                     $("#start_date").val(startDate);
                     $("#end_date").val(endDate);
 
-                    // Đảm bảo CKEditor đã sẵn sàng
-                    CKEDITOR.instances["description"].on(
-                        "instanceReady",
-                        function () {
-                            CKEDITOR.instances["description"].setData(
-                                tour.description,
-                            );
-                        },
+                    CKEDITOR.instances["description"].setData(
+                        tour.description,
                     );
                     timelineCounter_edit = 1; // Đặt lại bộ đếm
 
                     // Xóa các timeline hiện tại trước khi load dữ liệu
+                    destroyEditTimelineEditors();
                     $("#step-3").empty();
 
                     // Duyệt qua mảng timeline và thêm vào giao diện
@@ -175,45 +174,27 @@ $(document).ready(function () {
     });
 
     function getFormDataImages() {
-        var formDataImages = [];
-
-        // Lấy các ảnh cũ từ Dropzone (những ảnh đã được thêm vào)
-        var oldImages = dropzoneOldImages.files.filter(function (file) {
-            return file.status === "accepted" || file.status === "complete";
+        var acceptedImages = dropzoneOldImages.files.filter(function (file) {
+            return file.accepted !== false;
         });
 
-        // Thêm các ảnh cũ vào formDataImages
-        oldImages.forEach(function (file) {
-            formDataImages.push(file.name); // Lấy tên của ảnh cũ
-        });
-
-        // Thêm các ảnh đã upload thành công từ Dropzone
-        dropzoneOldImages.getAcceptedFiles().forEach(function (file) {
-            if (file.xhr && file.xhr.responseText) {
-                var response = JSON.parse(file.xhr.responseText); // Chuyển đổi JSON response nếu cần
-                if (
-                    response.success &&
-                    response.data &&
-                    response.data.filename
-                ) {
-                    var newImageName = response.data.filename; // Lấy tên file từ response
-                    formDataImages.push(newImageName); // Thêm vào formDataImages
-                }
-            }
-        });
-
-        // Loại bỏ các tên ảnh trùng lặp
-        formDataImages = [...new Set(formDataImages)];
-
-        console.log(formDataImages);
-
-        // Kiểm tra formDataImages đã chứa đủ ảnh chưa (ít nhất 5 ảnh)
-        if (formDataImages.length < 5) {
-            toastr.error("Vui lòng tải lên ít nhất 5 ảnh.");
-            return false; // Dừng lại nếu số lượng ảnh không đủ
+        if (acceptedImages.length !== 5) {
+            toastr.error("Tour phải có đúng 5 hình ảnh.");
+            return false;
         }
 
-        return formDataImages;
+        return {
+            existingImages: acceptedImages
+                .filter(function (file) {
+                    return file.isExisting;
+                })
+                .map(function (file) {
+                    return file.serverFilename;
+                }),
+            newImages: acceptedImages.filter(function (file) {
+                return !file.isExisting;
+            }),
+        };
     }
 
     function init_SmartWizard_Edit_Tour() {
@@ -286,7 +267,8 @@ $(document).ready(function () {
                         end_date: $("#end_date").val(),
                         description: description,
                         _token: $('input[name="_token"]').val(),
-                        images: [],
+                        existingImages: [],
+                        newImages: [],
                         timeline: [],
                     };
                     console.log("formDataEdit step 1:");
@@ -308,7 +290,9 @@ $(document).ready(function () {
                     }
 
                     // Thêm ảnh vào formDataEdit
-                    formDataEdit.images = formDataImages; // Gán danh sách ảnh cho formDataEdit
+                    formDataEdit.existingImages =
+                        formDataImages.existingImages;
+                    formDataEdit.newImages = formDataImages.newImages;
                     console.log("formDataEdit step 2:");
                     console.log(formDataEdit);
                     if (finishStep2) {
@@ -323,24 +307,18 @@ $(document).ready(function () {
         // Khởi tạo Dropzone
         Dropzone.autoDiscover = false; // Ngăn Dropzone tự động init
         dropzoneOldImages = new Dropzone("#myDropzone-listTour", {
-            url: "http://127.0.0.1:8000/admin/add-temp-images", // URL upload ảnh
+            url: $("#timeline-form").attr("action"),
             method: "post",
-            paramName: "image",
-            acceptedFiles: "image/*",
+            paramName: "new_images[]",
+            acceptedFiles: "image/jpeg,image/png,image/webp",
+            maxFilesize: 5,
             addRemoveLinks: true,
             dictRemoveFile: "Xóa ảnh",
-            autoProcessQueue: true, // Không tự động upload
-            maxFiles: 5, // Giới hạn số file tối đa
-            parallelUploads: 5, // Số file được upload song song
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // Thêm CSRF token vào headers
-            },
-            init: function () {
-                // Lắng nghe sự kiện 'sending' để thêm thông tin vào formData
-                this.on("sending", function (file, xhr, formData) {
-                    formData.append("tourId", tourIdSendingImage); // tourId là ID của tour mà bạn cần gửi
-                });
-            },
+            dictInvalidFileType: "Định dạng ảnh không hợp lệ.",
+            dictFileTooBig: "Ảnh không được lớn hơn 5 MB.",
+            dictMaxFilesExceeded: "Tour chỉ được có 5 ảnh.",
+            autoProcessQueue: false,
+            maxFiles: 5,
         });
 
         $("#wizard_verticle").smartWizard({
@@ -357,9 +335,12 @@ $(document).ready(function () {
             let imageUrl = `/admin/assets/images/gallery-tours/${image.imageURL}`; // Tạo đường dẫn đầy đủ
 
             let mockFile = {
-                name: image.imageURL, // Tên tệp ảnh
-                url: imageUrl, // Đường dẫn đầy đủ
-                status: "accepted", // Đặt trạng thái của file là 'accepted'
+                name: image.imageURL,
+                serverFilename: image.imageURL,
+                url: imageUrl,
+                status: Dropzone.SUCCESS,
+                accepted: true,
+                isExisting: true,
             };
 
             // Thêm file vào Dropzone
@@ -367,6 +348,14 @@ $(document).ready(function () {
             dropzoneOldImages.emit("thumbnail", mockFile, imageUrl); // Hiển thị thumbnail
             dropzoneOldImages.emit("complete", mockFile);
             dropzoneOldImages.files.push(mockFile);
+        });
+    }
+
+    function destroyEditTimelineEditors() {
+        $("#edit-tour-modal #step-3 textarea").each(function () {
+            if (CKEDITOR.instances[this.id]) {
+                CKEDITOR.instances[this.id].destroy(true);
+            }
         });
     }
 
@@ -404,57 +393,131 @@ $(document).ready(function () {
         $("#edit-tour-modal #wizard .buttonFinish")
             .off("click")
             .on("click", function (e) {
-                // Thêm các timeline entries vào formDataEdit
-                formDataEdit.timeline = []; // Xóa dữ liệu cũ nếu có
-                $(".timeline-entry").each(function () {
-                    const title = $(this).find('input[name^="day"]').val(); // Lấy title ngày
-                    const itinerary =
-                        CKEDITOR.instances[
-                            $(this).find("textarea").attr("id")
-                        ].getData(); // Lấy lộ trình từ CKEditor
+                e.preventDefault();
+
+                if (editSubmitting) {
+                    return;
+                }
+
+                var imageData = getFormDataImages();
+
+                if (!imageData) {
+                    return;
+                }
+
+                formDataEdit.timeline = [];
+                var timelinesValid = true;
+
+                $("#edit-tour-modal .timeline-entry").each(function () {
+                    const title = String(
+                        $(this).find('input[name^="day"]').val() || "",
+                    ).trim();
+                    const editorId = $(this).find("textarea").attr("id");
+                    const itinerary = CKEDITOR.instances[editorId]
+                        .getData()
+                        .trim();
+
+                    if (!title || !itinerary) {
+                        timelinesValid = false;
+                        return;
+                    }
+
                     formDataEdit.timeline.push({
                         title: title,
                         itinerary: itinerary,
                     });
                 });
 
-                console.log(
-                    "formDataEdit sau khi nhấn hoàn thành:",
-                    formDataEdit,
-                );
+                if (!timelinesValid || formDataEdit.timeline.length === 0) {
+                    toastr.error(
+                        "Vui lòng nhập đầy đủ tiêu đề và nội dung lộ trình.",
+                    );
+                    return;
+                }
+
                 var urlUpdate = $("#timeline-form").attr("action");
+                var requestData = new FormData();
+
+                requestData.append("_token", formDataEdit._token);
+                requestData.append("tourId", formDataEdit.tourId);
+                requestData.append("name", formDataEdit.name);
+                requestData.append("destination", formDataEdit.destination);
+                requestData.append("domain", formDataEdit.domain);
+                requestData.append("number", formDataEdit.number);
+                requestData.append("price_adult", formDataEdit.price_adult);
+                requestData.append("price_child", formDataEdit.price_child);
+                requestData.append("description", formDataEdit.description);
+
+                imageData.existingImages.forEach(function (filename) {
+                    requestData.append("existing_images[]", filename);
+                });
+
+                imageData.newImages.forEach(function (file) {
+                    requestData.append("new_images[]", file, file.name);
+                });
+
+                formDataEdit.timeline.forEach(function (timeline, index) {
+                    requestData.append(
+                        `timelines[${index}][title]`,
+                        timeline.title,
+                    );
+                    requestData.append(
+                        `timelines[${index}][description]`,
+                        timeline.itinerary,
+                    );
+                });
+
+                var finishButton = $(this);
+                editSubmitting = true;
+                finishButton.addClass("buttonDisabled");
 
                 $.ajax({
-                    url: urlUpdate, // Thay đổi URL phù hợp với API của bạn
+                    url: urlUpdate,
                     type: "POST",
-                    data: formDataEdit,
+                    data: requestData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        Accept: "application/json",
+                    },
                     success: function (response) {
                         if (response.success) {
                             toastr.success(response.message);
                             $("#edit-tour-modal").modal("hide");
-                            // Reload lại toàn bộ trang
                             location.reload();
                         }
                     },
-                    error: function (xhr, textStatus, errorThrown) {
-                        toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+                    error: function (xhr) {
+                        var errors = xhr.responseJSON && xhr.responseJSON.errors;
+                        var firstKey = errors ? Object.keys(errors)[0] : null;
+
+                        toastr.error(
+                            (firstKey && errors[firstKey][0]) ||
+                                (xhr.responseJSON &&
+                                    xhr.responseJSON.message) ||
+                                "Không thể sửa tour. Vui lòng thử lại.",
+                        );
+                    },
+                    complete: function () {
+                        editSubmitting = false;
+                        finishButton.removeClass("buttonDisabled");
                     },
                 });
             });
     });
     // Khi modal đóng
     $("#edit-tour-modal").on("hidden.bs.modal", function () {
-        console.log("close modal");
-
-        // Reset SmartWizard về bước đầu tiên
         $("#edit-tour-modal #wizard").smartWizard("goToStep", 1);
+        destroyEditTimelineEditors();
+        $("#edit-tour-modal #step-3").empty();
 
-        // Kiểm tra nếu Dropzone đã được khởi tạo
-        if (Dropzone.forElement("#myDropzone-listTour") !== undefined) {
-            // Hủy bỏ Dropzone cũ
-            // $("#myDropzone-listTour .dz-preview").remove();
-            Dropzone.forElement("#myDropzone-listTour").destroy();
+        if (dropzoneOldImages) {
+            dropzoneOldImages.destroy();
+            dropzoneOldImages = null;
         }
+
+        formDataEdit = {};
+        editSubmitting = false;
     });
 
     $(document).on("click", ".delete-tour", function (e) {

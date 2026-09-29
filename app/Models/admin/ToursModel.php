@@ -29,11 +29,6 @@ class ToursModel extends Model
         return DB::table('tbl_images')->insert($data);
     }
 
-    public function uploadTempImages($data)
-    {
-        return DB::table('tbl_temp_images')->insert($data);
-    }
-
     public function addTimeLine($data)
     {
         return DB::table('tbl_timeline')->insert($data);

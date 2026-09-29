@@ -114,6 +114,73 @@ class StoreTourTest extends TestCase
         $this->assertFalse(Route::has('admin.add-tours'));
         $this->assertFalse(Route::has('admin.add-images-tours'));
         $this->assertFalse(Route::has('admin.add-timeline'));
+        $this->assertFalse(Route::has('admin.add-temp-images'));
+    }
+
+    public function test_it_updates_a_tour_and_its_relations_atomically(): void
+    {
+        $tourId = $this->seedEditableTour();
+        $payload = $this->validUpdatePayload($tourId);
+
+        $response = $this
+            ->withSession(['admin' => 'admin'])
+            ->postJson(route('admin.edit-tour'), $payload);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('success', true);
+
+        $this->assertSame(
+            'Tour transaction updated',
+            DB::table('tbl_tours')->where('tourId', $tourId)->value('title')
+        );
+        $this->assertSame(5, DB::table('tbl_images')->where('tourId', $tourId)->count());
+        $this->assertSame(2, DB::table('tbl_timeline')->where('tourId', $tourId)->count());
+        $this->assertFalse(
+            DB::table('tbl_images')
+                ->where('tourId', $tourId)
+                ->where('imageURL', 'old-five.jpg')
+                ->exists()
+        );
+        $this->assertFalse(File::exists($this->imageDirectory.'/old-five.jpg'));
+        $this->assertTrue(File::exists($this->imageDirectory.'/old-one.jpg'));
+        $this->assertCount(5, File::files($this->imageDirectory));
+    }
+
+    public function test_update_rolls_back_database_and_new_files_when_timeline_insert_fails(): void
+    {
+        $tourId = $this->seedEditableTour();
+
+        DB::unprepared(
+            "CREATE TRIGGER fail_timeline_insert
+            BEFORE INSERT ON tbl_timeline
+            BEGIN
+                SELECT RAISE(FAIL, 'timeline insert failed');
+            END;"
+        );
+
+        $response = $this
+            ->withSession(['admin' => 'admin'])
+            ->postJson(route('admin.edit-tour'), $this->validUpdatePayload($tourId));
+
+        $response
+            ->assertServerError()
+            ->assertJsonPath('success', false);
+
+        $this->assertSame(
+            'Original tour',
+            DB::table('tbl_tours')->where('tourId', $tourId)->value('title')
+        );
+        $this->assertSame(5, DB::table('tbl_images')->where('tourId', $tourId)->count());
+        $this->assertSame(1, DB::table('tbl_timeline')->where('tourId', $tourId)->count());
+        $this->assertTrue(
+            DB::table('tbl_images')
+                ->where('tourId', $tourId)
+                ->where('imageURL', 'old-five.jpg')
+                ->exists()
+        );
+        $this->assertTrue(File::exists($this->imageDirectory.'/old-five.jpg'));
+        $this->assertCount(5, File::files($this->imageDirectory));
     }
 
     private function validPayload(): array
@@ -143,6 +210,76 @@ class StoreTourTest extends TestCase
                 [
                     'title' => 'Ngày 2',
                     'description' => 'Lịch trình ngày thứ hai.',
+                ],
+            ],
+        ];
+    }
+
+    private function seedEditableTour(): int
+    {
+        $tourId = DB::table('tbl_tours')->insertGetId([
+            'title' => 'Original tour',
+            'time' => '2 ngày 1 đêm',
+            'description' => 'Original description',
+            'quantity' => 10,
+            'priceAdult' => 1000000,
+            'priceChild' => 500000,
+            'destination' => 'Huế',
+            'domain' => 't',
+            'availability' => 1,
+            'startDate' => now()->addMonth()->format('Y-m-d'),
+            'endDate' => now()->addMonth()->addDays(2)->format('Y-m-d'),
+        ]);
+
+        File::ensureDirectoryExists($this->imageDirectory);
+
+        foreach (['one', 'two', 'three', 'four', 'five'] as $name) {
+            $filename = "old-{$name}.jpg";
+            File::put($this->imageDirectory.'/'.$filename, 'old image');
+            DB::table('tbl_images')->insert([
+                'tourId' => $tourId,
+                'imageURL' => $filename,
+                'description' => $name,
+            ]);
+        }
+
+        DB::table('tbl_timeline')->insert([
+            'tourId' => $tourId,
+            'title' => 'Ngày cũ',
+            'description' => 'Lộ trình cũ',
+        ]);
+
+        return $tourId;
+    }
+
+    private function validUpdatePayload(int $tourId): array
+    {
+        return [
+            'tourId' => $tourId,
+            'name' => 'Tour transaction updated',
+            'destination' => 'Đà Nẵng',
+            'domain' => 't',
+            'number' => 15,
+            'price_adult' => 1800000,
+            'price_child' => 900000,
+            'description' => 'Updated description',
+            'existing_images' => [
+                'old-one.jpg',
+                'old-two.jpg',
+                'old-three.jpg',
+                'old-four.jpg',
+            ],
+            'new_images' => [
+                UploadedFile::fake()->image('new-five.jpg', 800, 600),
+            ],
+            'timelines' => [
+                [
+                    'title' => 'Ngày 1',
+                    'description' => 'Lộ trình mới ngày 1',
+                ],
+                [
+                    'title' => 'Ngày 2',
+                    'description' => 'Lộ trình mới ngày 2',
                 ],
             ],
         ];
