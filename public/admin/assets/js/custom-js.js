@@ -127,10 +127,10 @@ $(document).ready(function () {
                     // Gán giá trị cho datetimepicker
                     const startDate = moment(
                         tour.startDate,
-                        "YYYY-MM-DD"
+                        "YYYY-MM-DD",
                     ).format("DD/MM/YYYY");
                     const endDate = moment(tour.endDate, "YYYY-MM-DD").format(
-                        "DD/MM/YYYY"
+                        "DD/MM/YYYY",
                     );
 
                     // Điền dữ liệu vào các field
@@ -148,9 +148,9 @@ $(document).ready(function () {
                         "instanceReady",
                         function () {
                             CKEDITOR.instances["description"].setData(
-                                tour.description
+                                tour.description,
                             );
-                        }
+                        },
                     );
                     timelineCounter_edit = 1; // Đặt lại bộ đếm
 
@@ -236,7 +236,7 @@ $(document).ready(function () {
                 if (stepIndex === 1) {
                     // Kiểm tra các trường trong form step1
                     $(
-                        "#form-step1 input, #form-step1 select, #form-step1 textarea"
+                        "#form-step1 input, #form-step1 select, #form-step1 textarea",
                     ).each(function () {
                         if (
                             $(this).prop("required") &&
@@ -246,7 +246,7 @@ $(document).ready(function () {
                             $(this).addClass("is-invalid"); // Thêm lớp lỗi
                             toastr.error(
                                 "Vui lòng điền đầy đủ các trường bắt buộc!",
-                                "Lỗi!"
+                                "Lỗi!",
                             );
                         } else {
                             $(this).removeClass("is-invalid"); // Xóa lớp lỗi nếu trường hợp hợp lệ
@@ -323,7 +323,7 @@ $(document).ready(function () {
         // Khởi tạo Dropzone
         Dropzone.autoDiscover = false; // Ngăn Dropzone tự động init
         dropzoneOldImages = new Dropzone("#myDropzone-listTour", {
-            url: "http://travela:8000/admin/add-temp-images", // URL upload ảnh
+            url: "http://127.0.0.1:8000/admin/add-temp-images", // URL upload ảnh
             method: "post",
             paramName: "image",
             acceptedFiles: "image/*",
@@ -420,7 +420,7 @@ $(document).ready(function () {
 
                 console.log(
                     "formDataEdit sau khi nhấn hoàn thành:",
-                    formDataEdit
+                    formDataEdit,
                 );
                 var urlUpdate = $("#timeline-form").attr("action");
 
@@ -628,7 +628,6 @@ $(document).ready(function () {
         });
     });
 
-    
     /********************************************
      * BOOKING INVOICE                          *
      ********************************************/
@@ -752,7 +751,7 @@ $(document).ready(function () {
                     toastr.success(response.message);
                     // Xóa element contact-item sau khi phản hồi thành công
                     $(
-                        ".contact-item[data-contactid='" + contactId + "']"
+                        ".contact-item[data-contactid='" + contactId + "']",
                     ).remove();
                     $(".mail_view").hide();
                     CKEDITOR.instances["editor-contact"].setData(""); // Xóa nội dung CKEditor
@@ -807,7 +806,7 @@ $(document).ready(function () {
      ********************************************/
 
     $("#formProfileAdmin").on("submit", function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
 
         var name = $("#fullName").val().trim();
         var password = $("#password").val().trim();
@@ -834,22 +833,22 @@ $(document).ready(function () {
 
         if (isValid) {
             $.ajax({
-                url: $(this).attr('action'), 
+                url: $(this).attr("action"),
                 method: "POST",
                 data: {
                     fullName: name,
                     password: password,
                     email: email,
                     address: address,
-                    '_token': $('meta[name="csrf-token"]').attr('content') 
+                    _token: $('meta[name="csrf-token"]').attr("content"),
                 },
                 success: function (response) {
-                    if(response.success){
+                    if (response.success) {
                         toastr.success("Cập nhật thành công!");
-                        $('#nameAdmin').text(response.data.fullName);
-                        $('#emailAdmin').text(response.data.email);
-                        $('#addressAdmin').text(response.data.address);
-                    }else{
+                        $("#nameAdmin").text(response.data.fullName);
+                        $("#emailAdmin").text(response.data.email);
+                        $("#addressAdmin").text(response.data.address);
+                    } else {
                         toastr.error(response.message);
                     }
                 },
@@ -869,11 +868,11 @@ $(document).ready(function () {
             const reader = new FileReader();
             reader.onload = function (e) {
                 $("#avatarAdminPreview").attr("src", e.target.result);
-                $('#navbarDropdown img').attr("src", e.target.result);
-                $('.profile_img').attr("src", e.target.result);
+                $("#navbarDropdown img").attr("src", e.target.result);
+                $(".profile_img").attr("src", e.target.result);
             };
             reader.readAsDataURL(file);
-            var url = $('#btn_avatar').attr('action');
+            var url = $("#btn_avatar").attr("action");
             // Tạo FormData để gửi file qua AJAX
             const formData = new FormData();
             formData.append("avatarAdmin", file);
@@ -885,7 +884,9 @@ $(document).ready(function () {
                 url: url,
                 type: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content'),
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content",
+                    ),
                 },
                 data: formData,
                 contentType: false,
@@ -893,7 +894,6 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.success) {
                         toastr.success(response.message);
-                        
                     } else {
                         toastr.error(response.message);
                     }
