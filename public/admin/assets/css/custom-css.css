@@ -24,6 +24,262 @@
     border-radius: 5px;
 }
 
+.add-tours .tour-timeline-step {
+    padding: 4px 12px 24px;
+}
+
+.add-tours #wizard .stepContainer {
+    height: auto !important;
+    min-height: 360px;
+    overflow: visible;
+}
+
+.add-tours .timeline-step-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 16px 18px;
+    border: 1px solid #e3ebe8;
+    border-radius: 8px;
+    background: #f7faf9;
+}
+
+.add-tours .timeline-heading-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.add-tours .timeline-heading-icon {
+    display: inline-flex;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: #169f85;
+    background: rgba(26, 187, 156, 0.12);
+    font-size: 18px;
+}
+
+.add-tours .timeline-step-heading h2 {
+    margin: 0 0 3px;
+    color: #34495e;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.add-tours .timeline-step-heading p {
+    margin: 0;
+    color: #7b8a97;
+    font-size: 13px;
+}
+
+.add-tours .timeline-count {
+    flex: 0 0 auto;
+    padding: 6px 11px;
+    border-radius: 14px;
+    color: #fff;
+    background: #34495e;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.add-tours #timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.add-tours .timeline-entry {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #dfe7eb;
+    border-left: 4px solid #1abb9c;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(52, 73, 94, 0.06);
+}
+
+.add-tours .timeline-entry-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e8edef;
+    background: #fbfcfc;
+}
+
+.add-tours .timeline-day-marker {
+    display: inline-flex;
+    flex: 0 0 34px;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: #fff;
+    background: #1abb9c;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.add-tours .timeline-entry-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.add-tours .timeline-entry-heading h3 {
+    margin: 0 0 2px;
+    color: #34495e;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.add-tours .timeline-entry-heading p {
+    margin: 0;
+    color: #8795a1;
+    font-size: 12px;
+}
+
+.add-tours .timeline-remove-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid #f1c5c1;
+    border-radius: 5px;
+    color: #d9534f;
+    background: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-tours .timeline-remove-button:hover {
+    color: #fff;
+    border-color: #d9534f;
+    background: #d9534f;
+}
+
+.add-tours .timeline-entry-body {
+    padding: 18px 18px 20px;
+}
+
+.add-tours .timeline-field + .timeline-field {
+    margin-top: 18px;
+}
+
+.add-tours .timeline-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #425567;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.add-tours .timeline-required {
+    color: #d9534f;
+}
+
+.add-tours .timeline-field .form-control {
+    height: 40px;
+    border-color: #d9e1e5;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.add-tours .timeline-field .form-control:focus {
+    border-color: #1abb9c;
+    box-shadow: 0 0 0 2px rgba(26, 187, 156, 0.1);
+}
+
+.add-tours .timeline-field small {
+    display: block;
+    margin-top: 6px;
+    color: #8b98a3;
+}
+
+.add-tours .timeline-editor-field .cke {
+    border-color: #d9e1e5;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.add-tours .timeline-add-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    border: 1px dashed #b7c9c4;
+    border-radius: 8px;
+    background: #fbfdfc;
+}
+
+.add-tours .timeline-add-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.add-tours .timeline-add-copy strong {
+    color: #425567;
+    font-size: 13px;
+}
+
+.add-tours .timeline-add-copy span {
+    color: #8795a1;
+    font-size: 12px;
+}
+
+.add-tours .timeline-add-button {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1px solid #1abb9c;
+    border-radius: 5px;
+    color: #fff;
+    background: #1abb9c;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-tours .timeline-add-button:hover {
+    border-color: #169f85;
+    background: #169f85;
+}
+
+@media (max-width: 767px) {
+    .add-tours .timeline-step-heading,
+    .add-tours .timeline-add-panel {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .add-tours .timeline-count {
+        margin-left: 54px;
+    }
+
+    .add-tours .timeline-add-button {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .add-tours .timeline-remove-button span {
+        display: none;
+    }
+}
+
 /********************************************
 *  TOURS MANAGEMENT                       *
 ********************************************/

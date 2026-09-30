@@ -142,21 +142,68 @@ $(document).ready(function () {
         const editorId = `itinerary-${entryId}`;
         const timelineEntry = `
             <div class="timeline-entry" id="timeline-entry-${entryId}" data-editor-id="${editorId}">
-                <label for="day-${entryId}">Ngày ${currentCount + 1}</label>
-                <input type="text" class="form-control timeline-title" id="day-${entryId}"
-                    placeholder="Ngày thứ..." required>
-
-                <label for="${editorId}" style="margin-top: 10px; display: block;">Lộ trình:</label>
-                <textarea id="${editorId}" class="timeline-description"></textarea>
-
-                <button type="button" class="btn btn-round btn-danger remove-btn"
-                    data-id="${entryId}">Xóa Timeline này</button>
+                <div class="timeline-entry-header">
+                    <span class="timeline-day-marker">
+                        <span class="timeline-day-number">${currentCount + 1}</span>
+                    </span>
+                    <div class="timeline-entry-heading">
+                        <h3 class="timeline-day-title">Ngày ${currentCount + 1}</h3>
+                        <p>Thông tin hoạt động và điểm đến trong ngày.</p>
+                    </div>
+                    <button type="button" class="timeline-remove-button remove-btn"
+                        data-id="${entryId}" aria-label="Xóa ngày ${currentCount + 1}">
+                        <i class="fa fa-trash-o"></i>
+                        <span>Xóa</span>
+                    </button>
+                </div>
+                <div class="timeline-entry-body">
+                    <div class="timeline-field">
+                        <label for="day-${entryId}">
+                            Tiêu đề ngày <span class="timeline-required">*</span>
+                        </label>
+                        <input type="text" class="form-control timeline-title" id="day-${entryId}"
+                            placeholder="Ví dụ: Khám phá trung tâm Đà Nẵng" required>
+                        <small>Tóm tắt ngắn nội dung chính của ngày.</small>
+                    </div>
+                    <div class="timeline-field timeline-editor-field">
+                        <label for="${editorId}">
+                            Nội dung lộ trình <span class="timeline-required">*</span>
+                        </label>
+                        <textarea id="${editorId}" class="timeline-description"></textarea>
+                    </div>
+                </div>
             </div>
         `;
 
         $timelineList.append(timelineEntry);
-        CKEDITOR.replace(editorId);
+        refreshTimelineSummary();
+
+        const editor = CKEDITOR.replace(editorId, { height: 180 });
+
+        editor.on("instanceReady", function () {
+            $wizard.smartWizard("fixHeight");
+        });
+
         $wizard.smartWizard("fixHeight");
+    }
+
+    function refreshTimelineSummary() {
+        const $entries = $timelineList.find(".timeline-entry");
+
+        $entries.each(function (index) {
+            const dayNumber = index + 1;
+            const $entry = $(this);
+
+            $entry.find(".timeline-day-number").text(dayNumber);
+            $entry.find(".timeline-day-title").text(`Ngày ${dayNumber}`);
+            $entry
+                .find(".timeline-remove-button")
+                .attr("aria-label", `Xóa ngày ${dayNumber}`);
+        });
+
+        const total = $entries.length;
+        const limit = maxTimelineDays > 0 ? ` / ${maxTimelineDays}` : "";
+        $("#timeline-count").text(`${total}${limit} ngày`);
     }
 
     function ensureFirstTimeline() {
@@ -215,6 +262,7 @@ $(document).ready(function () {
         $timelineList.empty();
         timelineCounter = 1;
         maxTimelineDays = 0;
+        refreshTimelineSummary();
         resetting = true;
         $wizard.smartWizard("goToStep", 1);
     }
@@ -349,6 +397,13 @@ $(document).ready(function () {
         },
         onFinish: submitTour,
         onShowStep: function (obj, context) {
+            if (context.toStep === 3) {
+                window.requestAnimationFrame(function () {
+                    refreshTimelineSummary();
+                    $wizard.smartWizard("fixHeight");
+                });
+            }
+
             if (resetting && context.toStep === 1) {
                 $wizard.smartWizard("disableStep", 2);
                 $wizard.smartWizard("disableStep", 3);
@@ -373,6 +428,7 @@ $(document).ready(function () {
         }
 
         $entry.remove();
+        refreshTimelineSummary();
         $wizard.smartWizard("fixHeight");
     });
 

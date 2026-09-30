@@ -165,13 +165,30 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="step-3">
-                                        <h2 class="StepTitle">Nhập lộ trình</h2>
+                                    <div id="step-3" class="tour-timeline-step">
+                                        <div class="timeline-step-heading">
+                                            <div class="timeline-heading-main">
+                                                <span class="timeline-heading-icon">
+                                                    <i class="fa fa-map-o"></i>
+                                                </span>
+                                                <div>
+                                                    <h2>Lộ trình chuyến đi</h2>
+                                                    <p>Thêm nội dung cụ thể cho từng ngày trong tour.</p>
+                                                </div>
+                                            </div>
+                                            <span id="timeline-count" class="timeline-count">0 ngày</span>
+                                        </div>
                                         <div id="timeline-list"></div>
-                                        <button type="button" id="add-timeline"
-                                            class="btn btn-round btn-info" style="margin-top: 20px;">
-                                            Thêm Timeline
-                                        </button>
+                                        <div class="timeline-add-panel">
+                                            <div class="timeline-add-copy">
+                                                <strong>Thêm một ngày vào lộ trình</strong>
+                                                <span>Số ngày không được vượt quá thời gian của tour.</span>
+                                            </div>
+                                            <button type="button" id="add-timeline" class="timeline-add-button">
+                                                <i class="fa fa-plus"></i>
+                                                Thêm ngày
+                                            </button>
+                                        </div>
                                     </div>
 
                                     </div>
