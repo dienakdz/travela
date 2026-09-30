@@ -10,6 +10,7 @@ $(document).ready(function () {
     let timelineCounter = 1;
     let maxTimelineDays = 0;
     let submitting = false;
+    let resetting = false;
 
     Dropzone.autoDiscover = false;
 
@@ -207,16 +208,15 @@ $(document).ready(function () {
 
     function resetWizard() {
         form.reset();
+        $(form).find(".is-invalid").removeClass("is-invalid");
         CKEDITOR.instances.description.setData("");
         imageDropzone.removeAllFiles(true);
         destroyTimelineEditors();
         $timelineList.empty();
         timelineCounter = 1;
         maxTimelineDays = 0;
+        resetting = true;
         $wizard.smartWizard("goToStep", 1);
-        $wizard.smartWizard("disableStep", 2);
-        $wizard.smartWizard("disableStep", 3);
-        $wizard.smartWizard("fixHeight");
     }
 
     function firstValidationMessage(xhr) {
@@ -315,7 +315,10 @@ $(document).ready(function () {
             },
             complete: function () {
                 submitting = false;
-                $wizard.find(".buttonFinish").removeClass("buttonDisabled");
+
+                if ($wizard.smartWizard("currentStep") === 3) {
+                    $wizard.find(".buttonFinish").removeClass("buttonDisabled");
+                }
             },
         });
 
@@ -345,6 +348,17 @@ $(document).ready(function () {
             return true;
         },
         onFinish: submitTour,
+        onShowStep: function (obj, context) {
+            if (resetting && context.toStep === 1) {
+                $wizard.smartWizard("disableStep", 2);
+                $wizard.smartWizard("disableStep", 3);
+                $wizard.find(".buttonFinish").addClass("buttonDisabled");
+                $wizard.smartWizard("fixHeight");
+                resetting = false;
+            }
+
+            return true;
+        },
     });
 
     $("#add-timeline").on("click", addTimelineEntry);
