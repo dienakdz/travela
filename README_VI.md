@@ -4,7 +4,6 @@
 
 Travela là website đặt tour du lịch được xây dựng bằng Laravel 9 và MySQL. Đây là project đồ án, tập trung vào quy trình tìm kiếm tour, đặt tour, thanh toán thử nghiệm và quản trị dữ liệu tour.
 
-> Project phục vụ mục đích học tập và demo. Các tích hợp thanh toán và recommendation chưa được thiết kế để sử dụng trong môi trường production.
 
 ## Chức năng chính
 

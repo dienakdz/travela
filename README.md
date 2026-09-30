@@ -4,7 +4,6 @@
 
 Travela is a tour booking website built with Laravel 9 and MySQL. This academic project focuses on tour discovery, booking, experimental payment flows, and tour data administration.
 
-> This project is intended for learning and demonstration purposes. Its payment and recommendation integrations are not designed for production use.
 
 ## Main features
 
