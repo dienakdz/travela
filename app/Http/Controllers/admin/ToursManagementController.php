@@ -243,23 +243,44 @@ class ToursManagementController extends Controller
 
     public function deleteTour(Request $request)
     {
-        $tourId = $request->tourId;
+        $validator = Validator::make($request->all(), [
+            'tourId' => ['required', 'integer', 'exists:tbl_tours,tourId'],
+        ]);
 
-        $result = $this->tours->deleteTour($tourId);
-        $tours = $this->tours->getAllTours();
-        // Kiểm tra kết quả trả về từ Model
-        if ($result['success']) {
-            return response()->json([
-                'success' => true,
-                'message' => $result['message'],
-                'data' => view('admin.partials.list-tours', compact('tours'))->render()
-            ]);
-        } else {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $result['message']
-            ]);
+                'message' => 'Tour không tồn tại.',
+                'errors' => $validator->errors(),
+            ], 422);
         }
+
+        try {
+            $this->deleteTourAtomically($validator->validated()['tourId']);
+            $tours = $this->tours->getAllTours();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Tour đã được xóa thành công.',
+                'data' => view('admin.partials.list-tours', compact('tours'))->render(),
+            ]);
+        } catch (RuntimeException $exception) {
+            if ($exception->getCode() === 409) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $exception->getMessage(),
+                ], 409);
+            }
+
+            report($exception);
+        } catch (Throwable $exception) {
+            report($exception);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Không thể xóa tour. Dữ liệu cũ vẫn được giữ nguyên.',
+        ], 500);
     }
 
     private function createTourAtomically(array $data)
@@ -473,6 +494,65 @@ class ToursManagementController extends Controller
             throw $exception;
         } finally {
             File::deleteDirectory($requestDirectory);
+        }
+    }
+
+    private function deleteTourAtomically($tourId)
+    {
+        $finalDirectory = config(
+            'tours.images.path',
+            public_path('admin/assets/images/gallery-tours')
+        );
+
+        $imageNames = DB::transaction(function () use ($tourId) {
+            $tour = DB::table('tbl_tours')
+                ->where('tourId', $tourId)
+                ->lockForUpdate()
+                ->first();
+
+            if (!$tour) {
+                throw new RuntimeException('Tour không tồn tại.');
+            }
+
+            foreach (['tbl_booking', 'tbl_history', 'tbl_reviews'] as $table) {
+                if (
+                    DB::getSchemaBuilder()->hasTable($table)
+                    && DB::table($table)->where('tourId', $tourId)->exists()
+                ) {
+                    throw new RuntimeException(
+                        'Không thể xóa tour đã có booking, lịch sử hoặc đánh giá.',
+                        409
+                    );
+                }
+            }
+
+            $imageNames = $this->tours
+                ->getImages($tourId)
+                ->pluck('imageURL')
+                ->all();
+
+            $this->tours->deleteData($tourId, 'tbl_timeline');
+            $this->tours->deleteData($tourId, 'tbl_images');
+
+            $deleted = DB::table('tbl_tours')
+                ->where('tourId', $tourId)
+                ->delete();
+
+            if ($deleted !== 1) {
+                throw new RuntimeException('Không thể xóa tour khỏi cơ sở dữ liệu.');
+            }
+
+            return $imageNames;
+        });
+
+        foreach ($imageNames as $filename) {
+            $isStillUsed = DB::table('tbl_images')
+                ->where('imageURL', $filename)
+                ->exists();
+
+            if (!$isStillUsed && $filename === basename($filename)) {
+                File::delete($finalDirectory . DIRECTORY_SEPARATOR . $filename);
+            }
         }
     }
 

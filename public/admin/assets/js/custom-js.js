@@ -542,8 +542,11 @@ $(document).ready(function () {
                     toastr.error(response.message);
                 }
             },
-            error: function (xhr, textStatus, errorThrown) {
-                toastr.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+            error: function (xhr) {
+                const message =
+                    xhr.responseJSON?.message ||
+                    "Có lỗi xảy ra. Vui lòng thử lại sau.";
+                toastr.error(message);
             },
         });
     });

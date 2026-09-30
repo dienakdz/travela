@@ -183,6 +183,78 @@ class StoreTourTest extends TestCase
         $this->assertCount(5, File::files($this->imageDirectory));
     }
 
+    public function test_it_deletes_a_tour_and_its_files_atomically(): void
+    {
+        $tourId = $this->seedEditableTour();
+
+        $response = $this
+            ->withSession(['admin' => 'admin'])
+            ->postJson(route('admin.delete-tour'), ['tourId' => $tourId]);
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('success', true);
+
+        $this->assertFalse(DB::table('tbl_tours')->where('tourId', $tourId)->exists());
+        $this->assertSame(0, DB::table('tbl_images')->where('tourId', $tourId)->count());
+        $this->assertSame(0, DB::table('tbl_timeline')->where('tourId', $tourId)->count());
+        $this->assertCount(0, File::files($this->imageDirectory));
+    }
+
+    public function test_delete_rolls_back_relations_when_deleting_the_tour_fails(): void
+    {
+        $tourId = $this->seedEditableTour();
+
+        DB::unprepared(
+            "CREATE TRIGGER fail_tour_delete
+            BEFORE DELETE ON tbl_tours
+            BEGIN
+                SELECT RAISE(FAIL, 'tour delete failed');
+            END;"
+        );
+
+        $response = $this
+            ->withSession(['admin' => 'admin'])
+            ->postJson(route('admin.delete-tour'), ['tourId' => $tourId]);
+
+        $response
+            ->assertServerError()
+            ->assertJsonPath('success', false);
+
+        $this->assertTrue(DB::table('tbl_tours')->where('tourId', $tourId)->exists());
+        $this->assertSame(5, DB::table('tbl_images')->where('tourId', $tourId)->count());
+        $this->assertSame(1, DB::table('tbl_timeline')->where('tourId', $tourId)->count());
+        $this->assertCount(5, File::files($this->imageDirectory));
+    }
+
+    public function test_it_rejects_deleting_a_tour_with_dependent_business_data(): void
+    {
+        $tourId = $this->seedEditableTour();
+
+        Schema::create('tbl_booking', function (Blueprint $table) {
+            $table->increments('bookingId');
+            $table->unsignedInteger('tourId');
+        });
+        DB::table('tbl_booking')->insert(['tourId' => $tourId]);
+
+        $response = $this
+            ->withSession(['admin' => 'admin'])
+            ->postJson(route('admin.delete-tour'), ['tourId' => $tourId]);
+
+        $response
+            ->assertStatus(409)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath(
+                'message',
+                'Không thể xóa tour đã có booking, lịch sử hoặc đánh giá.'
+            );
+
+        $this->assertTrue(DB::table('tbl_tours')->where('tourId', $tourId)->exists());
+        $this->assertSame(5, DB::table('tbl_images')->where('tourId', $tourId)->count());
+        $this->assertSame(1, DB::table('tbl_timeline')->where('tourId', $tourId)->count());
+        $this->assertCount(5, File::files($this->imageDirectory));
+    }
+
     private function validPayload(): array
     {
         return [
