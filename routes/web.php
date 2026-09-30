@@ -127,15 +127,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/tours', [ToursManagementController::class, 'index'])->name('admin.tours');
 
     Route::get('/page-add-tours', [ToursManagementController::class, 'pageAddTours'])->name('admin.page-add-tours');
-    Route::post('/add-tours', [ToursManagementController::class, 'addTours'])->name('admin.add-tours');
-    Route::post('/add-images-tours', [ToursManagementController::class, 'addImagesTours'])->name('admin.add-images-tours');
-    Route::post('/add-timeline', [ToursManagementController::class, 'addTimeline'])->name('admin.add-timeline');
+    Route::post('/tours/store', [ToursManagementController::class, 'store'])->name('admin.tours.store');
 
     Route::post('/delete-tour', [ToursManagementController::class, 'deleteTour'])->name('admin.delete-tour');
 
     Route::get('/tour-edit', [ToursManagementController::class, 'getTourEdit'])->name('admin.tour-edit');
     Route::post('/edit-tour', [ToursManagementController::class, 'updateTour'])->name('admin.edit-tour');
-    Route::post('/add-temp-images', [ToursManagementController::class, 'uploadTempImagesTours'])->name('admin.add-temp-images');
 
     //Management Booking
     Route::get('/booking', [BookingManagementController::class, 'index'])->name('admin.booking');

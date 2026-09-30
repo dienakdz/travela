@@ -133,7 +133,7 @@
                                         <label class="col-form-label col-md-3 col-sm-3  label-align">Khu
                                             vực<span>*</span></label>
                                         <div class="col-md-6 col-sm-6">
-                                            <select class="form-control" name="domain" id="domain">
+                                            <select class="form-control" name="domain" id="domain" required>
                                                 <option value="">Chọn khu vực</option>
                                                 <option value="b">Miền Bắc</option>
                                                 <option value="t">Miền Trung</option>
@@ -145,7 +145,7 @@
                                         <label class="col-form-label col-md-3 col-sm-3  label-align">Số lượng
                                             <span>*</span></label>
                                         <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" type="number" name="number" required>
+                                            <input class="form-control" type="number" name="number" min="1" required>
                                         </div>
                                     </div>
                                     <div class="field item form-group">
@@ -153,14 +153,14 @@
                                             lớn
                                             <span>*</span></label>
                                         <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" type="number" name="price_adult" required>
+                                            <input class="form-control" type="number" name="price_adult" min="0" required>
                                         </div>
                                     </div>
                                     <div class="field item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3  label-align">Giá trẻ em
                                             <span>*</span></label>
                                         <div class="col-md-6 col-sm-6">
-                                            <input class="form-control" type="number" name="price_child" required>
+                                            <input class="form-control" type="number" name="price_child" min="0" required>
                                         </div>
                                     </div>
                                     <div class="field item form-group">
@@ -192,17 +192,14 @@
                             </div>
                             <div id="step-2">
                                 <h2 class="StepTitle">Thêm hình ảnh</h2>
-                                <form action="" class="dropzone dz-clickable"
-                                    id="myDropzone-listTour" enctype="multipart/form-data">
-                                    @csrf
+                                <div class="dropzone dz-clickable" id="myDropzone-listTour">
                                     <div class="dz-default dz-message">
                                         <span>Chọn hình ảnh về tours để upload</span>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                             <form action="{{ route('admin.edit-tour') }}" id="timeline-form" method="POST">
                                 @csrf
-                                <input type="hidden" name="tourId" class="hiddenTourId">
                                 <div id="step-3">
                                     <h2 class="StepTitle">Nhập lộ trình</h2>
 

@@ -42,7 +42,10 @@
 
                                 <!-- Smart Wizard -->
                                 <p>Thêm thông tin chi tiết để tạo một tour mới và bắt đầu thu hút khách hàng!</p>
-                                <div id="wizard" class="form_wizard wizard_horizontal">
+                                <form action="{{ route('admin.tours.store') }}" method="POST"
+                                    enctype="multipart/form-data" id="create-tour-form">
+                                    @csrf
+                                    <div id="wizard" class="form_wizard wizard_horizontal">
                                     <ul class="wizard_steps">
                                         <li>
                                             <a href="#step-1">
@@ -73,9 +76,7 @@
                                         </li>
                                     </ul>
                                     <div id="step-1">
-                                        <form class="form-info-tour" action="{{ route('admin.add-tours') }}"
-                                            method="POST" id="form-step1">
-                                            @csrf
+                                        <div class="form-info-tour" id="form-step1">
                                             <div class="field item form-group">
                                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Tên
                                                     <span>*</span></label>
@@ -96,7 +97,7 @@
                                                 <label class="col-form-label col-md-3 col-sm-3  label-align">Khu
                                                     vực<span>*</span></label>
                                                 <div class="col-md-6 col-sm-6">
-                                                    <select class="form-control" name="domain" id="domain">
+                                                    <select class="form-control" name="domain" id="domain" required>
                                                         <option value="">Chọn khu vực</option>
                                                         <option value="b">Miền Bắc</option>
                                                         <option value="t">Miền Trung</option>
@@ -109,7 +110,7 @@
                                                     <span>*</span></label>
                                                 <div class="col-md-6 col-sm-6">
                                                     <input class="form-control" type="number" name="number"
-                                                        required>
+                                                        min="1" required>
                                                 </div>
                                             </div>
                                             <div class="field item form-group">
@@ -118,7 +119,7 @@
                                                     <span>*</span></label>
                                                 <div class="col-md-6 col-sm-6">
                                                     <input class="form-control" type="number" name="price_adult"
-                                                        required>
+                                                        min="0" required>
                                                 </div>
                                             </div>
                                             <div class="field item form-group">
@@ -126,7 +127,7 @@
                                                     <span>*</span></label>
                                                 <div class="col-md-6 col-sm-6">
                                                     <input class="form-control" type="number" name="price_child"
-                                                        required>
+                                                        min="0" required>
                                                 </div>
                                             </div>
                                             <div class="field item form-group">
@@ -153,31 +154,45 @@
                                                     <textarea name="description" id="description" rows="10" required></textarea>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
 
                                     </div>
                                     <div id="step-2">
                                         <h2 class="StepTitle">Thêm hình ảnh</h2>
-                                        <form action="{{ route('admin.add-images-tours') }}"
-                                            class="dropzone dz-clickable" id="myDropzone"
-                                            enctype="multipart/form-data">
-                                            @csrf
+                                        <div class="dropzone dz-clickable" id="myDropzone">
                                             <div class="dz-default dz-message">
                                                 <span>Chọn hình ảnh về tours để upload</span>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <form action="{{ route('admin.add-timeline') }}" id="timeline-form" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="tourId" class="hiddenTourId">
-                                        <div id="step-3">
-                                            <h2 class="StepTitle">Nhập lộ trình</h2>
-
                                         </div>
+                                    </div>
+                                    <div id="step-3" class="tour-timeline-step">
+                                        <div class="timeline-step-heading">
+                                            <div class="timeline-heading-main">
+                                                <span class="timeline-heading-icon">
+                                                    <i class="fa fa-map-o"></i>
+                                                </span>
+                                                <div>
+                                                    <h2>Lộ trình chuyến đi</h2>
+                                                    <p>Thêm nội dung cụ thể cho từng ngày trong tour.</p>
+                                                </div>
+                                            </div>
+                                            <span id="timeline-count" class="timeline-count">0 ngày</span>
+                                        </div>
+                                        <div id="timeline-list"></div>
+                                        <div class="timeline-add-panel">
+                                            <div class="timeline-add-copy">
+                                                <strong>Thêm một ngày vào lộ trình</strong>
+                                                <span>Số ngày không được vượt quá thời gian của tour.</span>
+                                            </div>
+                                            <button type="button" id="add-timeline" class="timeline-add-button">
+                                                <i class="fa fa-plus"></i>
+                                                Thêm ngày
+                                            </button>
+                                        </div>
+                                    </div>
 
-                                    </form>
-
-                                </div>
+                                    </div>
+                                </form>
                                 <!-- End SmartWizard Content -->
                             </div>
                         </div>
@@ -197,4 +212,8 @@
         <!-- /footer content -->
     </div>
 </div>
+@push('scripts')
+    <script src="{{ asset('admin/assets/js/tour-create.js') }}"></script>
+@endpush
+
 @include('admin.blocks.footer')

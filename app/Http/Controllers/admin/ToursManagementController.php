@@ -6,7 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\admin\ToursModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use RuntimeException;
+use Throwable;
 
 class ToursManagementController extends Controller
 {
@@ -31,149 +37,71 @@ class ToursManagementController extends Controller
         return view('admin.add-tours', compact('title'));
     }
 
-    public function addTours(Request $request)
+    public function store(Request $request)
     {
-        $name = $request->input('name');
-        $destination = $request->input('destination');
-        $domain = $request->input('domain');
-        $quantity = $request->input('number');
-        $price_adult = $request->input('price_adult');
-        $price_child = $request->input('price_child');
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
-        $description = $request->input('description');
-
-
-        // Chuyển start_date và end_date từ định dạng d/m/Y sang Y-m-d
-        $startDate = Carbon::createFromFormat('d/m/Y', $start_date)->format('Y-m-d');
-        $endDate = Carbon::createFromFormat('d/m/Y', $end_date)->format('Y-m-d');
-
-        // Tính số ngày giữa start_date và end_date
-        $days = Carbon::createFromFormat('Y-m-d', $startDate)->diffInDays(Carbon::createFromFormat('Y-m-d', $endDate));
-
-        // Tính số đêm: số ngày - 1
-        $nights = $days - 1;
-
-        // Định dạng thời gian theo kiểu "X ngày Y đêm"
-        $time = "{$days} ngày {$nights} đêm";
-
-
-        $dataTours = [
-            'title' => $name,
-            'time' => $time,
-            'description' => $description,
-            'quantity' => $quantity,
-            'priceAdult' => $price_adult,
-            'priceChild' => $price_child,
-            'destination' => $destination,
-            'domain' => $domain,
-            'availability' => 0,
-            'startDate' => $startDate,
-            'endDate' => $endDate
-        ];
-        // dd($dataTours);
-
-        $createTour = $this->tours->createTours($dataTours);
-
-        // dd($createTour);
-        return response()->json([
-            'success' => true,
-            'message' => 'Tour added successfully!',
-            'tourId' => $createTour
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'destination' => ['required', 'string', 'max:255'],
+            'domain' => ['required', 'in:b,t,n'],
+            'number' => ['required', 'integer', 'min:1'],
+            'price_adult' => ['required', 'numeric', 'min:0'],
+            'price_child' => ['required', 'numeric', 'min:0'],
+            'start_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+            'end_date' => ['required', 'date_format:Y-m-d', 'after:start_date'],
+            'description' => ['required', 'string'],
+            'images' => ['required', 'array', 'size:5'],
+            'images.*' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'timelines' => ['required', 'array', 'min:1'],
+            'timelines.*.title' => ['required', 'string', 'max:255'],
+            'timelines.*.description' => ['required', 'string'],
+        ], [
+            'images.size' => 'Tour phải có đúng :size hình ảnh.',
+            'images.*.image' => 'Mỗi tệp tải lên phải là một hình ảnh hợp lệ.',
+            'images.*.mimes' => 'Ảnh chỉ được dùng định dạng JPEG, JPG, PNG hoặc WEBP.',
+            'images.*.max' => 'Mỗi ảnh không được lớn hơn 5 MB.',
+            'end_date.after' => 'Ngày kết thúc phải sau ngày khởi hành.',
         ]);
 
-    }
+        $validator->after(function ($validator) use ($request) {
+            if ($validator->errors()->hasAny(['start_date', 'end_date', 'timelines'])) {
+                return;
+            }
 
-    public function addImagesTours(Request $request)
-    {
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->start_date);
+            $endDate = Carbon::createFromFormat('Y-m-d', $request->end_date);
+            $maximumTimelineDays = $startDate->diffInDays($endDate);
+
+            if (count($request->input('timelines', [])) > $maximumTimelineDays) {
+                $validator->errors()->add(
+                    'timelines',
+                    "Không thể thêm quá {$maximumTimelineDays} ngày cho tour này."
+                );
+            }
+        });
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Dữ liệu không hợp lệ.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
         try {
-            $image = $request->file('image');
-            $tourId = $request->tourId;
+            $tourId = $this->createTourAtomically($validator->validated());
 
-            // Kiểm tra xem file có hợp lệ không
-            if (!$image->isValid()) {
-                return response()->json(['success' => false, 'message' => 'Invalid file upload'], 400);
-            }
-
-            // Lấy tên gốc của file (không bao gồm đường dẫn)
-            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-
-            // Lấy phần mở rộng của file
-            $extension = $image->getClientOriginalExtension();
-
-            // Tạo tên file mới: [original_name]_[timestamp].[extension]
-            $filename = preg_replace('/[^A-Za-z0-9_\-]/', '_', $originalName) . '_' . time() . '.' . $extension;
-
-            // Resize hình ảnh về kích thước 400x350
-            $resizedImage = Image::make($image)->resize(400, 350);
-
-            // Di chuyển file vào thư mục đích
-            $destinationPath = public_path('admin/assets/images/gallery-tours/');
-            $resizedImage->save($destinationPath . $filename); // Lưu ảnh đã resize
-
-            // Tạo dữ liệu để lưu vào cơ sở dữ liệu
-            $dataUpload = [
+            return response()->json([
+                'success' => true,
+                'message' => 'Thêm tour thành công!',
                 'tourId' => $tourId,
-                'imageURL' => $filename,
-                'description' => $originalName
-            ];
+            ], 201);
+        } catch (Throwable $exception) {
+            report($exception);
 
-            // Lưu thông tin vào cơ sở dữ liệu
-            $uploadImage = $this->tours->uploadImages($dataUpload);
-
-            // Kiểm tra kết quả lưu trữ
-            if ($uploadImage) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Image uploaded successfully',
-                    'data' => [
-                        'filename' => $filename,
-                        'tourId' => $tourId
-                    ]
-                ], 200);
-            }
-
-            return response()->json(['success' => false, 'message' => 'Failed to save image data'], 500);
-        } catch (\Exception $e) {
-            // Xử lý lỗi bất ngờ
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể thêm tour. Vui lòng thử lại.',
+            ], 500);
         }
-    }
-
-    public function addTimeline(Request $request)
-    {
-        $tourId = $request->tourId;
-
-        // Tạo một mảng chứa các timeline
-        $timelines = [];
-
-        // Lặp qua tất cả các keys trong request để tìm các cặp `day-X` và `itinerary-X`
-        foreach ($request->all() as $key => $value) {
-            if (preg_match('/^day-(\d+)$/', $key, $matches)) {
-                $dayNumber = $matches[1]; // Lấy số ngày (X) từ `day-X`
-
-                // Tìm `itinerary-X` tương ứng
-                $itineraryKey = "itinerary-{$dayNumber}";
-                if ($request->has($itineraryKey)) {
-                    $timelines[] = [
-                        'tourId' => $tourId,
-                        'title' => $value,
-                        'description' => $request->input($itineraryKey),
-                    ];
-                }
-            }
-        }
-
-        foreach ($timelines as $timeline) {
-            $this->tours->addTimeLine($timeline);
-        }
-        $dataUpdate = [
-            'availability' => 1
-        ];
-
-        $updateAvailability = $this->tours->updateTour($tourId, $dataUpdate);
-        toastr()->success('Thêm tour thành công!');
-        return redirect()->route('admin.page-add-tours');
     }
 
     public function getTourEdit(Request $request)
@@ -181,6 +109,14 @@ class ToursManagementController extends Controller
         $tourId = $request->tourId;
 
         $getTour = $this->tours->getTour($tourId);
+
+        if (!$getTour) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tour không tồn tại.',
+            ], 404);
+        }
+
         // Lấy ngày bắt đầu của tour và ngày hiện tại
         $startDate = Carbon::parse($getTour->startDate); // Chuyển đổi ngày bắt đầu sang đối tượng Carbon
         $today = Carbon::now(); // Lấy ngày hiện tại
@@ -196,155 +132,451 @@ class ToursManagementController extends Controller
 
         $getImages = $this->tours->getImages($tourId);
         $getTimeLine = $this->tours->getTimeLine($tourId);
-        if ($getTour) {
-            return response()->json([
-                'success' => true,
-                'tour' => $getTour,
-                'images' => $getImages,
-                'timeline' => $getTimeLine
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-            ]);
-        }
-    }
-
-    public function uploadTempImagesTours(Request $request)
-    {
-        try {
-            $image = $request->file('image');
-            $tourId = $request->tourId;
-
-            // Kiểm tra xem file có hợp lệ không
-            if (!$image->isValid()) {
-                return response()->json(['success' => false, 'message' => 'Invalid file upload'], 400);
-            }
-
-            // Lấy tên gốc của file (không bao gồm đường dẫn)
-            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-
-            // Lấy phần mở rộng của file
-            $extension = $image->getClientOriginalExtension();
-
-            // Tạo tên file mới: [original_name]_[timestamp].[extension]
-            $filename = preg_replace('/[^A-Za-z0-9_\-]/', '_', $originalName) . '_' . time() . '.' . $extension;
-
-            // Resize hình ảnh về kích thước 400x350
-            $resizedImage = Image::make($image)->resize(400, 350);
-
-            // Di chuyển file vào thư mục đích
-            $destinationPath = public_path('admin/assets/images/gallery-tours/');
-            $resizedImage->save($destinationPath . $filename); // Lưu ảnh đã resize
-
-            // Tạo dữ liệu để lưu vào cơ sở dữ liệu
-            $dataUpload = [
-                'tourId' => $tourId,
-                'imageTempURL' => $filename,
-            ];
-
-            // Lưu thông tin vào cơ sở dữ liệu
-            $uploadImage = $this->tours->uploadTempImages($dataUpload);
-
-            // Kiểm tra kết quả lưu trữ
-            if ($uploadImage) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Image uploaded successfully',
-                    'data' => [
-                        'filename' => $filename,
-                        'tourId' => $tourId
-                    ]
-                ], 200);
-            }
-
-            return response()->json(['success' => false, 'message' => 'Failed to save image data'], 500);
-        } catch (\Exception $e) {
-            // Xử lý lỗi bất ngờ
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-        }
+        return response()->json([
+            'success' => true,
+            'tour' => $getTour,
+            'images' => $getImages,
+            'timeline' => $getTimeLine
+        ]);
     }
 
     public function updateTour(Request $request)
     {
-        $tourId = $request->tourId;
-        $name = $request->input('name');
-        $destination = $request->input('destination');
-        $domain = $request->input('domain');
-        $quantity = $request->input('number');
-        $price_adult = $request->input('price_adult');
-        $price_child = $request->input('price_child');
-        $description = $request->input('description');
-
-        $dataTours = [
-            'title'       => $name,
-            'description' => $description,
-            'quantity'    => $quantity,
-            'priceAdult'  => $price_adult,
-            'priceChild'  => $price_child,
-            'destination' => $destination,
-            'domain'      => $domain,
-        ];
-
-        $delete_timeline = $this->tours->deleteData($tourId, 'tbl_timeline');
-        $delete_images = $this->tours->deleteData($tourId, 'tbl_images');
-
-        $updateTour = $this->tours->updateTour($tourId, $dataTours);
-
-        // Tạo mảng tạm để lưu tên ảnh
-        $images = $request->input('images');  // Mảng các tên ảnh gửi lên từ request
-
-        if ($images && is_array($images)) {
-            foreach ($images as $image) {
-                $dataUpload = [
-                    'tourId' => $tourId,
-                    'imageURL' => $image, 
-                    'description' => $name  
-                ];
-                $this->tours->uploadImages($dataUpload);
-            }
-        }
-
-        $timelines = $request->input('timeline');
-
-        if ($timelines && is_array($timelines)) {
-            foreach ($timelines as $timeline) {
-                $data = [
-                    'tourId' => $tourId,
-                    'title' => $timeline['title'],
-                    'description' => $timeline['itinerary']
-                ];
-
-                $this->tours->addTimeLine($data);  // Gọi phương thức addTimeLine()
-            }
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Sửa thành công!',
+        $validator = Validator::make($request->all(), [
+            'tourId' => ['required', 'integer'],
+            'name' => ['required', 'string', 'max:255'],
+            'destination' => ['required', 'string', 'max:255'],
+            'domain' => ['required', 'in:b,t,n'],
+            'number' => ['required', 'integer', 'min:1'],
+            'price_adult' => ['required', 'numeric', 'min:0'],
+            'price_child' => ['required', 'numeric', 'min:0'],
+            'description' => ['required', 'string'],
+            'existing_images' => ['sometimes', 'array', 'max:5'],
+            'existing_images.*' => ['required', 'string', 'max:255', 'distinct'],
+            'new_images' => ['sometimes', 'array', 'max:5'],
+            'new_images.*' => ['required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'timelines' => ['required', 'array', 'min:1'],
+            'timelines.*.title' => ['required', 'string', 'max:255'],
+            'timelines.*.description' => ['required', 'string'],
         ]);
+
+        $validator->after(function ($validator) use ($request) {
+            if ($validator->errors()->has('tourId')) {
+                return;
+            }
+
+            $tour = $this->tours->getTour($request->tourId);
+
+            if (!$tour) {
+                $validator->errors()->add('tourId', 'Tour không tồn tại.');
+                return;
+            }
+
+            if (Carbon::parse($tour->startDate)->lessThanOrEqualTo(Carbon::today())) {
+                $validator->errors()->add('tourId', 'Không thể sửa tour đã hoặc đang diễn ra.');
+            }
+
+            $existingImages = $request->input('existing_images', []);
+
+            if (!is_array($existingImages)) {
+                $existingImages = [];
+            }
+
+            $currentImages = $this->tours
+                ->getImages($request->tourId)
+                ->pluck('imageURL')
+                ->all();
+
+            if (array_diff($existingImages, $currentImages)) {
+                $validator->errors()->add(
+                    'existing_images',
+                    'Danh sách ảnh hiện tại của tour không hợp lệ.'
+                );
+            }
+
+            $newImages = $request->file('new_images', []);
+
+            if (!is_array($newImages)) {
+                $newImages = [];
+            }
+
+            if (count($existingImages) + count($newImages) !== 5) {
+                $validator->errors()->add('images', 'Tour phải có đúng 5 hình ảnh.');
+            }
+
+            $maximumTimelineDays = Carbon::parse($tour->startDate)
+                ->diffInDays(Carbon::parse($tour->endDate));
+            $timelines = $request->input('timelines', []);
+
+            if (is_array($timelines) && count($timelines) > $maximumTimelineDays) {
+                $validator->errors()->add(
+                    'timelines',
+                    "Không thể thêm quá {$maximumTimelineDays} ngày cho tour này."
+                );
+            }
+        });
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Dữ liệu không hợp lệ.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $this->updateTourAtomically($validator->validated());
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Sửa thành công!',
+            ]);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể sửa tour. Vui lòng thử lại.',
+            ], 500);
+        }
 
     }
 
     public function deleteTour(Request $request)
     {
-        $tourId = $request->tourId;
+        $validator = Validator::make($request->all(), [
+            'tourId' => ['required', 'integer', 'exists:tbl_tours,tourId'],
+        ]);
 
-        $result = $this->tours->deleteTour($tourId);
-        $tours = $this->tours->getAllTours();
-        // Kiểm tra kết quả trả về từ Model
-        if ($result['success']) {
-            return response()->json([
-                'success' => true,
-                'message' => $result['message'],
-                'data' => view('admin.partials.list-tours', compact('tours'))->render()
-            ]);
-        } else {
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $result['message']
-            ]);
+                'message' => 'Tour không tồn tại.',
+                'errors' => $validator->errors(),
+            ], 422);
         }
+
+        try {
+            $this->deleteTourAtomically($validator->validated()['tourId']);
+            $tours = $this->tours->getAllTours();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Tour đã được xóa thành công.',
+                'data' => view('admin.partials.list-tours', compact('tours'))->render(),
+            ]);
+        } catch (RuntimeException $exception) {
+            if ($exception->getCode() === 409) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $exception->getMessage(),
+                ], 409);
+            }
+
+            report($exception);
+        } catch (Throwable $exception) {
+            report($exception);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Không thể xóa tour. Dữ liệu cũ vẫn được giữ nguyên.',
+        ], 500);
+    }
+
+    private function createTourAtomically(array $data)
+    {
+        $temporaryRoot = config('tours.images.temporary_path', storage_path('app/tmp/tours'));
+        $finalDirectory = config(
+            'tours.images.path',
+            public_path('admin/assets/images/gallery-tours')
+        );
+        $requestDirectory = rtrim($temporaryRoot, DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . Str::uuid();
+        $stagedImages = [];
+        $movedPaths = [];
+
+        try {
+            File::ensureDirectoryExists($requestDirectory);
+            $stagedImages = $this->stageTourImages($data['images'], $requestDirectory);
+
+            return DB::transaction(function () use ($data, $stagedImages, $finalDirectory, &$movedPaths) {
+                $startDate = Carbon::createFromFormat('Y-m-d', $data['start_date']);
+                $endDate = Carbon::createFromFormat('Y-m-d', $data['end_date']);
+                $days = $startDate->diffInDays($endDate);
+                $nights = $days - 1;
+
+                $tourId = $this->tours->createTours([
+                    'title' => $data['name'],
+                    'time' => "{$days} ngày {$nights} đêm",
+                    'description' => $data['description'],
+                    'quantity' => $data['number'],
+                    'priceAdult' => $data['price_adult'],
+                    'priceChild' => $data['price_child'],
+                    'destination' => $data['destination'],
+                    'domain' => $data['domain'],
+                    'availability' => 1,
+                    'startDate' => $data['start_date'],
+                    'endDate' => $data['end_date'],
+                ]);
+
+                File::ensureDirectoryExists($finalDirectory);
+
+                foreach ($stagedImages as $image) {
+                    $finalPath = $finalDirectory . DIRECTORY_SEPARATOR . $image['filename'];
+
+                    if (!File::move($image['temporary_path'], $finalPath)) {
+                        throw new RuntimeException('Không thể lưu hình ảnh của tour.');
+                    }
+
+                    $movedPaths[] = $finalPath;
+
+                    $imageCreated = $this->tours->uploadImages([
+                        'tourId' => $tourId,
+                        'imageURL' => $image['filename'],
+                        'description' => $image['description'],
+                    ]);
+
+                    if (!$imageCreated) {
+                        throw new RuntimeException('Không thể lưu thông tin hình ảnh của tour.');
+                    }
+                }
+
+                foreach ($data['timelines'] as $timeline) {
+                    $timelineCreated = $this->tours->addTimeLine([
+                        'tourId' => $tourId,
+                        'title' => $timeline['title'],
+                        'description' => $timeline['description'],
+                    ]);
+
+                    if (!$timelineCreated) {
+                        throw new RuntimeException('Không thể lưu lộ trình của tour.');
+                    }
+                }
+
+                return $tourId;
+            });
+        } catch (Throwable $exception) {
+            foreach ($movedPaths as $path) {
+                File::delete($path);
+            }
+
+            throw $exception;
+        } finally {
+            File::deleteDirectory($requestDirectory);
+        }
+    }
+
+    private function updateTourAtomically(array $data)
+    {
+        $temporaryRoot = config('tours.images.temporary_path', storage_path('app/tmp/tours'));
+        $finalDirectory = config(
+            'tours.images.path',
+            public_path('admin/assets/images/gallery-tours')
+        );
+        $requestDirectory = rtrim($temporaryRoot, DIRECTORY_SEPARATOR)
+            . DIRECTORY_SEPARATOR
+            . Str::uuid();
+        $existingImages = $data['existing_images'] ?? [];
+        $removedImages = [];
+        $stagedImages = [];
+        $movedPaths = [];
+
+        try {
+            File::ensureDirectoryExists($requestDirectory);
+            $stagedImages = $this->stageTourImages(
+                $data['new_images'] ?? [],
+                $requestDirectory
+            );
+
+            DB::transaction(function () use (
+                $data,
+                $existingImages,
+                $stagedImages,
+                $finalDirectory,
+                &$movedPaths,
+                &$removedImages
+            ) {
+                $tour = DB::table('tbl_tours')
+                    ->where('tourId', $data['tourId'])
+                    ->lockForUpdate()
+                    ->first();
+
+                if (!$tour) {
+                    throw new RuntimeException('Tour không tồn tại.');
+                }
+
+                $currentImages = $this->tours
+                    ->getImages($data['tourId'])
+                    ->pluck('imageURL')
+                    ->all();
+
+                if (array_diff($existingImages, $currentImages)) {
+                    throw new RuntimeException('Danh sách ảnh của tour đã thay đổi.');
+                }
+
+                $removedImages = array_diff($currentImages, $existingImages);
+
+                $this->tours->deleteData($data['tourId'], 'tbl_timeline');
+                $this->tours->deleteData($data['tourId'], 'tbl_images');
+
+                $this->tours->updateTour($data['tourId'], [
+                    'title' => $data['name'],
+                    'description' => $data['description'],
+                    'quantity' => $data['number'],
+                    'priceAdult' => $data['price_adult'],
+                    'priceChild' => $data['price_child'],
+                    'destination' => $data['destination'],
+                    'domain' => $data['domain'],
+                ]);
+
+                foreach ($existingImages as $filename) {
+                    $imageCreated = $this->tours->uploadImages([
+                        'tourId' => $data['tourId'],
+                        'imageURL' => $filename,
+                        'description' => $data['name'],
+                    ]);
+
+                    if (!$imageCreated) {
+                        throw new RuntimeException('Không thể giữ lại hình ảnh của tour.');
+                    }
+                }
+
+                File::ensureDirectoryExists($finalDirectory);
+
+                foreach ($stagedImages as $image) {
+                    $finalPath = $finalDirectory . DIRECTORY_SEPARATOR . $image['filename'];
+
+                    if (!File::move($image['temporary_path'], $finalPath)) {
+                        throw new RuntimeException('Không thể lưu hình ảnh mới của tour.');
+                    }
+
+                    $movedPaths[] = $finalPath;
+
+                    $imageCreated = $this->tours->uploadImages([
+                        'tourId' => $data['tourId'],
+                        'imageURL' => $image['filename'],
+                        'description' => $image['description'],
+                    ]);
+
+                    if (!$imageCreated) {
+                        throw new RuntimeException('Không thể lưu thông tin hình ảnh mới của tour.');
+                    }
+                }
+
+                foreach ($data['timelines'] as $timeline) {
+                    $timelineCreated = $this->tours->addTimeLine([
+                        'tourId' => $data['tourId'],
+                        'title' => $timeline['title'],
+                        'description' => $timeline['description'],
+                    ]);
+
+                    if (!$timelineCreated) {
+                        throw new RuntimeException('Không thể lưu lộ trình của tour.');
+                    }
+                }
+            });
+
+            foreach ($removedImages as $filename) {
+                $isStillUsed = DB::table('tbl_images')
+                    ->where('imageURL', $filename)
+                    ->exists();
+
+                if (!$isStillUsed && $filename === basename($filename)) {
+                    File::delete($finalDirectory . DIRECTORY_SEPARATOR . $filename);
+                }
+            }
+        } catch (Throwable $exception) {
+            foreach ($movedPaths as $path) {
+                File::delete($path);
+            }
+
+            throw $exception;
+        } finally {
+            File::deleteDirectory($requestDirectory);
+        }
+    }
+
+    private function deleteTourAtomically($tourId)
+    {
+        $finalDirectory = config(
+            'tours.images.path',
+            public_path('admin/assets/images/gallery-tours')
+        );
+
+        $imageNames = DB::transaction(function () use ($tourId) {
+            $tour = DB::table('tbl_tours')
+                ->where('tourId', $tourId)
+                ->lockForUpdate()
+                ->first();
+
+            if (!$tour) {
+                throw new RuntimeException('Tour không tồn tại.');
+            }
+
+            foreach (['tbl_booking', 'tbl_history', 'tbl_reviews'] as $table) {
+                if (
+                    DB::getSchemaBuilder()->hasTable($table)
+                    && DB::table($table)->where('tourId', $tourId)->exists()
+                ) {
+                    throw new RuntimeException(
+                        'Không thể xóa tour đã có booking, lịch sử hoặc đánh giá.',
+                        409
+                    );
+                }
+            }
+
+            $imageNames = $this->tours
+                ->getImages($tourId)
+                ->pluck('imageURL')
+                ->all();
+
+            $this->tours->deleteData($tourId, 'tbl_timeline');
+            $this->tours->deleteData($tourId, 'tbl_images');
+
+            $deleted = DB::table('tbl_tours')
+                ->where('tourId', $tourId)
+                ->delete();
+
+            if ($deleted !== 1) {
+                throw new RuntimeException('Không thể xóa tour khỏi cơ sở dữ liệu.');
+            }
+
+            return $imageNames;
+        });
+
+        foreach ($imageNames as $filename) {
+            $isStillUsed = DB::table('tbl_images')
+                ->where('imageURL', $filename)
+                ->exists();
+
+            if (!$isStillUsed && $filename === basename($filename)) {
+                File::delete($finalDirectory . DIRECTORY_SEPARATOR . $filename);
+            }
+        }
+    }
+
+    private function stageTourImages(array $images, $requestDirectory)
+    {
+        $stagedImages = [];
+
+        foreach ($images as $image) {
+            $filename = Str::uuid() . '.' . $image->extension();
+            $temporaryPath = $requestDirectory . DIRECTORY_SEPARATOR . $filename;
+            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+            Image::make($image)
+                ->resize(400, 350)
+                ->save($temporaryPath);
+
+            $stagedImages[] = [
+                'filename' => $filename,
+                'temporary_path' => $temporaryPath,
+                'description' => $originalName,
+            ];
+        }
+
+        return $stagedImages;
     }
 
 }
