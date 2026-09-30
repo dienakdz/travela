@@ -1,150 +1,216 @@
-# Travela - Tour Booking Website with Personalized Recommendations
+# Travela
 
-## 🌍 Overview
-**Travela** is a user-friendly tour booking platform designed to make travel planning effortless. With an integrated personalized recommender system, it helps users find the perfect tours based on their preferences and activities. The platform also includes robust administrative tools for managing tours, users, and analytics.
+**English** | [Tiếng Việt](README_VI.md)
 
----
+Travela is a tour booking website built with Laravel 9 and MySQL. This academic project focuses on tour discovery, booking, experimental payment flows, and tour data administration.
 
-## ✨ Features
+> This project is intended for learning and demonstration purposes. Its payment and recommendation integrations are not designed for production use.
 
-### 🔹 User Features:
-- **Search Tours**: Filter tours by keywords, destination, duration, and more.
-- **Personalized Recommendations**: Receive tour suggestions tailored to your interests and history.
-- **Tour Booking**: Simplified booking process with support for adults and children.
-- **Account Management**:
-  - Update profile details
-  - View and manage booking history
-  - Change password or delete account
-- **Chat Support**: Connect with admins for inquiries or assistance.
-- **Secure Login**:
-  - Options to log in via Google or Facebook
-  - Email activation for secure account registration
+## Main features
 
-### 🔸 Admin Features:
-- **Tour Management**:
-  - Add, edit, or delete tours
-  - Manage availability, itineraries, and reviews
-  - Analyze tour statistics
-- **User Management**:
-  - View and edit user information
-  - Monitor user booking history
-  - Ban or delete user accounts
-- **Promotions & Discounts**: Create and manage promotional campaigns for tours.
-- **Reports & Analytics**:
-  - Generate revenue reports
-  - View statistics on tour bookings
+### Customer application
 
----
+- Account registration with email activation.
+- Login with a local account or Google.
+- Browse, search, and filter tours by region, duration, price, and rating.
+- View tour details, images, itineraries, and reviews.
+- Book tours for adults and children.
+- Office, PayPal, and MoMo payment options in experimental mode.
+- View booked tours and tour history.
+- Review a tour after completion.
+- Update profile information, avatar, and password.
+- Send contact requests to administrators.
 
-## 🔧 Technologies Used
+### Administration
 
-### Frontend:
-- HTML, CSS, JavaScript, Bootstrap
-- AJAX for dynamic tour filtering
-- Datetimepicker for date selection (date-only)
+- Dashboard statistics for bookings, revenue, and tours by region.
+- Three-step tour creation: information, images, and timeline.
+- Edit, hide, or delete tours.
+- Manage users and account status.
+- Confirm and complete bookings and update their payment status.
+- View booking details, generate PDFs, and send information by email.
+- Manage and reply to customer messages.
+- Update administrator profile information and avatar.
 
-### Backend:
-- PHP with Laravel Framework
-- MySQL for database management
-- Secure authentication with Google Login and email activation
+## Technology stack
 
-### Other Tools:
-- jQuery for interactive elements
-- Blade templates for dynamic content rendering
-
----
-
-## 🚀 Installation & Setup
-
-### Prerequisites:
-- PHP 8.x or higher
-- Composer
+- PHP `^8.0.2`
+- Laravel 9
 - MySQL
-- Node.js and npm (for frontend asset compilation)
+- Blade, Bootstrap, jQuery, and AJAX
+- Laravel Socialite for Google Login
+- Dompdf for PDF invoices
+- PayPal SDK and MoMo sandbox for experimental payments
+- A separate recommendation API at `http://127.0.0.1:5555`
 
-### Steps to Install:
+The frontend uses assets stored directly in `public`, so `npm install` is not required to start the project.
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/dienakdz/travela.git
-   cd travela
-   ```
+## Requirements
 
-2. **Install Backend Dependencies**:
-   ```bash
-   composer install
-   ```
+- Windows 10/11
+- PHP 8.0.2 or newer
+- Composer
+- MySQL or XAMPP
+- The PHP `pdo_mysql` extension
 
-3. **Install Frontend Dependencies**:
-   ```bash
-   npm install
-   npm run dev
-   ```
+SMTP, Google OAuth, and PayPal sandbox settings are additionally required when using their respective features.
 
-4. **Set Up Environment Variables**:
-   ```bash
-   cp .env.example .env
-   ```
-   Update `.env` with your database credentials and mail server configuration.
+## Quick setup on Windows
 
-5. **Run Database Migrations and Seeders**:
-   ```bash
-   php artisan migrate --seed
-   ```
+### 1. Clone the repository
 
-6. **Start the Development Server**:
-   ```bash
-   php artisan serve
-   ```
-   Open your browser and navigate to [http://localhost:8000](http://localhost:8000).
-
----
-
-## 🗂️ Project Structure
-
+```bash
+git clone https://github.com/dienakdz/travela.git
+cd travela
 ```
+
+### 2. Get the quick-setup package
+
+The password-protected `fast-setup.zip` archive contains:
+
+- `setup.bat`
+- `UPDATE_TOUR_DATES.md`
+
+Contact the author for the password, extract both files into the project root, and run:
+
+```bat
+setup.bat
+```
+
+The script will:
+
+1. Check PHP and Composer.
+2. Create `.env` from `.env.example` when it does not exist.
+3. Run `composer install`.
+4. Generate `APP_KEY` when it is empty.
+5. Clear stale Laravel caches.
+6. Create the `public/storage` symbolic link.
+7. Verify the Laravel environment.
+
+The script does not overwrite an existing `.env` file or `APP_KEY`.
+
+### 3. Prepare the database
+
+The repository does not contain complete migrations for its application tables, and the database dump is not public. Create a `travela` database, import the separately provided backup, and configure `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=travela
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+The original academic data contains tour dates in the past. After importing the database, follow `UPDATE_TOUR_DATES.md` to synchronize the dates to a new demonstration year. Back up the database before running the update SQL.
+
+### 4. Start the application
+
+```bash
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+Open:
+
+- Website: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+- Admin: [http://127.0.0.1:8000/admin/login](http://127.0.0.1:8000/admin/login)
+
+The administrator account is stored in the database backup and is not published in the repository.
+
+## Manual setup
+
+When not using `setup.bat`, install the dependencies first:
+
+```bash
+composer install
+```
+
+On Windows:
+
+```bat
+copy .env.example .env
+```
+
+On macOS/Linux:
+
+```bash
+cp .env.example .env
+```
+
+Then run:
+
+```bash
+php artisan key:generate
+php artisan optimize:clear
+php artisan storage:link
+```
+
+Finally, configure `.env`, import the database, and start the application with `php artisan serve`.
+
+## Optional configuration
+
+### Email
+
+Configure the `MAIL_*` values in `.env` to enable account activation, contact replies, and booking emails.
+
+### Google Login
+
+```env
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REDIRECT=http://127.0.0.1:8000/auth/google/callback
+```
+
+### PayPal sandbox
+
+```env
+PAYPAL_MODE=sandbox
+PAYPAL_SANDBOX_CLIENT_ID=
+PAYPAL_SANDBOX_CLIENT_SECRET=
+```
+
+### Recommendation API
+
+The home, tour details, search, and tour history pages call a separate service at `http://127.0.0.1:5555`. Its source code is not included in this repository. The core website continues to work when this service is unavailable, but recommendation results may be empty.
+
+## Main database tables
+
+- `tbl_admin`
+- `tbl_users`
+- `tbl_tours`
+- `tbl_images`
+- `tbl_timeline`
+- `tbl_booking`
+- `tbl_checkout`
+- `tbl_reviews`
+- `tbl_contact`
+- `tbl_history`
+
+## Project structure
+
+```text
 travela/
-├── app/               # Backend logic (Controllers, Models)
-├── database/          # Migrations and seeds
-├── public/            # Public assets (CSS, JS, Images)
-├── resources/         # Views and Blade templates
-├── routes/            # Application routes
-├── storage/           # File storage
-└── tests/             # Automated tests
+├── app/                 Controllers, models, and application logic
+├── config/              Laravel and external-service configuration
+├── database/            Default migrations and seeders
+├── public/              Public CSS, JavaScript, and images
+├── resources/views/     Blade templates for the customer and admin areas
+├── routes/              Web route definitions
+├── storage/             Laravel-managed logs, cache, and files
+├── tests/               Automated tests
+└── fast-setup.zip       Password-protected quick-setup package
 ```
 
----
+## Testing
 
-## 📊 Database Tables
+```bash
+php artisan test
+```
 
-### Key Tables:
-1. **User**: Stores user details
-2. **Tour**: Stores tour information
-3. **Booking**: Manages user bookings
-4. **Review**: Tracks tour reviews
-5. **History**: Logs user activity
-6. **Invoice**: Handles payment records
+The current test suite primarily verifies that the application can start. Changes involving booking, payments, or the database should also be tested through the complete browser flow.
 
----
+## Contact
 
-## 🔮 Future Enhancements
-- Integration of a payment gateway (e.g., Stripe, PayPal).
-- Advanced machine learning for personalized recommendations.
-- Real-time chat support using WebSockets.
-- Multi-language support for a global audience.
-
----
-
-## 📃 License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-## 📞 Contact
-If you have any questions or want to contribute, feel free to reach out:
-
-- **Email**: minhdien.dev@gmail.com
-- **GitHub Issues**: [Report Issues](https://github.com/dienakdz/travela/issues)
-
-Thank you for using Travela! We hope you enjoy your travel journey with us. ✈️ 🌟
+- Email: `minhdien.dev@gmail.com`
+- GitHub Issues: [github.com/dienakdz/travela/issues](https://github.com/dienakdz/travela/issues)
 
